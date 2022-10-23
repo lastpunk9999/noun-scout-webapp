@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nouns/assets": "^0.4.0",
+    "@nouns/sdk": "^0.2.0",
     "@rainbow-me/rainbowkit": "^0.7.2",
     "ethers": "^5.7.1",
     "next": "12.3.1",
