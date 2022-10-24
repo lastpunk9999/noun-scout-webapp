@@ -16,3 +16,17 @@ export interface DonationsForNextNoun {
 export interface Donee {
   name: string;
 }
+
+export interface NounSeed {
+  background: number;
+  body: number;
+  accessory: number;
+  head: number;
+  glasses: number;
+}
+
+export interface NounSeedAndImageData {
+  src: string;
+  seed?: NounSeed;
+  isNounLoading: boolean;
+}

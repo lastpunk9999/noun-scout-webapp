@@ -20,6 +20,7 @@ const Manage: NextPage = () => {
       ...nounSeekContract,
       functionName: "requestsActiveByAddress",
       args: [address],
+      enabled: address != undefined,
     });
 
   if (!isConnected) return null;
