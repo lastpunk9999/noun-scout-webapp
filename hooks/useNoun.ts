@@ -22,6 +22,7 @@ function getNounImage(
       isNounLoading: true,
     } as NounSeedAndImageData;
   const seed = getNounSeedFromBlockHash(nounId, blockHash);
+  seed.head = 0;
   const { parts, background } = getNounData(seed);
 
   const svgBinary = buildSVG(parts, palette, background);

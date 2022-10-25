@@ -1,3 +1,19 @@
+import { BigNumber as BN } from "@ethersproject/bignumber";
+export type BigNumber = BN;
+export type SingularTraitName =
+  | "background"
+  | "body"
+  | "accessory"
+  | "head"
+  | "glasses";
+
+export type PluralTraitName =
+  | "backgrounds"
+  | "bodoes"
+  | "accessories"
+  | "heads"
+  | "glasses";
+
 export interface Request {
   trait: number;
   traitId: number;
@@ -9,13 +25,25 @@ export interface Request {
 export interface DonationsForNextNoun {
   nextAuctionedId: number;
   nextNonAuctionedId: number;
-  nextAuctionDonations: Array;
-  nextNonAuctionDonations: Array;
+  nextAuctionDonations: [
+    BigNumber[],
+    BigNumber[],
+    BigNumber[],
+    BigNumber[],
+    BigNumber[]
+  ];
+  nextNonAuctionDonations: [
+    BigNumber[],
+    BigNumber[],
+    BigNumber[],
+    BigNumber[],
+    BigNumber[]
+  ];
 }
 
-export interface Donee {
-  name: string;
-}
+// export interface Donee {
+//   name: string;
+// }
 
 export interface NounSeed {
   background: number;
@@ -30,3 +58,18 @@ export interface NounSeedAndImageData {
   seed?: NounSeed;
   isNounLoading: boolean;
 }
+
+export interface Donation {
+  to: string;
+  amount: BigNumber;
+}
+
+export interface TraitAndDonations {
+  name: string;
+  traitId: number;
+  donations: Donation[];
+}
+
+export type DonationsByTrait = Record<number, TraitAndDonations>;
+
+export type DonationsByTraitType = Record<PluralTraitName, DonationsByTrait>;

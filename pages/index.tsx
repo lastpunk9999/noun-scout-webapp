@@ -5,90 +5,28 @@ import { useContractRead, useProvider } from "wagmi";
 import { utils } from "ethers";
 
 import { ImageData } from "@nouns/assets";
-import UserRequests from "../components/UserRequests";
-import { DonationsForNextNoun, Donnee } from "../types";
+
 import { nounSeekContract } from "../config";
-import useNoun from "../hooks/useNoun";
+import useFakeNoun from "../hooks/useFakeNoun";
+import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 
 const nounImages = ImageData.images;
 
 const Home: NextPage = () => {
   // Get donations pertaining to next noun
-  const {
-    data: donationsForNextNoun,
-  }: { donationsForNextNoun: DonationsForNextNoun } = useContractRead({
-    ...nounSeekContract,
-    functionName: "donationsForNextNoun",
-  });
-
-  // Get list of Donees
-  const { data: donees }: { donees: Array<Donnee> } = useContractRead({
-    ...nounSeekContract,
-    functionName: "donees",
-  });
-  const { nextAuctionedId, nextAuctionDonations } = donationsForNextNoun;
+  const { nextAuctionDonations, nextAuctionedId } =
+    useGetDonationsForNextNoun();
 
   // Get seed and image data for next auctioned Noun
-  const { src, seed, isNounLoading } = useNoun(nextAuctionedId);
-
-  const donationsByTrait = nextAuctionDonations.reduce(
-    (obj, traitsArray, index) => {
-      const traitsObj = traitsArray.reduce(
-        (traitsObj, donateesArray, index) => {
-          const nonZeroDonations = donateesArray
-            .map((donation, index) => {
-              if (donation.eq("0")) return;
-              return {
-                name: donees[index].name,
-                donation,
-              };
-            })
-            .filter((n) => n);
-          if (nonZeroDonations.length > 0) {
-            traitsObj[index] = nonZeroDonations;
-          }
-          return traitsObj;
-        },
-        {}
-      );
-
-      if (index == 0) obj.background = traitsObj;
-      if (index == 1) obj.body = traitsObj;
-      if (index == 2) obj.accessory = traitsObj;
-      if (index == 3) obj.head = traitsObj;
-      if (index == 4) obj.glasses = traitsObj;
-      return obj;
-    },
-    {}
-  );
-
-  if (seed) seed.head = 0;
+  const { src, seed, isNounLoading } = useFakeNoun(nextAuctionDonations);
 
   // Find donations that match the FOMO Noun head
-  const donationsForFOMOHead =
-    seed === undefined || donationsByTrait.head[seed.head] === undefined
-      ? []
-      : donationsByTrait.head[seed.head];
+  const donationsForFOMOHead = nextAuctionDonations?.heads[seed?.head];
 
-  const totalDonationsForFOMOHead =
-    donationsForFOMOHead.length == 0
-      ? undefined
-      : donationsForFOMOHead.map((d) => d.donation).reduce((m, d) => m.add(d));
+  const totalDonationsForFOMOHead = donationsForFOMOHead?.donations
+    .map((d) => d.amount)
+    .reduce((m, d) => m.add(d));
 
-  const donationsForHead =
-    Object.keys(donationsByTrait.head).length === 0
-      ? undefined
-      : Object.entries(donationsByTrait.head).map(([traitId, donations]) => {
-          const name = nounImages.heads[Number(traitId)].filename.replace(
-            "head-",
-            ""
-          );
-          return {
-            name,
-            donations,
-          };
-        });
-  console.log(!!donationsForHead);
   return (
     <div>
       <img src={src} />
@@ -103,40 +41,42 @@ const Home: NextPage = () => {
         </>
       )}
       <ul>
-        {donationsForFOMOHead.map((data) => {
+        {donationsForFOMOHead?.donations.map((data) => {
           return (
-            <li>
-              <b>{utils.formatEther(data.donation)} ETH</b> to {data.name}
+            <li key={data.to}>
+              <b>{utils.formatEther(data.amount)} ETH</b> to {data.to}
             </li>
           );
         })}
       </ul>
       <br />
       <h2>Current Requests</h2>
-      {donationsForHead && (
-        <>
-          <h3>Head</h3>
-          <ul>
-            {donationsForHead.map((head) => {
+      {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
+        if (Object.values(traits).length == 0) return;
+        return (
+          <>
+            <h3>{traitType}</h3>
+
+            {Object.values(traits).map((head) => {
               return (
-                <li>
+                <>
+                  <b>{head.name}</b>
                   <ul>
-                    {head.name}
                     {head.donations.map((data) => {
                       return (
-                        <li>
-                          <b>{utils.formatEther(data.donation)} ETH</b> to{" "}
-                          {data.name}
+                        <li key={data.to}>
+                          <b>{utils.formatEther(data.amount)} ETH</b> to{" "}
+                          {data.to}
                         </li>
                       );
                     })}
                   </ul>
-                </li>
+                </>
               );
             })}
-          </ul>
-        </>
-      )}
+          </>
+        );
+      })}
     </div>
   );
 };

@@ -15,13 +15,12 @@ const Manage: NextPage = () => {
     router.push("/");
   }, [isConnected, isConnecting, router]);
 
-  let { data: requestsByAddress }: { requestsByAddress: Array<Request> } =
-    useContractRead({
-      ...nounSeekContract,
-      functionName: "requestsActiveByAddress",
-      args: [address],
-      enabled: address != undefined,
-    });
+  let { data: requestsByAddress } = useContractRead({
+    ...nounSeekContract,
+    functionName: "requestsActiveByAddress",
+    args: [address],
+    enabled: address != undefined,
+  });
 
   if (!isConnected) return null;
   return <div>User Requests</div>;
