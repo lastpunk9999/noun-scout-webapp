@@ -15,11 +15,9 @@ export type PluralTraitName =
   | "glasses";
 
 export interface Request {
-  trait: number;
-  traitId: number;
-  nounId: number;
-  doneeId: number;
-  amount: BigNumber;
+  id: number;
+  triat: TraitNameAndImageData;
+  donation: Donation;
 }
 
 export interface DonationsForNextNoun {
@@ -40,10 +38,6 @@ export interface DonationsForNextNoun {
     BigNumber[]
   ];
 }
-
-// export interface Donee {
-//   name: string;
-// }
 
 export interface NounSeed {
   background: number;
@@ -66,6 +60,7 @@ export interface Donation {
 
 export interface TraitAndDonations {
   name: string;
+  imageData: ImageData;
   traitId: number;
   donations: Donation[];
 }
@@ -73,3 +68,14 @@ export interface TraitAndDonations {
 export type DonationsByTrait = Record<number, TraitAndDonations>;
 
 export type DonationsByTraitType = Record<PluralTraitName, DonationsByTrait>;
+
+export interface ImageData {
+  filename: string;
+  data: string;
+}
+
+export interface TraitNameAndImageData {
+  name: string;
+  type: SingularTraitName;
+  imageData: ImageData;
+}

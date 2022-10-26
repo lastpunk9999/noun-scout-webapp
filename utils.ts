@@ -6,6 +6,7 @@ import {
   DonationsByTraitType,
   Donation,
   TraitAndDonations,
+  TraitNameAndImageData,
 } from "./types";
 
 const nounImages = ImageData.images;
@@ -40,9 +41,20 @@ export function traitNamesByIndex(
 ): [SingularTraitName, PluralTraitName] {
   return traitNames[index];
 }
+
+export function getTraitTraitNameAndImageData(
+  trait: number,
+  traitId: number
+): TraitNameAndImageData {
+  const [singularTrait, pluralTrait] = traitNamesByIndex(trait);
+  const imageData = nounImages[pluralTrait][Number(traitId)];
+  const name = imageData.filename.replace(`${singularTrait}-`, "");
+  return { name, type: singularTrait, imageData };
+}
+
 export function extractDonations(donations, donees): DonationsByTraitType {
-  return donations.reduce((obj, traitsArray, index) => {
-    const [singularTrait, pluralTrait] = traitNamesByIndex(index);
+  return donations.reduce((obj, traitsArray, trait) => {
+    const [singularTrait, pluralTrait] = traitNamesByIndex(trait);
     const traitsObj = traitsArray.reduce(
       (traitsObj, donateesArray, traitId) => {
         const donations = donateesArray
@@ -55,11 +67,8 @@ export function extractDonations(donations, donees): DonationsByTraitType {
           })
           .filter((n) => n);
         if (donations.length > 0) {
-          const name = nounImages[pluralTrait][
-            Number(traitId)
-          ].filename.replace(`${singularTrait}-`, "");
           traitsObj[traitId] = {
-            name,
+            ...getTraitTraitNameAndImageData(trait, traitId),
             donations,
             traitId,
           } as TraitAndDonations;
