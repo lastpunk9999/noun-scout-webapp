@@ -50,19 +50,19 @@ const Home: NextPage = () => {
         })}
       </ul>
       <br />
-      <h2>Current Requests</h2>
+      <h2>Requests for Noun {nextAuctionedId}</h2>
       {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
         if (Object.values(traits).length == 0) return;
         return (
           <>
             <h3>{traitType}</h3>
 
-            {Object.values(traits).map((head) => {
+            {Object.values(traits).map((request) => {
               return (
                 <>
-                  <b>{head.name}</b>
+                  <b>{request.trait.name}</b>
                   <ul>
-                    {head.donations.map((data) => {
+                    {request.donations.map((data) => {
                       return (
                         <li key={data.to}>
                           <b>{utils.formatEther(data.amount)} ETH</b> to{" "}

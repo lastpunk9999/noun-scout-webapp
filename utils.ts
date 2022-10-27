@@ -68,9 +68,8 @@ export function extractDonations(donations, donees): DonationsByTraitType {
           .filter((n) => n);
         if (donations.length > 0) {
           traitsObj[traitId] = {
-            ...getTraitTraitNameAndImageData(trait, traitId),
+            trait: getTraitTraitNameAndImageData(trait, traitId),
             donations,
-            traitId,
           } as TraitAndDonations;
         }
         return traitsObj;

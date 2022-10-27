@@ -59,9 +59,7 @@ export interface Donation {
 }
 
 export interface TraitAndDonations {
-  name: string;
-  imageData: ImageData;
-  traitId: number;
+  trait: TraitNameAndImageData;
   donations: Donation[];
 }
 

@@ -19,16 +19,21 @@ export default function NavBar() {
         <li>
           <ConnectButton />
         </li>
+        <li>
+          <Link href="/">
+            <a>Current Requests</a>
+          </Link>
+        </li>
         {isConnected && (
           <li>
             <Link href="/manage">
-              <a>Manage Requests</a>
+              <a>Your Requests</a>
             </Link>
           </li>
         )}
         <li>
           <Link href={isConnected ? "/add" : {}}>
-            <a onClick={addOrConnect}>Add</a>
+            <a onClick={addOrConnect}>Add Request</a>
           </Link>
         </li>
       </ul>
