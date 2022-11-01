@@ -118,7 +118,7 @@ const abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "enum NounSeek.Traits",
         name: "trait",
         type: "uint8",
@@ -130,10 +130,16 @@ const abi = [
         type: "uint16",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "traitsHash",
+        type: "bytes32",
       },
       {
         indexed: false,
@@ -213,7 +219,7 @@ const abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "address",
         name: "matcher",
         type: "address",
@@ -257,7 +263,7 @@ const abi = [
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "enum NounSeek.Traits",
         name: "trait",
         type: "uint8",
@@ -275,10 +281,16 @@ const abi = [
         type: "uint16",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "traitsHash",
+        type: "bytes32",
       },
       {
         indexed: false,
@@ -291,6 +303,12 @@ const abi = [
         internalType: "uint16",
         name: "nonce",
         type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "message",
+        type: "string",
       },
     ],
     name: "RequestAdded",
@@ -312,7 +330,7 @@ const abi = [
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "enum NounSeek.Traits",
         name: "trait",
         type: "uint8",
@@ -330,15 +348,21 @@ const abi = [
         type: "uint16",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
       },
       {
+        indexed: true,
+        internalType: "bytes32",
+        name: "traitsHash",
+        type: "bytes32",
+      },
+      {
         indexed: false,
         internalType: "uint256",
-        name: "amounts",
+        name: "amount",
         type: "uint256",
       },
     ],
@@ -538,6 +562,45 @@ const abi = [
         name: "doneeId",
         type: "uint16",
       },
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "addWithMessage",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "requestId",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum NounSeek.Traits",
+        name: "trait",
+        type: "uint8",
+      },
+      {
+        internalType: "uint16",
+        name: "traitId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "nounId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "doneeId",
+        type: "uint16",
+      },
     ],
     name: "amountForDoneeByTrait",
     outputs: [
@@ -701,12 +764,12 @@ const abi = [
     outputs: [
       {
         internalType: "uint16",
-        name: "currentAuctionedId",
+        name: "currentAuctionId",
         type: "uint16",
       },
       {
         internalType: "uint16",
-        name: "prevNonAuctionedId",
+        name: "prevNonAuctionId",
         type: "uint16",
       },
       {
@@ -735,12 +798,12 @@ const abi = [
     outputs: [
       {
         internalType: "uint16",
-        name: "currentAuctionedId",
+        name: "currentAuctionId",
         type: "uint16",
       },
       {
         internalType: "uint16",
-        name: "prevNonAuctionedId",
+        name: "prevNonAuctionId",
         type: "uint16",
       },
       {
@@ -763,12 +826,12 @@ const abi = [
     outputs: [
       {
         internalType: "uint16",
-        name: "nextAuctionedId",
+        name: "nextAuctionId",
         type: "uint16",
       },
       {
         internalType: "uint16",
-        name: "nextNonAuctionedId",
+        name: "nextNonAuctionId",
         type: "uint16",
       },
       {
@@ -797,12 +860,12 @@ const abi = [
     outputs: [
       {
         internalType: "uint16",
-        name: "nextAuctionedId",
+        name: "nextAuctionId",
         type: "uint16",
       },
       {
         internalType: "uint16",
-        name: "nextNonAuctionedId",
+        name: "nextNonAuctionId",
         type: "uint16",
       },
       {
@@ -1326,6 +1389,11 @@ const abi = [
       {
         components: [
           {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
             internalType: "uint16",
             name: "nonce",
             type: "uint16",
@@ -1346,6 +1414,11 @@ const abi = [
             type: "uint16",
           },
           {
+            internalType: "string",
+            name: "doneeName",
+            type: "string",
+          },
+          {
             internalType: "uint16",
             name: "nounId",
             type: "uint16",
@@ -1356,7 +1429,7 @@ const abi = [
             type: "uint128",
           },
         ],
-        internalType: "struct NounSeek.Request[]",
+        internalType: "struct NounSeek.ActiveRequest[]",
         name: "requests",
         type: "tuple[]",
       },
