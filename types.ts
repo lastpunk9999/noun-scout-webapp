@@ -16,7 +16,7 @@ export type PluralTraitName =
 
 export interface Request {
   id: number;
-  triat: TraitNameAndImageData;
+  trait: TraitNameAndImageData;
   donation: Donation;
 }
 
