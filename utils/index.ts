@@ -2,6 +2,6 @@ const capitalizeFirstLetter = (s: string): string => s.charAt(0).toUpperCase() +
 
 
 const parseTraitName = (partName: string): string =>
-    capitalizeFirstLetter(partName.substring(partName.indexOf('-') + 1).replace(/-/g, ' '));
+    partName.substring(partName.indexOf('-') + 1).replace(/-/g, ' ');
 
 export default parseTraitName;
