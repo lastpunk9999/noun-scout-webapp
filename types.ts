@@ -20,6 +20,13 @@ export interface Request {
   donation: Donation;
 }
 
+export interface RequestSeed {
+  id: number | undefined;
+  traitType: string | undefined;
+  traitName: string | undefined;
+  donation: Donation | undefined;
+}
+
 export interface DonationsForNextNoun {
   nextAuctionedId: number;
   nextNonAuctionedId: number;
