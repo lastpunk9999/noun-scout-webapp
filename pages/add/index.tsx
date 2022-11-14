@@ -53,8 +53,8 @@ const Add: NextPage = () => {
             return (
               <button 
                 className={cx("flex-1 w-10 mx-auto text-lg text-left text-slate flex flex-col p-2", currentStep === i && "border-blue-500 border-2")}
-                onClick={() => requestSeed?.donation && setCurrentStep(i)}
-                disabled={requestSeed?.donation ? false : true}
+                onClick={() => (requestSeed?.donation || i < currentStep) && setCurrentStep(i)}
+                disabled={(requestSeed?.donation || i < currentStep) ? false : true}
               >
                 <p>{step.title}</p>
                 <p className="text-sm">{step.description}</p>
