@@ -110,7 +110,13 @@ const Add: NextPage = () => {
                 <AddOrg
                   setRequestSeed={setRequestSeed}
                 />
-                <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center">
+                <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center flex gap-5 justify-center">
+                  <button 
+                    className="underline text-slate-500"
+                    onClick={() => setCurrentStep(currentStep - 1)}
+                  >
+                    Back
+                  </button>
                   <NextButton 
                     isActive={checkProgress()} 
                     handleNextStep={handleNextStep}

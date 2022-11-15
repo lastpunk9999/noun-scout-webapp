@@ -49,12 +49,16 @@ const TraitTab = (props: TraitTabProps) => {
           .map(f => 
             <button 
               key={f}
-              className={cx("text-left", props.requestSeed?.traitName === f && "border-2 border-blue-500")}
-              onClick={() => props.setRequestSeed({traitName: f})}
+              className={cx(
+                "text-left", 
+                props.requestSeed?.traitName === f && "bg-white shadow-lg border-2 border-slate-500 opacity-100",
+                props.requestSeed?.traitName ? "opacity-50 hover:opacity-80" : "",
+              )}
+              onClick={() => props.requestSeed?.traitName === f ? props.setRequestSeed() : props.setRequestSeed({traitName: f})}
             >
               {/* Placeholder for trait image */}
               <img src="https://placeimg.com/320/320/nature" alt="" className="w-full aspect-square rounded" />
-              <p className="text-sm capitalize">{parseTraitName(f)}</p>
+              <p className={cx("text-sm capitalize", props.requestSeed?.traitName === f && "font-bold")}>{parseTraitName(f)}</p>
             </button>
           )}
       </div>

@@ -9,12 +9,13 @@ const NextButton = (props: NextButtonProps) => {
 
   return (
     <>
+      
       <button 
           className={cx("text-white font-bold py-2 px-4 rounded", props.isActive ? "bg-blue-500 hover:bg-blue-700" : "bg-slate-400")}
           disabled={!props.isActive} 
           onClick={() => props.handleNextStep()}
       >
-          Next
+          Continue
       </button>
     </>
   );
