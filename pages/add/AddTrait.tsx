@@ -19,7 +19,7 @@ const AddTrait = (props: AddTraitProps) => {
 
   return (
     <div className="">
-      <div className="bg-white">
+      <div className="">
         <nav className="flex flex-col sm:flex-row">
           {orderedTraitTitles.map((traitTitleIndex) => { 
             return (
@@ -31,6 +31,15 @@ const AddTrait = (props: AddTraitProps) => {
               </button>
             )
           })}
+          <div className="mb-4">
+            <input 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              type="text" 
+              // placeholder={`Search ${traitTitles[props.traitIndex].toLowerCase()}`}
+              // value={filter}
+              // onChange={event => setFilter(event.target.value)}
+            />
+          </div> 
         </nav>
       </div>      
       

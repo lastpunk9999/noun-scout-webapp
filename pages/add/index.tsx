@@ -42,33 +42,53 @@ const Add: NextPage = () => {
   }
   console.log("requestSeed", requestSeed);
 
+  const checkProgress = () => {
+    if (currentStep === 0 && requestSeed?.traitName) {
+      console.log('ready for step 2', requestSeed.traitName);
+      return true;
+    } else if (currentStep === 1 && requestSeed.donation) {
+      console.log('ready for step 3', requestSeed.donation);
+      return true;
+      
+    } else {
+      return false;
+    }
+  }
+
   if (!isConnected) return null;
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2 text-center">Sponsor a Noun trait</h1>
       {/* Stepper */}
-      <div className="max-w-xl mx-auto my-4 border-b-2 pb-4">	
-        <div className="flex pb-3">
+      <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">	
+        <div className="flex p-1 justify-center gap-5 bg-white border-slate-200 border-2 items-center rounded-lg">
           {steps.map((step, i) => {
             return (
               <button 
-                className={cx("flex-1 w-10 mx-auto text-lg text-left text-slate flex flex-col p-2", currentStep === i && "border-blue-500 border-2")}
+                className={cx(
+                  "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg", 
+                  currentStep === i && "",
+                  i > currentStep && "opacity-40 hover:opacity-80"
+                )}
                 onClick={() => (requestSeed?.donation || i < currentStep) && setCurrentStep(i)}
                 disabled={(requestSeed?.donation || i < currentStep) ? false : true}
-              >
-                <p>{step.title}</p>
-                <p className="text-sm">{step.description}</p>
+              > 
+                <p className={cx(
+                  "text-sm font-bold rounded-full text-center aspect-square h-10 leading-10", 
+                  i < currentStep ? "bg-blue-700 text-white" 
+                  : "text-blue-700 border-blue-700 border-2",
+                  i > currentStep && "border-slate-400 text-slate-400",
+                )}>
+                  {i < currentStep ? "✓" : i + 1}
+                </p>
+                <p className={cx(
+                  "text-sm", 
+                  i === currentStep && "text-blue-700 font-bold"
+                )}>{step.title}</p>
               </button>
             )
           })}
         </div>
-        {/* <button 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            // disabled={!props.isActive} 
-            onClick={() => setRequestTrait('f')}
-          >
-            test
-          </button> */}
           {/* Step wrapper */}
           <div className="">
             {currentStep === 0 && (
@@ -77,10 +97,12 @@ const Add: NextPage = () => {
                   setRequestSeed={setRequestSeed}
                   requestSeed={requestSeed}
                  />
-                 <NextButton 
-                  isActive={true} 
-                  handleNextStep={handleNextStep}
-                />
+                 <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center">
+                  <NextButton 
+                    isActive={checkProgress()} 
+                    handleNextStep={handleNextStep}
+                  />
+                </div>
               </>
             )}
             {currentStep === 1 && (
@@ -88,10 +110,12 @@ const Add: NextPage = () => {
                 <AddOrg
                   setRequestSeed={setRequestSeed}
                 />
-                <NextButton 
-                  isActive={true} 
-                  handleNextStep={handleNextStep}
-                />
+                <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center">
+                  <NextButton 
+                    isActive={checkProgress()} 
+                    handleNextStep={handleNextStep}
+                  />
+                </div>
               </>
             )}
             {currentStep === 2 && (
