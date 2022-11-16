@@ -5,7 +5,7 @@ import cx from "classnames";
 import { images } from "../../public/image-data.json";
 import { ImageData } from '@nouns/assets';
 import NextButton from "./NextButton";
-import { RequestSeed } from "../../types";
+import { RequestSeed, trai } from "../../types";
 
 type AddTraitProps = {
   setRequestSeed: Function;
@@ -14,12 +14,18 @@ type AddTraitProps = {
 
 const AddTrait = (props: AddTraitProps) => {
   const [currentTraitType, setCurrentTraitType] = useState<number>(2);
-  const traitTitles = ["Bodies", "Accessories", "Heads", "Glasses"];
   const orderedTraitTitles = [2,3,1,0];
+  const traitTitles = ["Bodies", "Accessories", "Heads", "Glasses"];
+  const [filter, setFilter] = useState<string>('');
+
+  useEffect(() => {
+    // Reset filter when trait type changes
+    setFilter('')
+  }, [currentTraitType]);
 
   return (
     <div className="">
-      <div className="">
+      <div className="bg-white flex flex-row justify-between items-center mb-3 pr-3">
         <nav className="flex flex-col sm:flex-row">
           {orderedTraitTitles.map((traitTitleIndex) => { 
             return (
@@ -31,22 +37,23 @@ const AddTrait = (props: AddTraitProps) => {
               </button>
             )
           })}
-          {/* <div className="mb-4">
-            <input 
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-              type="text" 
-              // placeholder={`Search ${traitTitles[props.traitIndex].toLowerCase()}`}
-              // value={filter}
-              // onChange={event => setFilter(event.target.value)}
-            />
-          </div>  */}
         </nav>
+        <div className="">
+          <input 
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            type="text" 
+            placeholder={`Search ${traitTitles[currentTraitType].toLowerCase()}`}
+            value={filter}
+            onChange={event => setFilter(event.target.value)}
+          />
+        </div> 
       </div>      
       
       <TraitTab 
         traitIndex={currentTraitType}
         setRequestSeed={props.setRequestSeed}
         requestSeed={props.requestSeed}
+        filter={filter}
       />
     </div>
   );

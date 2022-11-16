@@ -10,21 +10,15 @@ type TraitTabProps = {
   traitIndex: number;
   setRequestSeed: Function;
   requestSeed: RequestSeed | undefined;
+  filter: string;
 }
 
 const TraitTab = (props: TraitTabProps) => {
-  const [filter, setFilter] = useState<string>('');
-  const traitTitles = ["Bodies", "Accessories", "Heads", "Glasses"];
   const traitNames = [
     ...Object.values(ImageData.images).map(i => {
       return i.map(imageData => imageData.filename);
     }),
   ];
-
-  useEffect(() => {
-    // Reset filter when trait type changes
-    setFilter('')
-  }, [props.traitIndex]);
 
   // On hold until assets package is updated
   // const getPart = (partType: string, partIndex: number) => {
@@ -34,18 +28,9 @@ const TraitTab = (props: TraitTabProps) => {
   // }; 
 
   return (
-    <>
-      <div className="mb-4">
-        <input 
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-          type="text" 
-          placeholder={`Search ${traitTitles[props.traitIndex].toLowerCase()}`}
-          value={filter}
-          onChange={event => setFilter(event.target.value)}
-        />
-      </div>      
-      <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-5">
-        {traitNames[props.traitIndex].filter(f => f.includes(filter.toLowerCase()) || filter === '')
+    <>   
+      <div className="grid grid-cols-3 lg:grid-cols-7 xl:grid-cols-10 gap-5">
+        {traitNames[props.traitIndex].filter(f => f.includes(props.filter.toLowerCase()) || props.filter === '')
           .map(f => 
             <button 
               key={f}
