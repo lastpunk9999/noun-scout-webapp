@@ -14,8 +14,7 @@ type RequestCardProps = {
 const RequestCard = (props: RequestCardProps) => {
   console.log('props', props)
   return (
-    <div className="rounded overflow-hidden shadow-lg p-3 flex gap-3">
-      
+    <div className="bg-white rounded-lg overflow-hidden shadow-lg p-3 flex gap-3">
         <div className="w-1/4">
           {/* Trait image */}
           <img src="https://placeimg.com/320/320/nature" alt="" className="w-full aspect-square rounded" />

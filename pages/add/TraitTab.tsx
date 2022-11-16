@@ -37,7 +37,7 @@ const TraitTab = (props: TraitTabProps) => {
               className={cx(
                 "text-left", 
                 props.requestSeed?.traitName === f && "bg-white shadow-lg border-2 border-slate-500 opacity-100",
-                props.requestSeed?.traitName ? "opacity-50 hover:opacity-80" : "",
+                props.requestSeed?.traitName && props.requestSeed?.traitName !== f ? "opacity-50 hover:opacity-80" : "",
               )}
               onClick={() => props.requestSeed?.traitName === f ? props.setRequestSeed() : props.setRequestSeed({traitName: f})}
             >
