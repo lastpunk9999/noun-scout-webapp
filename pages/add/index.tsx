@@ -46,10 +46,9 @@ const Add: NextPage = () => {
     if (currentStep === 0 && requestSeed?.traitName) {
       console.log('ready for step 2', requestSeed.traitName);
       return true;
-    } else if (currentStep === 1 && requestSeed.donation) {
+    } else if (currentStep === 1 && requestSeed.donation?.amount?.toNumber() > 0 && requestSeed.donation?.to) {
       console.log('ready for step 3', requestSeed.donation);
       return true;
-      
     } else {
       return false;
     }
@@ -109,6 +108,7 @@ const Add: NextPage = () => {
               <>
                 <AddOrg
                   setRequestSeed={setRequestSeed}
+                  requestSeed={requestSeed}
                 />
                 <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center flex gap-5 justify-center">
                   <button 
