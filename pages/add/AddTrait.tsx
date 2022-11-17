@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TraitTab from "./TraitTab";
 import cx from "classnames";
-import { images } from "../../public/image-data.json";
 import { ImageData } from '@nouns/assets';
 import NextButton from "./NextButton";
-import { RequestSeed, trai } from "../../types";
+import { RequestSeed } from "../../types";
 
 type AddTraitProps = {
   setRequestSeed: Function;

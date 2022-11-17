@@ -55,7 +55,7 @@ const Confirm = (props: ConfirmProps) => {
               type="number" 
               placeholder="500" 
               min="500" 
-              className="w-20 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
+              className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
               value={futureNounId}
               onChange={event => setFutureNounId(Number(event.target.value))}
             />

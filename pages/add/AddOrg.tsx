@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TraitTab from "./TraitTab";
 import cx from "classnames";
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import { ImageData } from '@nouns/assets';
 import { RequestSeed } from "../../types";
 
@@ -50,16 +50,19 @@ const orgs = [
   },
 ]
 const AddOrgs = (props: AddOrgsProps) => {
-  const [amount, setAmount] = useState<string>("0");
+  const [amount, setAmount] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    props.setRequestSeed(request => ({ 
-      traitName: request.traitName, 
-      donation: { 
-        to: props.requestSeed?.donation?.to, 
-        amount: ethers.BigNumber.from(amount) 
-      }
-    }))
+    if (amount) {
+      const amountInWei = ethers.utils.parseEther(amount);
+      props.setRequestSeed(request => ({ 
+        traitName: request.traitName, 
+        donation: { 
+          to: props.requestSeed?.donation?.to, 
+          amount: amountInWei
+        }
+      }))
+    }
   }, [amount]);
 
   return (
@@ -73,13 +76,18 @@ const AddOrgs = (props: AddOrgsProps) => {
           <h3 className="text-xl font-bold">
               Amount
           </h3>
-          <input 
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-            type="text" 
-            placeholder={`Ξ 0.1`}
-            value={amount}
-            onChange={event => setAmount(event.target.value)}
-          />
+          <div className="relative mb-6 w-30">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">Ξ</span>
+            <input 
+              className="shadow appearance-none border rounded w-full py-2 pl-7 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              type="number" 
+              placeholder={`0.1`}
+              min="0.1"
+              value={amount}
+              onChange={event => setAmount(event.target.value)}
+              onLoad={event => setAmount("0.1")}
+            />
+          </div>
         </div>
         <div>
           <h3 className="text-xl font-bold">
@@ -92,10 +100,15 @@ const AddOrgs = (props: AddOrgsProps) => {
                   className={cx(
                     "flex gap-5 text-left p-3",
                       props.requestSeed?.donation?.to === org.address && "bg-white shadow-lg border-2 opacity-100",
-                      props.requestSeed?.donation?.to ? "opacity-50 hover:opacity-80" : "",
+                      props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.address? "opacity-50 hover:opacity-80" : "",
                   )}
-                  // onClick={() => props.requestSeed?.donation?.to === org.address ? props.setRequestSeed(request => ({ traitName: request.traitName, donation: { to: org.address, amount: amount }})) : props.setRequestSeed(request => ({ traitName: request.traitName, donation: { to: org.address, amount: amount }}))}
-                  onClick={() => props.setRequestSeed(request => ({ traitName: request.traitName, donation: { to: props.requestSeed?.donation?.to !== org.address ? org.address : undefined, amount: props.requestSeed?.donation?.to !== org.address ? ethers.BigNumber.from(amount) : undefined }}))}
+                  onClick={() => props.setRequestSeed(request => ({ 
+                    traitName: request.traitName, 
+                    donation: { 
+                      to: props.requestSeed?.donation?.to !== org.address ? org.address : undefined, 
+                      amount: props.requestSeed?.donation?.amount 
+                    }
+                  }))}
                   >
                   <img src={org.image} alt="" className="w-20 h-20 rounded" />
                   <div>

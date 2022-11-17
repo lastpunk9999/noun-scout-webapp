@@ -8,6 +8,7 @@ import AddTrait from "./AddTrait";
 import AddOrg from "./AddOrg";
 import Confirm from "./Confirm";
 import cx from "classnames";
+import { utils } from "ethers";
 
 const Add: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -43,10 +44,12 @@ const Add: NextPage = () => {
   console.log("requestSeed", requestSeed);
 
   const checkProgress = () => {
+    const amount = requestSeed?.donation?.amount || 0;
+    const amountInEth = parseFloat(utils.formatEther(amount));
     if (currentStep === 0 && requestSeed?.traitName) {
       console.log('ready for step 2', requestSeed.traitName);
       return true;
-    } else if (currentStep === 1 && requestSeed.donation?.amount?.toNumber() > 0 && requestSeed.donation?.to) {
+    } else if (currentStep === 1 && amountInEth > 0 && requestSeed?.donation?.to) {
       console.log('ready for step 3', requestSeed.donation);
       return true;
     } else {
