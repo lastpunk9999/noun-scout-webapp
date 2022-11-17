@@ -2,7 +2,9 @@ import { useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { RequestSeed } from "../../types";
 import { nounSeekContract } from "../../config";
-import { useAccount, usePrepareContractWrite, useContractWrite } from "wagmi";
+import { useAccount, usePrepareContractWrite, useContractWrite, useContractRead } from "wagmi";
+import { ethers, utils } from "ethers";
+import { ImageData } from "@nouns/assets";
 
 type ConfirmProps = {
   requestSeed: RequestSeed,
@@ -10,22 +12,53 @@ type ConfirmProps = {
 
 const Confirm = (props: ConfirmProps) => {
   console.log('requestSeed', props.requestSeed);
+
+  const doneesList = useContractRead({
+    address: nounSeekContract.address,
+    abi: nounSeekContract.abi,
+    functionName: 'donees',
+  }).data;
+  console.log('doneesList', doneesList);
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(undefined);
-  // usePrepareContractWrite({ 
-  //   contract: nounSeekContract.address, 
-  //   abi: nounSeekContract.abi,
-  //   functionName: 'add',
-  //   args: [props.requestSeed.nounId, props.requestSeed.trait.id, props.requestSeed.donation.to, props.requestSeed.donation.amount] 
-  // });
 
+  const traitTypes = ["bodies", "accessories", "heads", "glasses"];
+  const traitTypeId = traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
+
+  const traitId = ImageData.images[`${props.requestSeed.trait.type.toLowerCase()}`].findIndex(trait => {
+    return trait.filename === props.requestSeed.trait.imageData.filename;
+  });
+  const doneeId = doneesList.findIndex(donee => {
+    return donee.to === props.requestSeed.donation.to;
+  });
+  console.log('traitId', traitId, props.requestSeed.trait.type.toLowerCase());
+  console.log('donee', doneeId, props.requestSeed.donation.to);
+
+  const { config } = usePrepareContractWrite({ 
+    address: nounSeekContract.address, 
+    abi: nounSeekContract.abi,
+    functionName: 'add',
+    args: [
+      traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses) 
+      traitId, // traitId - index of trait type array
+      props.requestSeed.id || 0, // nounId - set to 0 for open id, or specify an id 
+      doneeId // doneeId - index of donee array
+    ], 
+    overrides: {
+      // value: ethers.utils.parseEther('0.01'),
+      value: props.requestSeed.donation.amount,
+    },
+  });
+
+  const { data, isLoading, isSuccess, write } = useContractWrite(config)
+  console.log('data', data, isLoading, isSuccess);
   const validate = () => {
     if (isIdFieldVisible && futureNounId > 500) {
       return true;
     }
     return false;
   }
-  validate();
+  
   return (
     <div>
       <h3 className="text-2xl font-bold text-center">Confirm Request</h3>
@@ -65,7 +98,8 @@ const Confirm = (props: ConfirmProps) => {
       <div className="flex flex-row my-4 gap-3 justify-center items-center">
         <button 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
-          disabled={!validate()}
+          disabled={!validate() || !write}
+          onClick={() => write?.()}
         >
           Submit
         </button>
