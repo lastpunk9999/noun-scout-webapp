@@ -3,15 +3,17 @@ import { useAccount, useContractReads } from "wagmi";
 import { Request } from "../types";
 import { nounSeekContract } from "../config";
 import { getTraitTraitNameAndImageData } from "../utils";
+import { utils } from "ethers";
 export default function useGetUserRequests(
   address: string | undefined
 ): Request[] {
+  const addr = utils.getAddress(address);
   let { data } = useContractReads({
     contracts: [
       {
         ...nounSeekContract,
         functionName: "requestsActiveByAddress",
-        args: [address],
+        args: [addr],
         enabled: address != undefined,
       },
       {
@@ -21,6 +23,7 @@ export default function useGetUserRequests(
       },
     ],
   });
+
   const [requests, donees] = data ?? [[], []];
   return useMemo(() => {
     return requests.map((request, id) => {
