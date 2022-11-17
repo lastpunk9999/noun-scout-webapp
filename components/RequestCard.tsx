@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BigNumber, utils } from "ethers";
 import { Donation } from "../types";
 import Image from "next/image";
-import placeholder from "../public/320.png";
+import parseTraitName from "../utils/index";
 
 type RequestCardProps = {
   traitType: string;
@@ -21,7 +21,7 @@ const RequestCard = (props: RequestCardProps) => {
         </div>
         <div className="w-3/4">
           <p className="text-slate-500 text-sm leading-none capitalize">{props.traitType}</p>
-          <h3 className="text-xl font-bold leading-none capitalize">{props.traitName}</h3>
+          <h3 className="text-xl font-bold leading-none capitalize">{parseTraitName(props.traitName)}</h3>
           <hr className="my-2 border-slate-500/25" /> 
           <p className="text-slate-500 text-sm mb-1">Supporting</p>
           <ul className="flex gap-4">

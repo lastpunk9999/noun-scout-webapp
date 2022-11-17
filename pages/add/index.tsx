@@ -46,11 +46,11 @@ const Add: NextPage = () => {
   const checkProgress = () => {
     const amount = requestSeed?.donation?.amount || 0;
     const amountInEth = parseFloat(utils.formatEther(amount));
-    if (currentStep === 0 && requestSeed?.traitName) {
-      console.log('ready for step 2', requestSeed.traitName);
+    if (currentStep === 0 && requestSeed?.trait.name) {
+      console.log('ready for step 2', requestSeed.trait.name);
       return true;
     } else if (currentStep === 1 && amountInEth > 0 && requestSeed?.donation?.to) {
-      console.log('ready for step 3', requestSeed.donation);
+      console.log('ready for step 3', requestSeed);
       return true;
     } else {
       return false;

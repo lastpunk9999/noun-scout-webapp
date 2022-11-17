@@ -56,7 +56,7 @@ const AddOrgs = (props: AddOrgsProps) => {
     if (amount) {
       const amountInWei = ethers.utils.parseEther(amount);
       props.setRequestSeed(request => ({ 
-        traitName: request.traitName, 
+        trait: request.trait, 
         donation: { 
           to: props.requestSeed?.donation?.to, 
           amount: amountInWei
@@ -103,7 +103,7 @@ const AddOrgs = (props: AddOrgsProps) => {
                       props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.address? "opacity-50 hover:opacity-80" : "",
                   )}
                   onClick={() => props.setRequestSeed(request => ({ 
-                    traitName: request.traitName, 
+                    trait: request.trait,
                     donation: { 
                       to: props.requestSeed?.donation?.to !== org.address ? org.address : undefined, 
                       amount: props.requestSeed?.donation?.amount 

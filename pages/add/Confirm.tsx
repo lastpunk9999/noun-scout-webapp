@@ -31,8 +31,8 @@ const Confirm = (props: ConfirmProps) => {
       <h3 className="text-2xl font-bold text-center">Confirm Request</h3>
       <div className="max-w-lg mx-auto my-4">
         <RequestCard 
-            traitType={props.requestSeed?.traitType}
-            traitName={props.requestSeed?.traitName}
+            traitType={props.requestSeed?.trait?.type}
+            traitName={props.requestSeed?.trait?.name}
             donations={[props.requestSeed.donation]}
         />
       </div>

@@ -24,6 +24,7 @@ export interface RequestSeed {
   id: number | undefined;
   traitType: string | undefined;
   traitName: string | undefined;
+  trait: TraitNameAndImageData;
   donation: Donation | undefined;
 }
 
