@@ -3,12 +3,13 @@ import Link from "next/link";
 import TraitTab from "./TraitTab";
 import cx from "classnames";
 import { ethers, utils } from "ethers";
-import { ImageData } from '@nouns/assets';
+import { nounSeekContract } from "../../config";
 import { RequestSeed } from "../../types";
 
 type AddOrgsProps = {
   setRequestSeed: Function;
   requestSeed: RequestSeed;
+  doneesList: string[];
 }
 
 const orgs = [
@@ -48,7 +49,44 @@ const orgs = [
     "image": "https://placeimg.com/320/320/nature",
     "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
   },
-]
+  {
+    "title": "Audubon Society",
+    "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  }, 
+  {
+    "title": "The Nature Conservancy",
+    "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  }, 
+  {
+    "title": "Sierra Club",
+    "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  },
+  {
+    "title": "Audubon Society",
+    "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  }, 
+  {
+    "title": "The Nature Conservancy",
+    "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  }, 
+  {
+    "title": "Sierra Club",
+    "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
+    "image": "https://placeimg.com/320/320/nature",
+    "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+  },
+];
+
 const AddOrgs = (props: AddOrgsProps) => {
   const [amount, setAmount] = useState<string | undefined>(undefined);
 
@@ -64,6 +102,7 @@ const AddOrgs = (props: AddOrgsProps) => {
       }))
     }
   }, [amount]);
+  console.log('doneesList', props.doneesList)
 
   return (
     <div className="flex gap-10 relative">
@@ -94,40 +133,40 @@ const AddOrgs = (props: AddOrgsProps) => {
             Nonprofits
           </h3>
           <div className="flex flex-col gap-10">
-            {orgs.map((org, i) => {
+            {props.doneesList.map((org, i) => {
               return (
                 <button 
                   className={cx(
                     "flex gap-5 text-left p-3",
-                      props.requestSeed?.donation?.to === org.address && "bg-white shadow-lg border-2 opacity-100",
-                      props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.address? "opacity-50 hover:opacity-80" : "",
+                      props.requestSeed?.donation?.to === org.to && "bg-white shadow-lg border-2 opacity-100",
+                      props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.to? "opacity-50 hover:opacity-80" : "",
                   )}
                   onClick={() => props.setRequestSeed(request => ({ 
                     trait: request.trait,
                     donation: { 
-                      to: props.requestSeed?.donation?.to !== org.address ? org.address : undefined, 
+                      to: props.requestSeed?.donation?.to !== org.to ? org.to : undefined, 
                       amount: props.requestSeed?.donation?.amount 
                     }
                   }))}
                   >
-                  <img src={org.image} alt="" className="w-20 h-20 rounded" />
+                  <img src={orgs[i].image} alt="" className="w-20 h-20 rounded" />
                   <div>
                     <h4 className="text-lg font-bold">
-                      {org.title}
+                      {org.name}
                     </h4>
                     <p>
-                      {org.description}
+                      {orgs[i].description}
                     </p>
                   </div>
                   <div>
                     <div 
                       className={cx(
                         "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", 
-                        props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.address && "bg-slate-300",
-                        props.requestSeed?.donation?.to === org.address && "border-blue-500 !bg-white border-2 text-blue-500 ",
+                        props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.to && "bg-slate-300",
+                        props.requestSeed?.donation?.to === org.to && "border-blue-500 !bg-white border-2 text-blue-500 ",
                       )}
                     >
-                      {props.requestSeed?.donation?.to === org.address ? 'Selected' : 'Select' }
+                      {props.requestSeed?.donation?.to === org.to ? 'Selected' : 'Select' }
                     </div>
                   </div>
                 </button>

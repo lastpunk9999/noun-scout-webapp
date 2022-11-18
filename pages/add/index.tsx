@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import { Donation, RequestSeed } from "../../types";
 import NextButton from "./NextButton";
 import AddTrait from "./AddTrait";
@@ -9,6 +9,7 @@ import AddOrg from "./AddOrg";
 import Confirm from "./Confirm";
 import cx from "classnames";
 import { utils } from "ethers";
+import { nounSeekContract } from "../../config";
 
 const Add: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -57,6 +58,12 @@ const Add: NextPage = () => {
     }
   }
 
+  const doneesList = useContractRead({
+    address: nounSeekContract.address,
+    abi: nounSeekContract.abi,
+    functionName: 'donees',
+  }).data;
+  
   if (!isConnected) return null;
   return (
     <div>
@@ -112,6 +119,7 @@ const Add: NextPage = () => {
                 <AddOrg
                   setRequestSeed={setRequestSeed}
                   requestSeed={requestSeed}
+                  doneesList={doneesList}
                 />
                 <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center flex gap-5 justify-center">
                   <button 
