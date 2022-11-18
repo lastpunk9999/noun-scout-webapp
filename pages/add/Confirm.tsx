@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { RequestSeed } from "../../types";
-import { nounSeekContract } from "../../config";
+import { nounSeekContract, nounsAuctionHouseContract } from "../../config";
 import { useAccount, usePrepareContractWrite, useContractWrite, useContractRead, useWaitForTransaction } from "wagmi";
-import { ethers, utils } from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import { ImageData } from "@nouns/assets";
 import Link from "next/link";
 
@@ -26,13 +26,23 @@ const Confirm = (props: ConfirmProps) => {
     abi: nounSeekContract.abi,
     functionName: 'donees',
   }).data;
-  const nextAuctionId = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: 'donationsForNextNoun',
-    select: (data: any) => data.nextAuctionId,
+  
+  const nextNounsAuction = useContractRead({
+    address: nounsAuctionHouseContract.address,
+    abi: nounsAuctionHouseContract.abi,
+    functionName: 'auction',
   }).data;
-  const minNounId = Number(nextAuctionId) + 1;
+  const minNounId = BigNumber.from(nextNounsAuction.nounId).toNumber() + 1;
+
+  useEffect(() => {
+    if (futureNounId && futureNounId >= minNounId) {
+      props.setRequestSeed(request => ({ 
+        trait: request.trait, 
+        donation: request.donation,
+        id: futureNounId
+      }))
+    }
+  }, [futureNounId]);
 
   useEffect(() => {
     if (!isIdFieldVisible) {
@@ -43,14 +53,16 @@ const Confirm = (props: ConfirmProps) => {
         id: undefined
       }))
     }
-    if (futureNounId) {
+    if (isIdFieldVisible) {
+      setFutureNounId(minNounId);
       props.setRequestSeed(request => ({ 
         trait: request.trait, 
         donation: request.donation,
-        id: Number(futureNounId)
+        id: minNounId
       }))
     }
-  }, [futureNounId, isIdFieldVisible]);
+    
+  }, [isIdFieldVisible]);
 
   // prepare data to write to contract
   const traitTypes = ["bodies", "accessories", "heads", "glasses"];
@@ -77,7 +89,7 @@ const Confirm = (props: ConfirmProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error.message);
+      setErrorMessage(error.error.message);
     },
   });
 
@@ -106,7 +118,7 @@ const Confirm = (props: ConfirmProps) => {
   });
   
   const validate = () => {
-    if (isIdFieldVisible && futureNounId > minNounId) {
+    if (isIdFieldVisible && futureNounId >= minNounId) {
       return true;
     } else if (!isIdFieldVisible) {
       return true;
@@ -118,10 +130,21 @@ const Confirm = (props: ConfirmProps) => {
     <div>
       <h3 className="text-2xl font-bold text-center">Confirm Request</h3>
       {isTransactionComplete ? (
-        <>
-          <p className="text-center">Your request has been submitted!</p>
-          <Link href="/add">Create a new request</Link>
-        </>
+        <div className="text-center">
+          <p>Your sponsorship has been submitted!</p>
+          <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center"> 
+            <Link href="/add">
+              <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
+                Sponsor another Noun trait
+              </a>
+            </Link>
+            <Link href="/manage">
+              <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
+                Manage your sponsorships
+              </a>
+            </Link>
+          </div>
+        </div>
       ) : (
         <>
           <div className="max-w-lg mx-auto my-4">
@@ -149,7 +172,7 @@ const Confirm = (props: ConfirmProps) => {
                 <input 
                   id="nounID" 
                   type="number" 
-                  placeholder={minNounId.toString()}
+                  // placeholder={minNounId.toString()}
                   min={minNounId} 
                   className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
                   value={futureNounId}
@@ -167,7 +190,7 @@ const Confirm = (props: ConfirmProps) => {
               {isLoading ? "Submitting..." : "Submit"}
             </button>
             {errorMessage && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+              <div className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center" role="alert">
                 <strong className="font-bold">⌐×-×</strong> {" "}
                 <span className="block sm:inline">{errorMessage}</span>
               </div>
