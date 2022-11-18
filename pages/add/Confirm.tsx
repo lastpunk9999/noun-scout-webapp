@@ -81,8 +81,6 @@ const Confirm = (props: ConfirmProps) => {
     },
   });
 
-  
-
   const { isLoading, isSuccess, write } = useContractWrite({
     ...config, 
     onSuccess() {
@@ -95,6 +93,7 @@ const Confirm = (props: ConfirmProps) => {
     },
   })
 
+  // wait for transaction to complete and then update the UI
   useWaitForTransaction({
     hash: transactionData ? transactionData : undefined,
     onSuccess(data) {
@@ -104,7 +103,7 @@ const Confirm = (props: ConfirmProps) => {
     onError(error) {
       setErrorMessage(error.message);
     },
-});
+  });
   
   const validate = () => {
     if (isIdFieldVisible && futureNounId > minNounId) {
