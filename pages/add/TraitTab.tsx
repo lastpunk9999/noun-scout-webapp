@@ -34,7 +34,7 @@ const TraitTab = (props: TraitTabProps) => {
     <>   
       <div className="grid grid-cols-3 lg:grid-cols-7 xl:grid-cols-10 gap-5">
         {/* {traitNames[props.traitIndex].filter(f => f.includes(props.filter.toLowerCase()) || props.filter === '') */}
-        {ImageData.images['heads'].filter(f => f.filename.includes(props.filter.toLowerCase()) || props.filter === '')
+        {ImageData.images[traitTypes[props.traitIndex].toLowerCase()].filter(f => f.filename.includes(props.filter.toLowerCase()) || props.filter === '')
           .map(f => 
             <button 
               key={f.filename}
