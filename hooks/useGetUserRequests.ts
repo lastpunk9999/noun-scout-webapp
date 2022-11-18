@@ -12,7 +12,7 @@ export default function useGetUserRequests(
     contracts: [
       {
         ...nounSeekContract,
-        functionName: "requestsActiveByAddress",
+        functionName: "requestsByAddress",
         args: [addr],
         enabled: address != undefined,
       },
