@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { RequestSeed } from "../../types";
 import { nounSeekContract } from "../../config";
@@ -8,19 +8,52 @@ import { ImageData } from "@nouns/assets";
 
 type ConfirmProps = {
   requestSeed: RequestSeed,
+  setRequestSeed: Function;
 }
 
 const Confirm = (props: ConfirmProps) => {
-  console.log('requestSeed', props.requestSeed);
-
   const doneesList = useContractRead({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
     functionName: 'donees',
   }).data;
+  const nextAuctionId = useContractRead({
+    address: nounSeekContract.address,
+    abi: nounSeekContract.abi,
+    functionName: 'donationsForNextNoun',
+    select: (data: any) => data.nextAuctionId,
+  }).data;
+  const minNounId = Number(nextAuctionId) + 1;
+
   console.log('doneesList', doneesList);
+  console.log('nextAuctionId', nextAuctionId);
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(undefined);
+
+  const isValidNoun = (nounId: number) => {
+    if (nounId > minNounId) {
+      return true
+    }
+    return false;
+  }
+
+  useEffect(() => {
+    if (!isIdFieldVisible) {
+      setFutureNounId(undefined);
+      props.setRequestSeed(request => ({ 
+        trait: request.trait, 
+        donation: request.donation,
+        id: undefined
+      }))
+    }
+    if (futureNounId) {
+      props.setRequestSeed(request => ({ 
+        trait: request.trait, 
+        donation: request.donation,
+        id: Number(futureNounId)
+      }))
+    }
+  }, [futureNounId, isIdFieldVisible]);
 
   const traitTypes = ["bodies", "accessories", "heads", "glasses"];
   const traitTypeId = traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
@@ -31,8 +64,6 @@ const Confirm = (props: ConfirmProps) => {
   const doneeId = doneesList.findIndex(donee => {
     return donee.to === props.requestSeed.donation.to;
   });
-  console.log('traitId', traitId, props.requestSeed.trait.type.toLowerCase());
-  console.log('donee', doneeId, props.requestSeed.donation.to);
 
   const { config } = usePrepareContractWrite({ 
     address: nounSeekContract.address, 
@@ -45,7 +76,6 @@ const Confirm = (props: ConfirmProps) => {
       doneeId // doneeId - index of donee array
     ], 
     overrides: {
-      // value: ethers.utils.parseEther('0.01'),
       value: props.requestSeed.donation.amount,
     },
   });
@@ -53,7 +83,9 @@ const Confirm = (props: ConfirmProps) => {
   const { data, isLoading, isSuccess, write } = useContractWrite(config)
   console.log('data', data, isLoading, isSuccess);
   const validate = () => {
-    if (isIdFieldVisible && futureNounId > 500) {
+    if (isIdFieldVisible && futureNounId > minNounId) {
+      return true;
+    } else if (!isIdFieldVisible) {
       return true;
     }
     return false;
@@ -64,6 +96,7 @@ const Confirm = (props: ConfirmProps) => {
       <h3 className="text-2xl font-bold text-center">Confirm Request</h3>
       <div className="max-w-lg mx-auto my-4">
         <RequestCard 
+            id={props.requestSeed.id}
             traitType={props.requestSeed?.trait?.type}
             traitName={props.requestSeed?.trait?.name}
             donations={[props.requestSeed.donation]}
@@ -86,8 +119,8 @@ const Confirm = (props: ConfirmProps) => {
             <input 
               id="nounID" 
               type="number" 
-              placeholder="500" 
-              min="500" 
+              placeholder={minNounId.toString()}
+              min={minNounId} 
               className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
               value={futureNounId}
               onChange={event => setFutureNounId(Number(event.target.value))}

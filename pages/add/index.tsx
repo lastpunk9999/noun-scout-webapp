@@ -129,7 +129,9 @@ const Add: NextPage = () => {
             )}
             {currentStep === 2 && (
               <>
-                <Confirm requestSeed={requestSeed} />
+                <Confirm 
+                setRequestSeed={setRequestSeed}
+                requestSeed={requestSeed} />
               </>
             )}
         </div>
