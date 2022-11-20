@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { RequestSeed } from "../../types";
 import { nounSeekContract, nounsAuctionHouseContract } from "../../config";
-import { useAccount, usePrepareContractWrite, useContractWrite, useContractRead, useWaitForTransaction } from "wagmi";
+import { usePrepareContractWrite, useContractWrite, useContractRead, useWaitForTransaction } from "wagmi";
 import { BigNumber, ethers, utils } from "ethers";
 import { ImageData } from "@nouns/assets";
 import Link from "next/link";
@@ -32,10 +32,11 @@ const Confirm = (props: ConfirmProps) => {
     abi: nounsAuctionHouseContract.abi,
     functionName: 'auction',
   }).data;
-  const minNounId = BigNumber.from(nextNounsAuction.nounId).toNumber() + 1;
+  
+  const minNounId = nextNounsAuction ? BigNumber.from(nextNounsAuction.nounId).toNumber() + 1 : null;
 
   useEffect(() => {
-    if (futureNounId && futureNounId >= minNounId) {
+    if (minNounId && futureNounId && futureNounId >= minNounId) {
       props.setRequestSeed(request => ({ 
         trait: request.trait, 
         donation: request.donation,

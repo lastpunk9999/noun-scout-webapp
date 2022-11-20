@@ -13,12 +13,13 @@ type RequestCardProps = {
 }
 
 const RequestCard = (props: RequestCardProps) => {
-  console.log('props', props)
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-lg p-3">
         <div>
-          {props.id && (
-            <p>Noun {props.id} specific</p>
+          {props.id !== 0 && (
+            <>
+              <p>Noun {props.id} specific</p>
+            </>
           )}
         </div>
         <div className="flex gap-3">        

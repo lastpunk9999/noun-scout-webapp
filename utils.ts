@@ -47,7 +47,7 @@ export function getTraitTraitNameAndImageData(
   traitId: number
 ): TraitNameAndImageData {
   const [singularTrait, pluralTrait] = traitNamesByIndex(trait);
-  const imageData = nounImages[pluralTrait][Number(traitId)];
+  const imageData = nounImages[pluralTrait][traitId];
   const name = imageData.filename.replace(`${singularTrait}-`, "");
   return { name, type: singularTrait, imageData };
 }
