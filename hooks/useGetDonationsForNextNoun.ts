@@ -13,11 +13,13 @@ export default function useGetDonationsForNextNoun(): DonationsForNextNoun {
   const { data } = useContractReads({
     contracts: [
       {
+        address: nounSeekContract.address,
+        abi: nounSeekContract.abi,
         functionName: "donationsForNextNoun",
-        ...nounSeekContract,
       },
       {
-        ...nounSeekContract,
+        address: nounSeekContract.address,
+        abi: nounSeekContract.abi,
         functionName: "donees",
       },
     ],
