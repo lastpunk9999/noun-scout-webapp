@@ -1,4 +1,4 @@
-[
+const abi = [
   {
     "inputs": [],
     "name": "auction",
@@ -109,4 +109,5 @@
     "stateMutability": "nonpayable",
     "type": "function"
   }
-]
+] as const;
+export default abi;

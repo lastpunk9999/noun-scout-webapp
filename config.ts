@@ -1,5 +1,5 @@
 import nounSeekABI from "./abi/nounSeekABI";
-import AuctionHouseABI from "./abi/nounsAuctionHouseABI.json";
+import AuctionHouseABI from "./abi/nounsAuctionHouseABI";
 
 export const nounSeekContract = {
   address: process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS,
