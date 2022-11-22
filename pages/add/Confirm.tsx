@@ -6,6 +6,7 @@ import { usePrepareContractWrite, useContractWrite, useContractRead, useWaitForT
 import { BigNumber, ethers, utils } from "ethers";
 import { ImageData } from "@nouns/assets";
 import Link from "next/link";
+import { useAppContext } from "../../context/state";
 
 type ConfirmProps = {
   requestSeed: RequestSeed,
@@ -21,11 +22,14 @@ const Confirm = (props: ConfirmProps) => {
   const [isTransactionComplete, setIsTransactionComplete] = useState<boolean>(false);
 
   // fetch on-chain data
-  const doneesList = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: 'donees',
-  }).data;
+  // const doneesList = useContractRead({
+  //   address: nounSeekContract.address,
+  //   abi: nounSeekContract.abi,
+  //   functionName: 'donees',
+  // }).data;
+
+  const doneesList = useAppContext();
+  console.log('doneesList', doneesList);
   
   const nextNounsAuction = useContractRead({
     address: nounsAuctionHouseContract.address,

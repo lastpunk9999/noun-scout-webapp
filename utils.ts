@@ -21,6 +21,12 @@ const traitNames = [
   ["glasses", "glasses"],
 ] as TraitNames[];
 
+export function capitalizeFirstLetter(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1)};
+
+export function parseTraitName(partName: string): string {
+  return partName.substring(partName.indexOf('-') + 1).replace(/-/g, ' ');
+}
+
 export function singularTraitToPlural(
   singularTrait: SingularTraitName
 ): PluralTraitName {
@@ -36,17 +42,26 @@ export function pluralTraitToSingular(
   )[0] as SingularTraitName;
 }
 
-export function traitNamesByIndex(
+export function traitTypeNamesById(
   index: number
 ): [SingularTraitName, PluralTraitName] {
   return traitNames[index];
 }
 
+export function traitNamesById(
+  traitTypeId: number,
+  traitId: number
+): string {
+  return parseTraitName(nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename);
+}
+
+
+
 export function getTraitTraitNameAndImageData(
   trait: number,
   traitId: number
 ): TraitNameAndImageData {
-  const [singularTrait, pluralTrait] = traitNamesByIndex(trait);
+  const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
   const imageData = nounImages[pluralTrait][traitId];
   const name = imageData.filename.replace(`${singularTrait}-`, "");
   return { name, type: singularTrait, imageData };
@@ -54,7 +69,7 @@ export function getTraitTraitNameAndImageData(
 
 export function extractDonations(donations, donees): DonationsByTraitType {
   return donations.reduce((obj, traitsArray, trait) => {
-    const [singularTrait, pluralTrait] = traitNamesByIndex(trait);
+    const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
     const traitsObj = traitsArray.reduce(
       (traitsObj, donateesArray, traitId) => {
         const donations = donateesArray
