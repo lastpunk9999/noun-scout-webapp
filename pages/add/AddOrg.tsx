@@ -5,6 +5,8 @@ import cx from "classnames";
 import { ethers, utils } from "ethers";
 import { nounSeekContract } from "../../config";
 import { RequestSeed } from "../../types";
+import { useAppContext } from "../../context/state";
+import Donee from "./Donee";
 
 type AddOrgsProps = {
   setRequestSeed: Function;
@@ -89,6 +91,7 @@ const orgs = [
 
 const AddOrgs = (props: AddOrgsProps) => {
   const [amount, setAmount] = useState<string | undefined>(undefined);
+  const doneesList = useAppContext();
 
   useEffect(() => {
     if (amount) {
@@ -135,41 +138,12 @@ const AddOrgs = (props: AddOrgsProps) => {
           <div className="flex flex-col gap-10">
             {props.doneesList.map((org, i) => {
               return (
-                <button 
-                  className={cx(
-                    "flex gap-5 text-left p-3",
-                      props.requestSeed?.donation?.to === org.to && "bg-white shadow-lg border-2 opacity-100",
-                      props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.to? "opacity-50 hover:opacity-80" : "",
-                  )}
-                  onClick={() => props.setRequestSeed(request => ({ 
-                    trait: request.trait,
-                    donation: { 
-                      to: props.requestSeed?.donation?.to !== org.to ? org.to : undefined, 
-                      amount: props.requestSeed?.donation?.amount 
-                    }
-                  }))}
-                  >
-                  <img src={orgs[i].image} alt="" className="w-20 h-20 rounded" />
-                  <div>
-                    <h4 className="text-lg font-bold">
-                      {org.name}
-                    </h4>
-                    <p>
-                      {orgs[i].description}
-                    </p>
-                  </div>
-                  <div>
-                    <div 
-                      className={cx(
-                        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", 
-                        props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== org.to && "bg-slate-300",
-                        props.requestSeed?.donation?.to === org.to && "border-blue-500 !bg-white border-2 text-blue-500 ",
-                      )}
-                    >
-                      {props.requestSeed?.donation?.to === org.to ? 'Selected' : 'Select' }
-                    </div>
-                  </div>
-                </button>
+                <Donee 
+                  doneeId={i} 
+                  key={i} 
+                  requestSeed={props.requestSeed}
+                  setRequestSeed={props.setRequestSeed}
+                />
               )
             })}
           </div>

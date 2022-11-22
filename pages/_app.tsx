@@ -12,6 +12,7 @@ import {
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
+import { AppWrapper } from "../context/state";
 import Layout from "../components/Layout";
 import { useIsMounted } from "../hooks";
 
@@ -41,9 +42,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <Layout>
-          <Component {...pageProps} suppressHydrationWarning />
-        </Layout>
+        <AppWrapper>
+          <Layout>
+            <Component {...pageProps} suppressHydrationWarning />
+          </Layout>
+        </AppWrapper>
       </RainbowKitProvider>
     </WagmiConfig>
   );
