@@ -48,11 +48,15 @@ export function traitTypeNamesById(
   return traitNames[index];
 }
 
+const bgColorNames = ["Cool", "Warm"];
+
 export function traitNamesById(
   traitTypeId: number,
   traitId: number
 ): string {
-  return parseTraitName(nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename);
+  let traitName = "";
+  traitTypeId === 0 ? traitName = bgColorNames[traitId] : traitName = parseTraitName(nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename);
+  return traitName;
 }
 
 

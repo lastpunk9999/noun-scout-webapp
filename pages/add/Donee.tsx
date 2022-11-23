@@ -23,7 +23,8 @@ const Donee = (props: DoneeProps) => {
         onClick={() => props.setRequestSeed(request => ({ 
         trait: request.trait,
         donation: { 
-            to: props.requestSeed?.donation?.to !== doneeDescription.to ? doneeDescription.to : undefined, 
+            // to: props.requestSeed?.donation?.to !== doneeDescription.to ? doneeDescription.to : undefined, 
+            to: props.doneeId, 
             amount: props.requestSeed?.donation?.amount 
         }
         }))}

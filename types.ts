@@ -21,11 +21,10 @@ export interface Request {
 }
 
 export interface RequestSeed {
-  id: number | undefined;
-  traitType: string | undefined;
-  traitName: string | undefined;
-  trait: TraitNameAndImageData;
-  donation: Donation | undefined;
+  id?: number;
+  traitTypeId?: number;
+  traitId?: number;
+  donation?: Donation;
 }
 
 export interface DonationsForNextNoun {
@@ -62,7 +61,7 @@ export interface NounSeedAndImageData {
 }
 
 export interface Donation {
-  to: string;
+  to: number;
   amount: BigNumber;
 }
 
