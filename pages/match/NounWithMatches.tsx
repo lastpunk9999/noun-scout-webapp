@@ -1,3 +1,5 @@
+import { getNounData, ImageData } from "@nouns/assets";
+import { buildSVG } from "@nouns/sdk";
 import { BigNumber, utils } from "ethers";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../../config";
@@ -22,6 +24,13 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
     args: [BigNumber.from(props.nounId)]
   }).data;
 
+  const nounImage = () => {
+  }
+  // get noun image
+  const { parts, background } = getNounData(nounSeed);
+  const svgBinary = buildSVG(parts, ImageData.palette, background);
+  const svgBase64 = btoa(svgBinary);
+
   const traitsWithDonation = [];
   props.donations.map((doneeAmounts, i) => {
     // loop through each donee to see if there are values other than 0
@@ -33,7 +42,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
     <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">	
       <div className="flex flex-col">
         <h3 className="text-lg font-bold">Noun {props.nounId}</h3>
-        <img src={`https://noun.pics/${props.nounId}.svg`} className="w-40" />
+        <img src={`data:image/svg+xml;base64,${svgBase64}`} className="w-40 rounded-lg" />
       </div>
       {traitsWithDonation.map((traitTypeId) => {
         const traitDonations = props.donations[traitTypeId];
