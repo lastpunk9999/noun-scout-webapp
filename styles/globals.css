@@ -751,6 +751,22 @@ video {
   width: 1.5rem;
 }
 
+.w-auto {
+  width: auto;
+}
+
+.w-\[1\/4\] {
+  width: 1/4;
+}
+
+.w-\[2\/4\] {
+  width: 2/4;
+}
+
+.w-\[25\%\] {
+  width: 25%;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -955,6 +971,11 @@ video {
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 .p-3 {
@@ -1192,6 +1213,10 @@ video {
 
 .opacity-40 {
   opacity: 0.4;
+}
+
+.opacity-25 {
+  opacity: 0.25;
 }
 
 .shadow-lg {

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { BigNumber, utils } from "ethers";
+import { utils } from "ethers";
 import { Donation } from "../types";
 import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
 

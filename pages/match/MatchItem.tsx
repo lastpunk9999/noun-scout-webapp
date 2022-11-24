@@ -1,12 +1,14 @@
 import { Donation, NounSeed } from "../../types";
 import RequestCard from "../../components/RequestCard";
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import { nounSeekContract } from "../../config";
 import { useState } from "react";
+import cx from "classnames";
+import Link from "next/link";
 
 type MatchItemProps = {
-  donation: Donation;
+  donations: readonly BigNumber[];
   traitId: number;
   traitTypeId: number;
   nounSeed: NounSeed
@@ -55,32 +57,73 @@ const MatchItem = (props: MatchItemProps) => {
     },
   });
 
+  const donationData = props.donations.map((donation, index) => {
+    if (utils.formatEther(donation) !== '0.0') {
+      return {
+        to: index,
+        amount: donation
+      }
+    }
+  });
+  
+  const traitReimbursmentTotal = () => {
+    let reimbursmentAmount = BigNumber.from(0);
+    donationData.map(donation => {
+      // reimbursmentAmount = donation ? reimbursmentAmount + Number(utils.formatEther(donation.amount)) : 0;
+      if (donation && utils.formatEther(donation.amount) !== "0.0") {
+        reimbursmentAmount = reimbursmentAmount.add(donation.amount);
+      }
+    })
+    return reimbursmentAmount;
+  }
+  
+
   return (
     <div className="my-5">
-      <div className="flex flex-row w-full gap-10 items-center">
-        <RequestCard 
-          traitTypeId={props.traitTypeId}
-          traitId={props.traitId}
-          donations={[props.donation]}
-          nounSeed={props.nounSeed}
-        />
-        <div>
-            <button 
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
-              disabled={!write || isLoading || isTransactionLoading}
-              onClick={() => write?.()}
+      {isTransactionComplete ? (
+        <div className="text-center  bg-slate-200 p-10 rounded-lg">
+          <p className="text-lg font-bold">Match confirmed!</p>
+          <p className="underline">
+            <a href={
+              process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet" ? 
+              `https://etherscan.io/tx/${transactionData}` : 
+              `https://goerli.etherscan.io/tx/${transactionData}`
+              }
+              target="_blank"
             >
-              {isLoading ? "Matching..." : "Match"}
-            </button>
-            {errorMessage && (
-              <div className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center" role="alert">
-                <strong className="font-bold">⌐×-×</strong> {" "}
-                <span className="block sm:inline">{errorMessage}</span>
-              </div>
-            )}
-            <p className="text-xs text-center">Reward: Ξ{utils.formatEther(props.donation.amount)}</p>
+              View transaction
+            </a>
+          </p>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-row w-full gap-10 items-center justify-between">
+          <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
+            <RequestCard 
+              traitTypeId={props.traitTypeId}
+              traitId={props.traitId}
+              donations={donationData}
+              nounSeed={props.nounSeed}
+            />
+          </div>
+          <div className="w-[25%] flex flex-col justify-center">
+              <button 
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
+                disabled={!write || isLoading || isTransactionLoading}
+                onClick={() => write?.()}
+              >
+                {isLoading ? "Matching..." : "Match"}
+              </button>
+              {errorMessage && (
+                <div className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center" role="alert">
+                  <strong className="font-bold">⌐×-×</strong> {" "}
+                  <span className="block sm:inline">{errorMessage}</span>
+                </div>
+              )}
+              <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p>
+          </div>
+        </div>
+      )}
+      
     </div>
     
   );

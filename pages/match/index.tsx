@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
-import { Donation, RequestSeed } from "../../types";
-import cx from "classnames";
-import RequestCard from "../../components/RequestCard";
-import { ethers, utils } from "ethers";
 import { nounSeekContract } from "../../config";
-import MatchItem from "./MatchItem";
 import NounWithMatches from "./NounWithMatches";
-import { extractDonations } from "../../utils";
 
 const Match: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -27,11 +21,8 @@ const Match: NextPage = () => {
     functionName: 'donationsAndReimbursementForPreviousNoun',
   }).data;
   
-  const auctionedNounDonationsList = matchData.auctionedNounDonations.map((donation, index) => { 
-    const num = donation.toString();
-    return num; 
-  });
-  
+  console.log('matchData', matchData);
+
   if (!isConnected) return null;
   return (
     <div>
@@ -41,20 +32,10 @@ const Match: NextPage = () => {
           <NounWithMatches 
             nounId={matchData.auctionedNounId}      
             donations={matchData.auctionedNounDonations} 
-            totalDonationsPerTrait={matchData.totalDonationsPerTrait} 
           />
         </>
-      )}
-      {matchData.nonAuctionedNounId < matchData.auctionedNounId && (
-        <>
-          <h1 className="text-3xl font-bold mb-2 text-center">Open Matches</h1>
-          <NounWithMatches 
-            nounId={matchData.nonAuctionedNounId}      
-            donations={matchData.nonAuctionedNounDonations} 
-            totalDonationsPerTrait={matchData.totalDonationsPerTrait} 
-          />
-        </>
-      )}
+        )
+      }
     </div>
   );
 };
