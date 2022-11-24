@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImageData, getPartData } from '@nouns/assets';
-// import { buildSVG } from '@nouns/sdk';
 import cx from 'classnames';
-import parseTraitName from "../../utils/index";
+import { parseTraitName } from "../../utils";
 import { RequestSeed } from "../../types";
 import { buildSVG } from "@nouns/sdk";
 
@@ -21,7 +20,6 @@ const TraitTab = (props: TraitTabProps) => {
     }),
   ];
 
-  // On hold until assets package is updated
   const getPart = (partType: string, partIndex: number) => {
     const data = getPartData(partType, partIndex);
     const image = `data:image/svg+xml;base64,${btoa(buildSVG([{ data }], ImageData.palette))}`;
@@ -40,7 +38,6 @@ const TraitTab = (props: TraitTabProps) => {
   return (
     <>   
       <div className="grid grid-cols-3 lg:grid-cols-7 xl:grid-cols-10 gap-5">
-        {/* {traitNames[props.traitIndex].filter(f => f.includes(props.filter.toLowerCase()) || props.filter === '') */}
         {selectedTraits.filter(f => f.filename.includes(props.filter.toLowerCase()) || props.filter === '')
           .map(f => {
             return (
@@ -55,6 +52,8 @@ const TraitTab = (props: TraitTabProps) => {
                   props.requestSeed?.trait.name === f.filename 
                   ? props.setRequestSeed() 
                   : props.setRequestSeed({
+                    traitTypeId: props.traitIndex,
+                    traitId: f.id,
                     trait: {
                       name: f.filename, 
                       type: traitTypes[props.traitIndex],
@@ -69,7 +68,6 @@ const TraitTab = (props: TraitTabProps) => {
                     }
                   })}
                 >
-                  {/* Placeholder for trait image */}
                   <img src={f.image} alt="" className="w-full aspect-square rounded" />
                   <p className={cx("text-sm capitalize", props.requestSeed?.trait.name === f.filename && "font-bold")}>{parseTraitName(f.filename)}</p>
                 </button>

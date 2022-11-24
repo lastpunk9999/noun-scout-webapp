@@ -22,6 +22,7 @@ const AddTrait = (props: AddTraitProps) => {
     setFilter('')
   }, [currentTraitType]);
 
+  
   return (
     <div className="">
       <div className="bg-white flex flex-row justify-between items-center mb-3 pr-3">

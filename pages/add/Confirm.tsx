@@ -20,23 +20,12 @@ const Confirm = (props: ConfirmProps) => {
   const [transactionData, setTransactionData] = useState<string>();
   const [isTransactionLoading, setIsTransactionLoading] = useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] = useState<boolean>(false);
-
-  // fetch on-chain data
-  // const doneesList = useContractRead({
-  //   address: nounSeekContract.address,
-  //   abi: nounSeekContract.abi,
-  //   functionName: 'donees',
-  // }).data;
-
   const doneesList = useAppContext();
-  console.log('doneesList', doneesList);
-  
   const nextNounsAuction = useContractRead({
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,
     functionName: 'auction',
   }).data;
-  
   const minNounId = nextNounsAuction ? BigNumber.from(nextNounsAuction.nounId).toNumber() + 1 : null;
 
   useEffect(() => {
@@ -155,8 +144,8 @@ const Confirm = (props: ConfirmProps) => {
           <div className="max-w-lg mx-auto my-4">
             <RequestCard 
                 id={props.requestSeed.id}
-                traitType={props.requestSeed?.trait?.type}
-                traitName={props.requestSeed?.trait?.name}
+                traitTypeId={props.requestSeed?.trait?.type}
+                traitId={props.requestSeed?.trait?.name}
                 donations={[props.requestSeed.donation]}
             />
           </div>

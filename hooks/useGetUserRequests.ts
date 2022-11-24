@@ -19,18 +19,15 @@ export default function useGetUserRequests(
         // note: requestsByAddress doesn't return the request id, so the rendered results and remove buttons aren't accurate
         functionName: "requestsByAddress",
         args: [addr],
-        // enabled: address != undefined,
+        enabled: address != undefined,
       },
       {
-        // ...nounSeekContract,
         address: nounSeekContract.address,
         abi: nounSeekContract.abi,
         functionName: "donees",
-        // enabled: address != undefined,
+        enabled: address != undefined,
       },
     ],
-    // select: (results) => transform(results[0], results[1]),
-    // select: (results) => { return (results[0])},
   });
 
   console.log('requestsActiveByAddress', data);
