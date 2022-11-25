@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 import cx from "classnames";
-import { RequestSeed } from "../../types";
+import { Request } from "../../types";
 import useGetDoneeDescription from "../../hooks/useGetDoneeDescription";
-import { useAppContext } from "../../context/state";
 
 type DoneeProps = {
   doneeId: number;
-  requestSeed: RequestSeed;
+  requestSeed: Request;
   setRequestSeed: Function;
 }
 
 const Donee = (props: DoneeProps) => {
   const doneeDescription = useGetDoneeDescription(props.doneeId);
-  console.log('doneeDescription', doneeDescription);
   return (
     <button 
         className={cx(
         "flex gap-5 text-left p-3",
-            props.requestSeed?.donation?.to === doneeDescription.to && "bg-white shadow-lg border-2 opacity-100",
-            props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== doneeDescription.to ? "opacity-50 hover:opacity-80" : "",
+            props.requestSeed?.donation?.to === props.doneeId && "bg-white shadow-lg border-2 opacity-100",
+            props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== props.doneeId ? "opacity-50 hover:opacity-80" : "",
         )}
         onClick={() => props.setRequestSeed(request => ({ 
         trait: request.trait,
@@ -42,11 +40,11 @@ const Donee = (props: DoneeProps) => {
         <div 
             className={cx(
             "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", 
-            props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== doneeDescription.to && "bg-slate-300",
-            props.requestSeed?.donation?.to === doneeDescription.to && "border-blue-500 !bg-white border-2 text-blue-500 ",
+            props.requestSeed?.donation?.to && props.requestSeed?.donation?.to !== props.doneeId && "bg-slate-300",
+            props.requestSeed?.donation?.to === props.doneeId && "border-blue-500 !bg-white border-2 text-blue-500 ",
             )}
         >
-            {props.requestSeed?.donation?.to === doneeDescription.to ? 'Selected' : 'Select' }
+            {props.requestSeed?.donation?.to === props.doneeId ? 'Selected' : 'Select' }
         </div>
         </div>
     </button>

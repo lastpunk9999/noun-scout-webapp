@@ -7,6 +7,7 @@ type RequestDoneeProps = {
 }
 
 const RequestDonee = (props: RequestDoneeProps) => {
+  console.log('props.donation', props.donation);
   const doneeDescription = useGetDoneeDescription(props.donation.to);
   return (
     <li className="flex justify-center items-center gap-2">

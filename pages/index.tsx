@@ -7,6 +7,7 @@ import { nounSeekContract } from "../config";
 import useFakeNoun from "../hooks/useFakeNoun";
 import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 import RequestCard from "../components/RequestCard";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   // Get donations pertaining to next noun
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
       <div className="text-center py-2 max-w-lg mx-auto">
         <h1 className="text-3xl font-bold mb-2">Sponsor Nouns. <br />Send money to charity.</h1>
         <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis parturient.</p>
-        <a href="" className="underline bold">Create a Request</a>
+        <Link href="/add"><a className="underline bold">Create a Request</a></Link>
       </div>
 
       {/* How it works */}
@@ -39,22 +40,21 @@ const Home: NextPage = () => {
         <h2 className="text-3xl font-bold">How it works</h2>
         <p>If this Noun were minted, {!totalDonationsForFOMOHead ? "no funds would be sent to non-profits." : `${utils.formatEther(totalDonationsForFOMOHead)} ETH would be sent to non-profits.`}</p>
       </div>
+      
       {/* Example rotator */}
       <div className="mb-20">
-        {/* Slide */}
         <div className="flex justify-center gap-10 flex-col md:flex-row rounded overflow-hidden shadow-lg p-3">
           <div className="w-md">
             <img src={src} alt="" className="w-full aspect-square rounded" />
           </div>
           <div className="flex flex-col justify-center">
-            {/* Request component */}
-            {totalDonationsForFOMOHead && (
+            {/* {totalDonationsForFOMOHead && (
               <RequestCard 
                   traitType="traitType" 
                   traitName="request.trait.name"
                   donations={donationsForFOMOHead?.donations}x
                 />
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -83,8 +83,7 @@ const Home: NextPage = () => {
               {Object.values(traits).map((request) => {
                 return (
                   <RequestCard 
-                    traitType={traitType} 
-                    traitName={request.trait.name}  
+                    trait={request.trait}
                     donations={request.donations}
                     key={request.trait.name}
                   />

@@ -4,24 +4,23 @@ import TraitTab from "./TraitTab";
 import cx from "classnames";
 import { ImageData } from '@nouns/assets';
 import NextButton from "./NextButton";
-import { RequestSeed } from "../../types";
+import { Request } from "../../types";
 
 type AddTraitProps = {
   setRequestSeed: Function;
-  requestSeed: RequestSeed;
+  requestSeed: Request;
 }
 
 const AddTrait = (props: AddTraitProps) => {
-  const [currentTraitType, setCurrentTraitType] = useState<number>(2);
-  const orderedTraitTitles = [2,3,1,0];
-  const traitTypes = ["Bodies", "Accessories", "Heads", "Glasses"];
+  const [currentTraitType, setCurrentTraitType] = useState<number>(3);
+  const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
+  const traitTypes = ["Backgrounds", "Bodies", "Accessories", "Heads", "Glasses"];
   const [filter, setFilter] = useState<string>('');
 
   useEffect(() => {
     // Reset filter when trait type changes
     setFilter('')
   }, [currentTraitType]);
-
   
   return (
     <div className="">

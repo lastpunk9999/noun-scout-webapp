@@ -21,13 +21,6 @@ export interface Request {
   donation: Donation;
 }
 
-export interface RequestSeed {
-  id?: number;
-  traitTypeId?: number;
-  traitId?: number;
-  donation?: Donation;
-}
-
 export interface DonationsForNextNoun {
   nextAuctionedId: number;
   nextNonAuctionedId: number;

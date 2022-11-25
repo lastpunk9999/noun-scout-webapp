@@ -80,7 +80,7 @@ export function extractDonations(donations, donees): DonationsByTraitType {
           .map((amount, doneeId) => {
             if (amount.eq("0")) return;
             return {
-              to: donees[doneeId].name,
+              to: doneeId,
               amount,
             } as Donation;
           })

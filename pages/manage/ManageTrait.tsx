@@ -7,11 +7,7 @@ import { BigNumber } from "ethers";
 import cx from "classnames";
 
 type ManageTraitProps = {
-  // requestId: number;
-  // trait: TraitNameAndImageData;
-  // donation: Donation;
   request: Request;
-  // statusMessage: string | undefined;
 }
 
 const ManageTrait = (props: ManageTraitProps) => {
@@ -24,7 +20,6 @@ const ManageTrait = (props: ManageTraitProps) => {
     address: nounSeekContract.address, 
     abi: nounSeekContract.abi,
     functionName: 'remove',
-    // args: [BigNumber.from(props.requestId)], 
     args: [BigNumber.from(0)], 
     onError(error) {
       console.log("Error", error);
@@ -57,6 +52,7 @@ const ManageTrait = (props: ManageTraitProps) => {
   });
 
   // How are these messages being set?
+  // using undefined for now
   // const statusMessage = i % 4 == 1 && "Auction Ending Soon" || i % 4 == 2 && "Auction Ended" || undefined; 
   let statusMessage;
   return (
@@ -81,8 +77,7 @@ const ManageTrait = (props: ManageTraitProps) => {
           <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
             <RequestCard 
               id={props.request.nounId}
-              traitTypeId={props.request.trait.traitTypeId}
-              traitId={props.request.trait.traitId}
+              trait={props.request.trait}
               donations={[props.request.donation]}
               />
             </div>

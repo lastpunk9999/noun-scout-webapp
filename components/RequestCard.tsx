@@ -1,5 +1,5 @@
 import { utils } from "ethers";
-import { Donation, NounSeed } from "../types";
+import { Donation, NounSeed, TraitNameAndImageData } from "../types";
 import Image from "next/image";
 import { ImageData, getPartData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
@@ -7,8 +7,7 @@ import { traitTypeNamesById, traitNamesById } from "../utils";
 import RequestDonee from "./RequestDonee";
 
 type RequestCardProps = {
-  traitTypeId: number;
-  traitId: number;
+  trait: TraitNameAndImageData;
   donations: Donation[];
   id?: number;
   nounSeed?: NounSeed;
@@ -22,8 +21,10 @@ const getPart = (partType: string, partIndex: number) => {
 }; 
 
 const RequestCard = (props: RequestCardProps) => {
-  const traitTypeNames = traitTypeNamesById(props.traitTypeId);
-  const part = props.traitTypeId !== 0 && getPart(traitTypeNames[1], props.traitId);
+  const traitTypeId = props.trait.traitTypeId;
+  const traitId = props.trait.traitId;
+  const traitTypeNames = traitTypeNamesById(traitTypeId);
+  const part = traitTypeId !== 0 && getPart(traitTypeNames[1], traitId);
   return (
     <div className="bg-white w-full rounded-lg overflow-hidden shadow-lg p-3">
         <div>
@@ -46,7 +47,7 @@ const RequestCard = (props: RequestCardProps) => {
                 }
               }
               >
-              {props.traitTypeId !== 0 && (
+              {traitTypeId !== 0 && (
                 <Image src={part.image ? part.image : ''} layout="fill" />
               )}            
             </div>
@@ -54,7 +55,7 @@ const RequestCard = (props: RequestCardProps) => {
           <div className="w-3/4">
             <p className="text-slate-500 text-sm leading-none capitalize">{traitTypeNames[0]}</p>
             <h3 className="text-xl font-bold leading-none capitalize">
-              {traitNamesById(props.traitTypeId, props.traitId)}
+              {traitNamesById(traitTypeId, traitId)}
             </h3>
             <hr className="my-2 border-slate-500/25" /> 
             <p className="text-slate-500 text-sm mb-1">Supporting</p>

@@ -7,8 +7,8 @@ import { utils } from "ethers";
 export default function useGetUserRequests(
   address: string | undefined
 ): Request[] {
-
   const addr = utils.getAddress(address);
+
   let { data } = useContractReads({
     contracts: [
       {

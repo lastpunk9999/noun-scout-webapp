@@ -1,4 +1,4 @@
-import { Donation, NounSeed } from "../../types";
+import { Donation, NounSeed, TraitNameAndImageData } from "../../types";
 import RequestCard from "../../components/RequestCard";
 import { BigNumber, utils } from "ethers";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
@@ -6,11 +6,13 @@ import { nounSeekContract } from "../../config";
 import { useState } from "react";
 import cx from "classnames";
 import Link from "next/link";
+import { traitTypeNamesById } from "../../utils";
+import { ImageData } from "@nouns/assets";
 
 type MatchItemProps = {
   donations: readonly BigNumber[];
-  traitId: number;
   traitTypeId: number;
+  traitId: number;
   nounSeed: NounSeed
 }
 
@@ -67,17 +69,30 @@ const MatchItem = (props: MatchItemProps) => {
   });
   
   const traitReimbursmentTotal = () => {
-    let reimbursmentAmount = BigNumber.from(0);
+    let totalAmount = BigNumber.from(0);
     donationData.map(donation => {
       // reimbursmentAmount = donation ? reimbursmentAmount + Number(utils.formatEther(donation.amount)) : 0;
       if (donation && utils.formatEther(donation.amount) !== "0.0") {
-        reimbursmentAmount = reimbursmentAmount.add(donation.amount);
+        totalAmount = totalAmount.add(donation.amount);
       }
     })
+    const reimbursmentAmount = (Number(utils.formatEther(totalAmount)) * 0.01).toFixed(4);
     return reimbursmentAmount;
   }
-  
 
+  const buildTraitFromIds = (traitTypeId: number, traitId: number) => {
+    const traitTypeNames = traitTypeNamesById(traitTypeId);
+    const trait: TraitNameAndImageData = {
+      name: ImageData.images[traitTypeNames[1]][traitId].filename,
+      traitId: traitId,
+      traitTypeId: traitTypeId,
+      type: traitTypeNames[0],
+      imageData: ImageData.images[traitTypeNames[1]][traitId].imageData,
+    }
+    console.log('buildTrait results', trait);
+    return trait;
+  }
+  
   return (
     <div className="my-5">
       {isTransactionComplete ? (
@@ -99,8 +114,7 @@ const MatchItem = (props: MatchItemProps) => {
         <div className="flex flex-row w-full gap-10 items-center justify-between">
           <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
             <RequestCard 
-              traitTypeId={props.traitTypeId}
-              traitId={props.traitId}
+              trait={buildTraitFromIds(props.traitTypeId, props.traitId)}
               donations={donationData}
               nounSeed={props.nounSeed}
             />
@@ -119,7 +133,8 @@ const MatchItem = (props: MatchItemProps) => {
                   <span className="block sm:inline">{errorMessage}</span>
                 </div>
               )}
-              <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p>
+              {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
+              <p className="text-xs text-center">Reward: Ξ {traitReimbursmentTotal()}</p>
           </div>
         </div>
       )}

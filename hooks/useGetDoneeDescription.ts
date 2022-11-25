@@ -4,8 +4,6 @@ import doneeDescriptions from "../content/doneeDescriptions";
 
 export default function useGetDoneeDescription(doneeId: number) {
   const donees = useAppContext();
-  console.log("donees from context", donees);
-
   const donee = {
     ...donees[doneeId],
     ...doneeDescriptions[doneeId],

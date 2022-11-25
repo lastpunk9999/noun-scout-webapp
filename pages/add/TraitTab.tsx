@@ -2,24 +2,18 @@ import { useEffect, useState } from "react";
 import { ImageData, getPartData } from '@nouns/assets';
 import cx from 'classnames';
 import { parseTraitName } from "../../utils";
-import { RequestSeed } from "../../types";
+import { Request } from "../../types";
 import { buildSVG } from "@nouns/sdk";
 
 type TraitTabProps = {
   traitIndex: number;
   setRequestSeed: Function;
-  requestSeed: RequestSeed | undefined;
+  requestSeed: Request | undefined;
   filter: string;
 }
 
 const TraitTab = (props: TraitTabProps) => {
-  const traitTypes = ["Bodies", "Accessories", "Heads", "Glasses"];
-  const traitNames = [
-    ...Object.values(ImageData.images).map(i => {
-      return i.map(imageData => imageData.filename);
-    }),
-  ];
-
+  const traitTypes = ["Backgrounds", "Bodies", "Accessories", "Heads", "Glasses"];
   const getPart = (partType: string, partIndex: number) => {
     const data = getPartData(partType, partIndex);
     const image = `data:image/svg+xml;base64,${btoa(buildSVG([{ data }], ImageData.palette))}`;
@@ -52,11 +46,11 @@ const TraitTab = (props: TraitTabProps) => {
                   props.requestSeed?.trait.name === f.filename 
                   ? props.setRequestSeed() 
                   : props.setRequestSeed({
-                    traitTypeId: props.traitIndex,
-                    traitId: f.id,
                     trait: {
                       name: f.filename, 
+                      traitId: f.id,                      
                       type: traitTypes[props.traitIndex],
+                      traitTypeId: props.traitIndex,
                       imageData: {
                         filename: f.filename,
                         data: f.data,

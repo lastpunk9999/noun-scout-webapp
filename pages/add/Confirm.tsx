@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
-import { RequestSeed } from "../../types";
+import { Request } from "../../types";
 import { nounSeekContract, nounsAuctionHouseContract } from "../../config";
 import { usePrepareContractWrite, useContractWrite, useContractRead, useWaitForTransaction } from "wagmi";
 import { BigNumber, ethers, utils } from "ethers";
 import { ImageData } from "@nouns/assets";
 import Link from "next/link";
 import { useAppContext } from "../../context/state";
+import cx from "classnames";
 
 type ConfirmProps = {
-  requestSeed: RequestSeed,
+  requestSeed: Request,
   setRequestSeed: Function;
+  setCurrentStep: Function;
 }
 
 const Confirm = (props: ConfirmProps) => {
@@ -64,9 +66,6 @@ const Confirm = (props: ConfirmProps) => {
   const traitId = ImageData.images[`${props.requestSeed.trait.type.toLowerCase()}`].findIndex(trait => {
     return trait.filename === props.requestSeed.trait.imageData.filename;
   });
-  const doneeId = doneesList.findIndex(donee => {
-    return donee.to === props.requestSeed.donation.to;
-  });
 
   const { config } = usePrepareContractWrite({ 
     address: nounSeekContract.address, 
@@ -76,7 +75,7 @@ const Confirm = (props: ConfirmProps) => {
       traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses) 
       traitId, // traitId - index of trait type array
       props.requestSeed.id || 0, // nounId - set to 0 for open id, or specify an id 
-      doneeId // doneeId - index of donee array
+      props.requestSeed.donation.to // doneeId - index of donee array
     ], 
     overrides: {
       value: props.requestSeed.donation.amount,
@@ -119,19 +118,26 @@ const Confirm = (props: ConfirmProps) => {
     }
     return false;
   }
+
+  const handleResetWizard = () => {
+    props.setCurrentStep(0);
+    props.setRequestSeed(undefined);
+  }
   
   return (
     <div>
-      <h3 className="text-2xl font-bold text-center">Confirm Request</h3>
       {isTransactionComplete ? (
         <div className="text-center">
           <p>Your sponsorship has been submitted!</p>
           <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center"> 
-            <Link href="/add">
-              <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
-                Sponsor another Noun trait
-              </a>
-            </Link>
+            <button 
+              className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
+              onClick={() => {
+                handleResetWizard();
+              }}
+              >
+              Sponsor another Noun trait
+            </button>
             <Link href="/manage">
               <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
                 Manage your sponsorships
@@ -141,39 +147,41 @@ const Confirm = (props: ConfirmProps) => {
         </div>
       ) : (
         <>
-          <div className="max-w-lg mx-auto my-4">
-            <RequestCard 
+          <h3 className="text-2xl font-bold text-center">Confirm Sponsorship</h3>
+          <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
+            <div className="max-w-lg mx-auto my-4">
+              <RequestCard 
                 id={props.requestSeed.id}
-                traitTypeId={props.requestSeed?.trait?.type}
-                traitId={props.requestSeed?.trait?.name}
+                trait={props.requestSeed?.trait}
                 donations={[props.requestSeed.donation]}
-            />
-          </div>
-          <div className="flex justify-center items-center mt-4">
-              <input 
-                id="default-checkbox" 
-                type="checkbox" 
-                value="" 
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2" 
-                onChange={() => setIsIdFieldVisible(!isIdFieldVisible)}
               />
-              <label htmlFor="default-checkbox" className="ml-2 text-sm font-medium text-slate-900">Apply this sponsorship only to a specific Future Noun ID</label>
-          </div>
-          <div className="flex flex-row mt-2 gap-3 justify-center items-center">
-            {isIdFieldVisible && (
-              <>
-                <label htmlFor="nounID" className="text-sm font-bold text-slate-900">Future Noun ID</label>
+            </div>
+            <div className="flex justify-center items-center mt-4">
                 <input 
-                  id="nounID" 
-                  type="number" 
-                  // placeholder={minNounId.toString()}
-                  min={minNounId} 
-                  className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
-                  value={futureNounId}
-                  onChange={event => setFutureNounId(Number(event.target.value))}
+                  id="default-checkbox" 
+                  type="checkbox" 
+                  value="" 
+                  className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2" 
+                  onChange={() => setIsIdFieldVisible(!isIdFieldVisible)}
                 />
-              </>
-            )}
+                <label htmlFor="default-checkbox" className="ml-2 text-sm font-medium text-slate-900">Apply this sponsorship only to a specific Future Noun ID</label>
+            </div>
+            <div className="flex flex-row mt-2 gap-3 justify-center items-center">
+              {isIdFieldVisible && (
+                <>
+                  <label htmlFor="nounID" className="text-sm font-bold text-slate-900">Future Noun ID</label>
+                  <input 
+                    id="nounID" 
+                    type="number" 
+                    // placeholder={minNounId.toString()}
+                    min={minNounId} 
+                    className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600" 
+                    value={futureNounId}
+                    onChange={event => setFutureNounId(Number(event.target.value))}
+                  />
+                </>
+              )}
+            </div>
           </div>
           <div className="flex flex-col my-4 gap-3 justify-center items-center">
             <button 
@@ -192,7 +200,6 @@ const Confirm = (props: ConfirmProps) => {
           </div>
         </>
       )}
-      
     </div>
   );
 }
