@@ -7,8 +7,8 @@ import { utils } from "ethers";
 export default function useGetUserRequests(
   address: string | undefined
 ): Request[] {
-  const addr = utils.getAddress(address);
 
+  const addr = utils.getAddress(address);
   let { data } = useContractReads({
     contracts: [
       {
@@ -30,27 +30,21 @@ export default function useGetUserRequests(
     ],
   });
 
-  console.log('requestsActiveByAddress', data);
-
   const [requests, donees] = data ?? [[], []];
 
   return useMemo(() => {
     console.log("requests data", requests);    
     return requests.map((request, id) => {
       if (request.trait === 0) return null;
-      console.log('request data', request);
-      console.log(request.id, id, request.trait, request.traitId);
-      // if (request.trait && request.traitId && request.nounId > 0) {
         return {
           id: id,
           nounId: request.nounId,
           trait: getTraitTraitNameAndImageData(request.trait, request.traitId),
           donation: {
-            to: donees[request.doneeId].name,
+            to: request.doneeId,
             amount: request.amount,
           },
-        } as Request;
-      // }
+        };
     });
   }, [requests.length, donees.length]);
 }

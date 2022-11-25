@@ -68,7 +68,7 @@ export function getTraitTraitNameAndImageData(
   const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
   const imageData = nounImages[pluralTrait][traitId];
   const name = imageData.filename.replace(`${singularTrait}-`, "");
-  return { name, type: singularTrait, imageData };
+  return { name, traitId: traitId, traitTypeId: trait, type: singularTrait, imageData };
 }
 
 export function extractDonations(donations, donees): DonationsByTraitType {

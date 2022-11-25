@@ -16,6 +16,7 @@ export type PluralTraitName =
 
 export interface Request {
   id: number;
+  nounId: number;
   trait: TraitNameAndImageData;
   donation: Donation;
 }
@@ -81,6 +82,8 @@ export interface ImageData {
 
 export interface TraitNameAndImageData {
   name: string;
+  traitId: number;
+  traitTypeId: number;
   type: SingularTraitName;
   imageData: ImageData;
 }
