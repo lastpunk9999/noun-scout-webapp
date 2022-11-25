@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { utils } from "ethers";
 import { nounSeekContract } from "../../config";
+import { Request } from "../../types";
 import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
 import RequestCard from "../../components/RequestCard";
@@ -20,14 +21,9 @@ const Manage: NextPage = () => {
   }, [isConnected, isConnecting, router]);
 
   const requests = useGetUserRequests(address);
-  // const requests = null;
 
   if (!isConnected || !requests) return null;
-
-  function remove(e, id) {
-    e.preventDefault();
-  }
-
+  console.log('requests', requests)
   
   return (
     <div>
@@ -39,28 +35,19 @@ const Manage: NextPage = () => {
         </>
       )}
       <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
-        {requests.map((r, i) => {
-          const statusMessage = i % 4 == 1 && "Auction Ending Soon" || i % 4 == 2 && "Auction Ended" || undefined; 
-          console.log('r.id', r && r.id);
-          return (
-            <>
-              {r && (
-                <li 
-                  key={i} 
-                  className="w-full flex flex-colmd:flex-row justify-between gap-5 items-center"
-                >
-                  {r.id}
-                  <ManageTrait 
-                    // statusMessage={statusMessage}
-                    requestId={r.id}
-                    name={r.trait.name}
-                    type={r.trait.type}
-                    donation={r.donation}
-                  />
-                </li>
-              )}
-            </>
-          );
+        {requests.map((request, i) => {
+          if (request) {
+            return (
+              <li 
+                key={i} 
+                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+              >
+                <ManageTrait 
+                  request={request}
+                />
+              </li>
+            );
+          }
         })}
       </ul>
     </div>

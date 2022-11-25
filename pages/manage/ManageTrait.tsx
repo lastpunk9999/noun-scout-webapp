@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
-import { Donation } from "../../types";
+import { Request } from "../../types";
 import { nounSeekContract } from "../../config";
 import { usePrepareContractWrite, useContractWrite, useContractRead, useWaitForTransaction } from "wagmi";
 import { BigNumber } from "ethers";
+import cx from "classnames";
 
 type ManageTraitProps = {
-  requestId: number;
-  type: string;
-  name: string;
-  donation: Donation;
-  statusMessage: string | undefined;
+  // requestId: number;
+  // trait: TraitNameAndImageData;
+  // donation: Donation;
+  request: Request;
+  // statusMessage: string | undefined;
 }
 
 const ManageTrait = (props: ManageTraitProps) => {
@@ -55,30 +56,44 @@ const ManageTrait = (props: ManageTraitProps) => {
     },
   });
 
-  console.log('props', props);
-
+  // How are these messages being set?
+  // const statusMessage = i % 4 == 1 && "Auction Ending Soon" || i % 4 == 2 && "Auction Ended" || undefined; 
+  let statusMessage;
   return (
     <>
       {isTransactionComplete ? (
-        <div className="w-full flex flex-col p-10 bg-white rounded-lg overflow-hidden shadow-lg md:flex-row justify-between gap-5 items-center">
-          <p>Sponsorship removed</p>
+        <div className="text-center  bg-slate-200 p-10 rounded-lg">
+          <p className="text-lg font-bold">Sponsorship removed</p>
+          <p className="underline">
+            <a href={
+              process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet" ? 
+              `https://etherscan.io/tx/${transactionData}` : 
+              `https://goerli.etherscan.io/tx/${transactionData}`
+              }
+              target="_blank"
+            >
+              View transaction
+            </a>
+          </p>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row justify-between gap-5 items-center">
-          <RequestCard 
-            id={props.requestId}
-            traitName={props.name}
-            traitType={props.type}
-            donations={[props.donation]}
-            />
+        <div className="w-full flex flex-col md:flex-row justify-between gap-5 items-center">
+          <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
+            <RequestCard 
+              id={props.request.nounId}
+              traitTypeId={props.request.trait.traitTypeId}
+              traitId={props.request.trait.traitId}
+              donations={[props.request.donation]}
+              />
+            </div>
             <div className="text-center md:text-left md:w-1/3">
-              {props.statusMessage ? (
+              {statusMessage ? (
                 <div>
                   <p className="text-slate-700 text-sm font-bold">
                       This sponsorship can't be removed right now. 
                   </p>
                   <p className="text-slate-700 text-sm italic">
-                    {props.statusMessage}
+                    {statusMessage}
                   </p>
                 </div>
               ) : (
