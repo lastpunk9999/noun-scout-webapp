@@ -21,17 +21,24 @@ const Match: NextPage = () => {
     functionName: 'donationsAndReimbursementForPreviousNoun',
   }).data;
   
-  console.log('matchData', matchData);
-
   if (!isConnected) return null;
   return (
     <div>
+      <h1 className="text-3xl font-bold mb-2 text-center">Open Matches</h1>
       {matchData.auctionedNounDonations && (
         <>
-          <h1 className="text-3xl font-bold mb-2 text-center">Open Matches</h1>
           <NounWithMatches 
             nounId={matchData.auctionedNounId}      
             donations={matchData.auctionedNounDonations} 
+          />
+        </>
+        )
+      }
+      {matchData.nonAuctionedNounId === matchData.auctionedNounId -1 && matchData.nonAuctionedNounDonations && (
+        <>          
+          <NounWithMatches 
+            nounId={matchData.nonAuctionedNounId}      
+            donations={matchData.nonAuctionedNounDonations} 
           />
         </>
         )
