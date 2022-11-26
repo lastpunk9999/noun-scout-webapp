@@ -11,12 +11,9 @@ const MatchBanner = (props: MatchBannerProps) => {
   const matchData = useAppContext()[1];
   let totalReimbursement = BigNumber.from(0);
   const countTotalReimbursments = () => matchData.reimbursementPerTrait.map((reimbursement: BigNumber, i) => { 
-    console.log('reimbursement', reimbursement);
     if (reimbursement && utils.formatEther(reimbursement) !== "0.0") {
       totalReimbursement = totalReimbursement.add(reimbursement);
     }
-    
-    console.log('totalReimbursement', totalReimbursement);
     return
   });
 

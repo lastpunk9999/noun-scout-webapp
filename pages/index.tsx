@@ -4,6 +4,7 @@ import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
 import ExampleNoun from "../components/ExampleNoun";
+import { useAppContext } from "../context/state";
 
 const Home: NextPage = () => {
   // Get donations pertaining to next noun
@@ -12,7 +13,7 @@ const Home: NextPage = () => {
   const [filteredTraitType, setFilteredTraitType] = useState<number | null>();
   const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
   const traitTypes = ["backgrounds", "bodies", "accessories", "heads", "glasses"];
-
+  const matchData = useAppContext()[1];
   return (
     <div className="container mx-auto pb-10">
       {/* Intro description */}
@@ -28,7 +29,8 @@ const Home: NextPage = () => {
         />
       <div className="text-center mt-10">
         <h2 className="text-3xl font-bold">Open sponsorships</h2>
-        <p className="">{nextAuctionedId} Noun 500 available to mint in X hours, Y minutes</p>
+        {/* TODO: Add countdown clock */}
+        <p className="">{nextAuctionedId} Noun {matchData.auctionedNounId} available to mint in X hours, Y minutes</p>
       </div>
 
       {/* Filters */}
