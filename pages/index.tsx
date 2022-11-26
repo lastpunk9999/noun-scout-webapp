@@ -8,22 +8,14 @@ import useFakeNoun from "../hooks/useFakeNoun";
 import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
+import NounWithMatches from "./match/NounWithMatches";
+import ExampleNoun from "../components/ExampleNoun";
+import { TraitNameAndImageData } from "../types";
 
 const Home: NextPage = () => {
   // Get donations pertaining to next noun
   const { nextAuctionDonations, nextAuctionedId } =
     useGetDonationsForNextNoun();
-
-  // Get seed and image data for next auctioned Noun
-  const { src, seed, isNounLoading } = useFakeNoun(nextAuctionDonations);
-
-  // Find donations that match the FOMO Noun head
-  const donationsForFOMOHead = nextAuctionDonations?.heads[seed?.head];
-
-  const totalDonationsForFOMOHead = donationsForFOMOHead?.donations
-    .map((d) => d.amount)
-    .reduce((m, d) => m.add(d));
-
   const [filteredTraitType, setFilteredTraitType] = useState<string | null>();
 
   return (
@@ -35,34 +27,13 @@ const Home: NextPage = () => {
         <Link href="/add"><a className="underline bold">Create a Request</a></Link>
       </div>
 
-      {/* How it works */}
-      <div className="text-center my-10">
-        <h2 className="text-3xl font-bold">How it works</h2>
-        <p>If this Noun were minted, {!totalDonationsForFOMOHead ? "no funds would be sent to non-profits." : `${utils.formatEther(totalDonationsForFOMOHead)} ETH would be sent to non-profits.`}</p>
-      </div>
-      
       {/* Example rotator */}
-      <div className="mb-20">
-        <div className="flex justify-center gap-10 flex-col md:flex-row rounded overflow-hidden shadow-lg p-3">
-          <div className="w-md">
-            <img src={src} alt="" className="w-full aspect-square rounded" />
-          </div>
-          <div className="flex flex-col justify-center">
-            {/* {totalDonationsForFOMOHead && (
-              <RequestCard 
-                  traitType="traitType" 
-                  traitName="request.trait.name"
-                  donations={donationsForFOMOHead?.donations}x
-                />
-            )} */}
-          </div>
-        </div>
-      </div>
-
+      <ExampleNoun nextAuctionDonations={nextAuctionDonations} />
       <div className="text-center mt-10">
         <h2 className="text-3xl font-bold">Open sponsorships</h2>
         <p className="">{nextAuctionedId} Noun 500 available to mint in X hours, Y minutes</p>
       </div>
+      
       {/* Filters */}
       <div className="justify-center mt-5 mb-10 select-none flex">
         <button onClick={() => setFilteredTraitType('heads')} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-blue bg-slate-900 hover:text-white hover:bg-blue-light focus:outline-none active:shadow-none mr-2">X Heads</button>
@@ -73,6 +44,7 @@ const Home: NextPage = () => {
           <button onClick={() => setFilteredTraitType(null)} className="py-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none">clear</button>	
         )}
       </div>
+
       {/* Grid of sponsorships */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {

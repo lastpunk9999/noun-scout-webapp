@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount, useContractRead } from "wagmi";
-import { Donation, RequestSeed } from "../../types";
+import { Donation, Request } from "../../types";
 import NextButton from "./NextButton";
 import AddTrait from "./AddTrait";
 import AddOrg from "./AddOrg";
@@ -37,7 +37,7 @@ const Add: NextPage = () => {
   ];
 
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [requestSeed, setRequestSeed] = useState<RequestSeed | undefined>();
+  const [requestSeed, setRequestSeed] = useState<Request | undefined>();
   
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -119,7 +119,6 @@ const Add: NextPage = () => {
                 <AddOrg
                   setRequestSeed={setRequestSeed}
                   requestSeed={requestSeed}
-                  doneesList={doneesList}
                 />
                 <div className="fixed bottom-0 bg-white w-full p-2 left-0 text-center flex gap-5 justify-center">
                   <button 
@@ -138,8 +137,10 @@ const Add: NextPage = () => {
             {currentStep === 2 && (
               <>
                 <Confirm 
-                setRequestSeed={setRequestSeed}
-                requestSeed={requestSeed} />
+                  requestSeed={requestSeed} 
+                  setRequestSeed={setRequestSeed}
+                  setCurrentStep={setCurrentStep}
+                />
               </>
             )}
         </div>

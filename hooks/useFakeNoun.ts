@@ -11,7 +11,8 @@ import { NounSeed, NounSeedAndImageData, DonationsByTraitType } from "../types";
 const { palette } = ImageData;
 
 export default function useFakeNoun(
-  donationData: DonationsByTraitType
+  donationData: DonationsByTraitType,
+  nounSeed: NounSeed
 ): NounSeedAndImageData {
   const [seed, setSeed] = useState<NounSeed>();
 
@@ -33,12 +34,12 @@ export default function useFakeNoun(
     };
   }, [generateNewSeed]);
 
-  const svgBinary = useMemo(() => {}, [seed]);
+  const svgBinary = useMemo(() => {}, [nounSeed]);
 
   return useMemo(() => {
     let svgBinary;
-    if (seed) {
-      const { parts, background } = getNounData(seed);
+    if (nounSeed) {
+      const { parts, background } = getNounData(nounSeed);
       svgBinary = buildSVG(parts, palette, background);
     }
 
@@ -46,8 +47,8 @@ export default function useFakeNoun(
       src: svgBinary
         ? `data:image/svg+xml;base64,${btoa(svgBinary)}`
         : "/loading-noun.gif",
-      seed,
+        nounSeed,
       isNounLoading: !svgBinary,
     } as NounSeedAndImageData;
-  }, [seed]);
+  }, [nounSeed]);
 }
