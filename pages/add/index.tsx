@@ -14,6 +14,8 @@ import { nounSeekContract } from "../../config";
 const Add: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [requestSeed, setRequestSeed] = useState<Request | undefined>();
 
   useEffect(() => {
     if (isConnecting || !router) return;
@@ -35,14 +37,10 @@ const Add: NextPage = () => {
       description: "Donec sed odio dui."
     },
   ];
-
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  const [requestSeed, setRequestSeed] = useState<Request | undefined>();
   
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
   }
-  console.log("requestSeed", requestSeed);
 
   const checkProgress = () => {
     const amount = requestSeed?.donation?.amount || 0;

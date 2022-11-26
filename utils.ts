@@ -59,8 +59,6 @@ export function traitNamesById(
   return traitName;
 }
 
-
-
 export function getTraitTraitNameAndImageData(
   trait: number,
   traitId: number

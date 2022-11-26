@@ -6,7 +6,7 @@ import { buildSVG } from "@nouns/sdk";
 import { traitTypeNamesById, traitNamesById } from "../utils";
 import RequestDonee from "./RequestDonee";
 
-type RequestCardProps = {
+type RequestTableRowProps = {
   trait: TraitNameAndImageData;
   donations: Donation[];
   id?: number;
@@ -19,13 +19,13 @@ const getPart = (partType: string, partIndex: number) => {
   return { image };
 }; 
 
-const RequestCard = (props: RequestCardProps) => {
+const RequestTableRow = (props: RequestTableRowProps) => {
   const traitTypeId = props.trait.traitTypeId;
   const traitId = props.trait.traitId;
   const traitTypeNames = traitTypeNamesById(traitTypeId);
   const part = traitTypeId !== 0 && getPart(traitTypeNames[1], traitId);
   return (
-    <div className="bg-white w-full rounded-lg overflow-hidden shadow-lg p-3">
+    <div className="w-full p-3">
         <div>
           {props.id > 0 && (
             <>
@@ -77,4 +77,4 @@ const RequestCard = (props: RequestCardProps) => {
   );
 }
 
-export default RequestCard;
+export default RequestTableRow;
