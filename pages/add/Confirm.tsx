@@ -148,7 +148,7 @@ const Confirm = (props: ConfirmProps) => {
       ) : (
         <>
           <h3 className="text-2xl font-bold text-center">Confirm Sponsorship</h3>
-          <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
+          <div className={cx('w-full', isLoading || isTransactionLoading ? 'opacity-40' : 'opacity-100')}>
             <div className="max-w-lg mx-auto my-4">
               <RequestCard 
                 id={props.requestSeed.id}
@@ -163,6 +163,7 @@ const Confirm = (props: ConfirmProps) => {
                   value="" 
                   className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2" 
                   onChange={() => setIsIdFieldVisible(!isIdFieldVisible)}
+                  disabled={isLoading || isTransactionLoading}
                 />
                 <label htmlFor="default-checkbox" className="ml-2 text-sm font-medium text-slate-900">Apply this sponsorship only to a specific Future Noun ID</label>
             </div>
@@ -189,7 +190,7 @@ const Confirm = (props: ConfirmProps) => {
               disabled={!validate() || !write || isLoading || isTransactionLoading}
               onClick={() => write?.()}
             >
-              {isLoading ? "Submitting..." : "Submit"}
+              {isLoading || isTransactionLoading ? "Submitting..." : "Submit"}
             </button>
             {errorMessage && (
               <div className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center" role="alert">

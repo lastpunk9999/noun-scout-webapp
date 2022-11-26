@@ -1,17 +1,28 @@
 import { createContext, useContext, useState } from 'react';
-import { useContractRead } from 'wagmi';
+import { useContractRead, useContractReads } from 'wagmi';
 import { nounSeekContract } from '../config';
 
 const AppContext = createContext<readonly{}[]>([{}]);
 
 export function AppWrapper({ children }) {
-  const doneesList = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: 'donees',
-  }).data;
+
+  const { data } = useContractReads({
+    contracts: [
+      {
+        address: nounSeekContract.address,
+        abi: nounSeekContract.abi,
+        functionName: 'donees',
+      },
+      {
+        address: nounSeekContract.address,
+        abi: nounSeekContract.abi,
+        functionName: 'donationsAndReimbursementForPreviousNoun',
+      },
+    ],
+  });
+
   return (
-    <AppContext.Provider value={doneesList}>
+    <AppContext.Provider value={data}>
       {children}
     </AppContext.Provider>
   );

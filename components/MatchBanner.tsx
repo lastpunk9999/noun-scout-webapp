@@ -1,16 +1,34 @@
 import Link from "next/link";
 import { BigNumber, utils } from "ethers";
+import { useAppContext } from "../context/state";
+import { useEffect } from "react";
 
 type MatchBannerProps = {
   
 }
 
 const MatchBanner = (props: MatchBannerProps) => {
-  return (
-    <div className="bg-blue-500 p-2 text-center">
-      <p className="text-white">Noun 500 has a request to be matched! earn 0.35 eth by matching it. <Link href="/match" className="underline uppercase">Match</Link></p>
-    </div>
-  );
+  const matchData = useAppContext()[1];
+  let totalReimbursement = BigNumber.from(0);
+  const countTotalReimbursments = () => matchData.reimbursementPerTrait.map((reimbursement: BigNumber, i) => { 
+    console.log('reimbursement', reimbursement);
+    if (reimbursement && utils.formatEther(reimbursement) !== "0.0") {
+      totalReimbursement = totalReimbursement.add(reimbursement);
+    }
+    
+    console.log('totalReimbursement', totalReimbursement);
+    return
+  });
+
+  countTotalReimbursments();
+  
+  if (matchData.auctionedNounDonations && utils.formatEther(totalReimbursement) !== "0.0") {
+    return (
+      <div className="bg-blue-500 p-2 text-center">
+        <p className="text-white">Noun {matchData.auctionedNounId} has a request to be matched! earn Ξ  {utils.formatEther(totalReimbursement)} by matching it. <Link href="/match"><a className="underline uppercase font-bold">Match</a></Link></p>
+      </div>
+    );
+  }
 }
 
 export default MatchBanner;

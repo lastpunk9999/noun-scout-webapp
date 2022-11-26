@@ -15,7 +15,7 @@ type AddOrgsProps = {
 
 const AddOrgs = (props: AddOrgsProps) => {
   const [amount, setAmount] = useState<string | undefined>(undefined);
-  const doneesList = useAppContext();
+  const doneesList = useAppContext()[0];
 
   useEffect(() => {
     if (amount) {

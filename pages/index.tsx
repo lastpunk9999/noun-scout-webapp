@@ -1,17 +1,9 @@
 import { useMemo, useState } from "react";
 import type { NextPage } from "next";
-import { useContractRead, useProvider } from "wagmi";
-import { utils } from "ethers";
-import { ImageData } from "@nouns/assets";
-import { nounSeekContract } from "../config";
-import useFakeNoun from "../hooks/useFakeNoun";
 import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
-import NounWithMatches from "./match/NounWithMatches";
 import ExampleNoun from "../components/ExampleNoun";
-import { TraitNameAndImageData } from "../types";
-import RequestTableRow from "../components/RequestTableRow";
 
 const Home: NextPage = () => {
   // Get donations pertaining to next noun
