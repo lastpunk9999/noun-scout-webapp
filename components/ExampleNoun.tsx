@@ -8,6 +8,7 @@ import useFakeNoun from "../hooks/useFakeNoun";
 import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
 import MatchItem from "../pages/match/MatchItem";
 import { Donation, DonationsByTraitType, NounSeed, TraitAndDonations, TraitNameAndImageData } from "../types";
+import { traitTypeNamesById } from "../utils";
 import RequestCard from "./RequestCard";
 
 type ExampleNounProps = {
@@ -23,7 +24,8 @@ const ExampleNoun = (props: ExampleNounProps) => {
         glasses: Math.floor(Math.random() * 4),
     });
     const [donationsForFOMOHead, setDonationsForFOMOHead] = useState<TraitAndDonations>(props.nextAuctionDonations.heads[0]);
-    
+    const [traitsWithDonations, setTraitsWithDonations] = useState<number[]>([3]);
+
     const buildNounSeed = () => {
       const newSeed = {} as NounSeed;
       newSeed.background = Math.floor(Math.random() * 2);
@@ -39,13 +41,16 @@ const ExampleNoun = (props: ExampleNounProps) => {
       const donations = Object.values(props.nextAuctionDonations.heads);
       const length = donations.length;
       setDonationsForFOMOHead(donations[Math.floor(Math.random() * length)]);
-
     };
+    const additionalExampleTraits = [1, 2, 4];
 
     useEffect(() => {
       const timerId = setInterval( () => {
         setNounSeed(buildNounSeed());
         buildDonationsForFOMOHead();
+        // on occasion, add additional traits to the example
+        const additionalTrait = [3, additionalExampleTraits[Math.floor(Math.random() * additionalExampleTraits.length)]];
+        setTraitsWithDonations(nounSeed.head > 150 ? additionalTrait : [3]);
       }, 5000);
       return () => {
         clearInterval(timerId);
@@ -57,20 +62,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
 
     // Find donations that match the FOMO Noun head
     // const donationsForFOMOHead = props.nextAuctionDonations.heads[0];
-    const exampleTrait: TraitNameAndImageData = {
-      name: "",
-      traitId: nounSeed.head,
-      traitTypeId: 3,
-      type: "head",
-      imageData: {
-        filename: "",
-        data: ""
-      }
-    }
-
+  
     const totalDonationsForFOMOHead = donationsForFOMOHead?.donations
-    .map((d) => d.amount)
-    .reduce((m, d) => m.add(d));
+      .map((d) => d.amount)
+      .reduce((m, d) => m.add(d));
 
   return (
     <>
@@ -79,17 +74,34 @@ const ExampleNoun = (props: ExampleNounProps) => {
         <p>If this Noun were minted, {!totalDonationsForFOMOHead ? "no funds would be sent to non-profits." : `${utils.formatEther(totalDonationsForFOMOHead)} ETH would be sent to non-profits.`}</p>
       </div>
       <div className="mb-20">
-        <div className="flex justify-center gap-10 flex-col md:flex-row rounded overflow-hidden shadow-lg p-3">
-          <div className="w-md">
+        <div className="flex justify-center gap-5 flex-col md:flex-row rounded overflow-hidden">
+          <div className="w-full max-w-md text-center">
             <img src={src} alt="" className="w-full aspect-square rounded" />
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">	
-              <div className="flex flex-col">
-                <RequestCard 
-                  trait={exampleTrait}
-                  donations={donationsForFOMOHead?.donations}
-                />
+          <div className="flex flex-col justify-center w-full">
+            <div className="mx-auto my-4 w-full">	
+              <div className="flex flex-col gap-5 w-full">
+                  <p className="text-md font-bold text-center mb-1">    
+                    {traitsWithDonations.length} sponsored trait{traitsWithDonations.length > 1 && ('s')}
+                  </p>
+                  {traitsWithDonations.map((traitTypeId) => {
+                    const exampleTrait: TraitNameAndImageData = {
+                      name: "",
+                      traitId: nounSeed[traitTypeNamesById(traitTypeId)[0]],
+                      traitTypeId: traitTypeId,
+                      type: traitTypeNamesById(traitTypeId)[0],
+                      imageData: {
+                        filename: "",
+                        data: ""
+                      }
+                    }
+                    return (
+                      <RequestCard 
+                        trait={exampleTrait}
+                        donations={donationsForFOMOHead?.donations}
+                      />
+                    )
+                  })}
               </div>
             </div>
           </div>

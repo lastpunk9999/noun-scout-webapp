@@ -28,12 +28,14 @@ const Home: NextPage = () => {
       </div>
 
       {/* Example rotator */}
-      <ExampleNoun nextAuctionDonations={nextAuctionDonations} />
+      <ExampleNoun 
+        nextAuctionDonations={nextAuctionDonations} 
+        />
       <div className="text-center mt-10">
         <h2 className="text-3xl font-bold">Open sponsorships</h2>
         <p className="">{nextAuctionedId} Noun 500 available to mint in X hours, Y minutes</p>
       </div>
-      
+
       {/* Filters */}
       <div className="justify-center mt-5 mb-10 select-none flex">
         <button onClick={() => setFilteredTraitType('heads')} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-blue bg-slate-900 hover:text-white hover:bg-blue-light focus:outline-none active:shadow-none mr-2">X Heads</button>
@@ -46,7 +48,7 @@ const Home: NextPage = () => {
       </div>
 
       {/* Grid of sponsorships */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="flex flex-col">
         {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
           if (Object.values(traits).length == 0) return;
           if (filteredTraitType && traitType != filteredTraitType) return;
@@ -65,6 +67,25 @@ const Home: NextPage = () => {
           );
         })}
       </div>
+      {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
+          if (Object.values(traits).length == 0) return;
+          if (filteredTraitType && traitType != filteredTraitType) return;
+          return (
+            <>              
+              {Object.values(traits).map((request) => {
+                return (
+                  <RequestCard 
+                    trait={request.trait}
+                    donations={request.donations}
+                    key={request.trait.name}
+                  />
+                );
+              })}
+            </>
+          );
+        })}
+      </div> */}
     </div>
   );
 };
