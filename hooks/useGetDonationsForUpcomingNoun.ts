@@ -6,7 +6,7 @@ import { DonationsByTraitType } from "../types";
 
 export interface DonationsForUpcomingNoun {
   nextAuctionDonations: DonationsByTraitType;
-  nextAuctionedId: number;
+  nextAuctionId: number;
 }
 
 export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNoun {
@@ -32,6 +32,6 @@ export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNo
       () => extractDonations(donations.nextAuctionDonations, donees),
       [donations, donees]
     ),
-    nextAuctionedId: data && donations.nextAuctionedId,
+    nextAuctionId: data && donations.nextAuctionId,
   };
 }
