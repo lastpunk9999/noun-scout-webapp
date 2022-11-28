@@ -3,7 +3,7 @@ import RequestCard from "../../components/RequestCard";
 import { BigNumber, utils } from "ethers";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import { nounSeekContract } from "../../config";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import cx from "classnames";
 import Link from "next/link";
 import { traitTypeNamesById } from "../../utils";
@@ -11,6 +11,7 @@ import { ImageData } from "@nouns/assets";
 
 type MatchItemProps = {
   donations: readonly BigNumber[];
+  reimbursement: BigNumber;
   traitTypeId: number;
   traitId: number;
   nounSeed: NounSeed
@@ -67,20 +68,8 @@ const MatchItem = (props: MatchItemProps) => {
       }
     }
   });
-  
-  const traitReimbursmentTotal = () => {
-    let totalAmount = BigNumber.from(0);
-    donationData.map(donation => {
-      // reimbursmentAmount = donation ? reimbursmentAmount + Number(utils.formatEther(donation.amount)) : 0;
-      if (donation && !donation.amount.isZero()) {
-        totalAmount = totalAmount.add(donation.amount);
-      }
-    })
-    const reimbursmentAmount = (Number(utils.formatEther(totalAmount)) * 0.01).toFixed(4);
-    return reimbursmentAmount;
-  }
 
-  const buildTraitFromIds = (traitTypeId: number, traitId: number) => {
+  const buildTraitFromIds = useCallback((traitTypeId: number, traitId: number) => {
     const traitTypeNames = traitTypeNamesById(traitTypeId);
     const trait: TraitNameAndImageData = {
       name: ImageData.images[traitTypeNames[1]][traitId].filename,
@@ -91,8 +80,8 @@ const MatchItem = (props: MatchItemProps) => {
     }
     console.log('buildTrait results', trait);
     return trait;
-  }
-  
+  },[])
+
   return (
     <div className="my-5">
       {isTransactionComplete ? (

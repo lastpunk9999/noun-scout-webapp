@@ -17,24 +17,20 @@ const Match: NextPage = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2 text-center">Open Matches</h1>
-      {matchData.auctionedNounDonations && (
-        <>
-          <NounWithMatches
-            nounId={matchData.auctionedNounId}
-            donations={matchData.auctionedNounDonations}
-          />
-        </>
-        )
-      }
-      {matchData.nonAuctionedNounId === matchData.auctionedNounId -1 && matchData.nonAuctionedNounDonations && (
-        <>
-          <NounWithMatches
-            nounId={matchData.nonAuctionedNounId}
-            donations={matchData.nonAuctionedNounDonations}
-          />
-        </>
-        )
-      }
+      <NounWithMatches
+        nounId={matchData.auctionedNounId}
+        donations={matchData.auctionedNounDonations}
+        reimbursements={matchData.reimbursementPerTrait}
+      />
+      {matchData.nonAuctionedNounId === matchData.auctionedNounId - 1 &&
+        matchData.nonAuctionedNounDonations && (
+          <>
+            <NounWithMatches
+              nounId={matchData.nonAuctionedNounId}
+              donations={matchData.nonAuctionedNounDonations}
+            />
+          </>
+        )}
     </div>
   );
 };
