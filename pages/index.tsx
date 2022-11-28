@@ -5,8 +5,10 @@ import RequestCard from "../components/RequestCard";
 import Link from "next/link";
 import ExampleNoun from "../components/ExampleNoun";
 import { useAppContext } from "../context/state";
+import { useIsMounted } from "../hooks";
 
 const Home: NextPage = () => {
+  const isMounted = useIsMounted();
   // Get donations pertaining to next noun
   const { nextAuctionDonations, nextAuctionedId } =
     useGetDonationsForNextNoun();
@@ -14,6 +16,8 @@ const Home: NextPage = () => {
   const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
   const traitTypes = ["backgrounds", "bodies", "accessories", "heads", "glasses"];
   const matchData = useAppContext()[1];
+  
+  if (!isMounted && !matchData) return null;
   return (
     <div className="container mx-auto pb-10">
       {/* Intro description */}
@@ -24,9 +28,11 @@ const Home: NextPage = () => {
       </div>
 
       {/* Example rotator */}
-      <ExampleNoun 
-        nextAuctionDonations={nextAuctionDonations} 
+      {nextAuctionDonations && 
+        <ExampleNoun 
+          nextAuctionDonations={nextAuctionDonations} 
         />
+      }
       <div className="text-center mt-10">
         <h2 className="text-3xl font-bold">Open sponsorships</h2>
         {/* TODO: Add countdown clock */}
@@ -35,7 +41,7 @@ const Home: NextPage = () => {
 
       {/* Filters */}
       <div className="justify-center mt-5 mb-10 select-none flex">
-        {orderedTraitTitles.map((traitType, index) => {
+        {nextAuctionDonations && orderedTraitTitles.map((traitType, index) => {
           const traitCount = Object.values(nextAuctionDonations[traitTypes[traitType]]).length
           return (
             <button
@@ -54,10 +60,6 @@ const Home: NextPage = () => {
             </button>
           );
         })}
-        {/* <button onClick={() => setFilteredTraitType(3)} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-blue bg-slate-900 hover:text-white hover:bg-blue-light focus:outline-none active:shadow-none mr-2">X Heads</button>
-        <button onClick={() => setFilteredTraitType(4)} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-orange bg-slate-900 hover:text-white hover:bg-orange-light focus:outline-none active:shadow-none mr-2">Y Glasses</button>
-        <button onClick={() => setFilteredTraitType(2)} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-red bg-slate-900 hover:text-white hover:bg-red-light focus:outline-none active:shadow-none mr-2">Z Accessories</button>	
-        <button onClick={() => setFilteredTraitType(1)} className="py-2 px-4 no-underline rounded-full text-white font-sans font-semibold text-sm border-red bg-slate-900 hover:text-white hover:bg-red-light focus:outline-none active:shadow-none">ZZ Bodies</button>	 */}
         {filteredTraitType && (
           <button onClick={() => setFilteredTraitType(null)} className="py-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none">clear</button>	
         )}
@@ -65,7 +67,7 @@ const Home: NextPage = () => {
 
       {/* Grid of sponsorships */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        {Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
+        {nextAuctionDonations && Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
           const traitTypeId = traitTypes.indexOf(traitType);
           if (Object.values(traits).length == 0) return;
           if (filteredTraitType && traitTypeId != filteredTraitType) return;

@@ -25,7 +25,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   }).data;
 
   // get noun image
-  const { parts, background } = getNounData(nounSeed);
+  const { parts, background } = nounSeed ? getNounData(nounSeed) : { parts: [], background: '' };
   const svgBinary = buildSVG(parts, ImageData.palette, background);
   const svgBase64 = btoa(svgBinary);
 
@@ -41,7 +41,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
         <h3 className="text-lg font-bold">Noun {props.nounId}</h3>
         <img src={`data:image/svg+xml;base64,${svgBase64}`} className="w-40 rounded-lg" />
       </div>
-      {traitsWithDonation.map((traitTypeId) => {
+      {nounSeed && traitsWithDonation.map((traitTypeId) => {
         const traitDonations = props.donations[traitTypeId];
         return (
           <MatchItem 

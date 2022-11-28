@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
 import { nounSeekContract } from "../../config";
 import NounWithMatches from "./NounWithMatches";
+import { useIsMounted } from "../../hooks";
 
 const Match: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -20,8 +21,8 @@ const Match: NextPage = () => {
     abi: nounSeekContract.abi,
     functionName: 'donationsAndReimbursementForPreviousNoun',
   }).data;
-  
-  if (!isConnected) return null;
+  // const isMounted = useIsMounted();
+  if (!isConnected || !matchData) return null;
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2 text-center">Open Matches</h1>

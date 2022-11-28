@@ -25,13 +25,13 @@ export default function useGetDonationsForNextNoun(): DonationsForNextNoun {
     ],
   });
 
-  const [donations, donees] = data;
-
+  const [donations, donees] = data || [];
+  
   return {
-    nextAuctionDonations: useMemo(
+    nextAuctionDonations: data && useMemo(
       () => extractDonations(donations.nextAuctionDonations, donees),
       [donations, donees]
     ),
-    nextAuctionedId: donations.nextAuctionedId,
+    nextAuctionedId: data && donations.nextAuctionedId,
   };
 }
