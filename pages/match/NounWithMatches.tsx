@@ -1,6 +1,7 @@
 import { getNounData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
 import { BigNumber, utils } from "ethers";
+import { useMemo } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../../config";
 import MatchItem from "./MatchItem";
@@ -25,9 +26,12 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   }).data;
 
   // get noun image
-  const { parts, background } = nounSeed ? getNounData(nounSeed) : { parts: [], background: '' };
-  const svgBinary = buildSVG(parts, ImageData.palette, background);
-  const svgBase64 = btoa(svgBinary);
+  const svgBase64 = useMemo(() => {
+    if (!nounSeed) return;
+    const { parts, background } = getNounData(nounSeed);
+    const svgBinary = buildSVG(parts, ImageData.palette, background);
+    return btoa(svgBinary);
+  }, [nounSeed])
 
   const traitsWithDonation = [];
   props.donations.map((doneeAmounts, i) => {
