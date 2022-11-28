@@ -13,7 +13,7 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 import { AppWrapper } from "../context/state";
-import Layout from "../components/Layout";
+import Layout from "../components/layout";
 import { useIsMounted } from "../hooks";
 
 const chain = chainList[process.env.NEXT_PUBLIC_CHAIN_NAME.toLowerCase()];
