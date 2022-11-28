@@ -8,7 +8,8 @@ type MatchBannerProps = {
 }
 
 const MatchBanner = (props: MatchBannerProps) => {
-  const matchData = useAppContext()[1];
+  const [,matchData] = useAppContext() ?? [];
+  if (!matchData) return;
   let totalReimbursement = BigNumber.from(0);
   const countTotalReimbursments = () => matchData.reimbursementPerTrait.map((reimbursement: BigNumber, i) => { 
     if (reimbursement && utils.formatEther(reimbursement) !== "0.0") {

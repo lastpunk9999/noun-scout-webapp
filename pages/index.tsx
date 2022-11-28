@@ -15,8 +15,8 @@ const Home: NextPage = () => {
   const [filteredTraitType, setFilteredTraitType] = useState<number | null>();
   const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
   const traitTypes = ["backgrounds", "bodies", "accessories", "heads", "glasses"];
-  const matchData = useAppContext()[1];
-  
+  const [,matchData] = useAppContext() ?? [];
+
   if (!isMounted && !matchData) return null;
   return (
     <div className="container mx-auto pb-10">
