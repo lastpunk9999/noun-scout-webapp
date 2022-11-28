@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../config";
 import useFakeNoun from "../hooks/useFakeNoun";
-import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
+import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import MatchItem from "../pages/match/MatchItem";
 import { Donation, DonationsByTraitType, NounSeed, TraitAndDonations, TraitNameAndImageData } from "../types";
 import { traitTypeNamesById } from "../utils";

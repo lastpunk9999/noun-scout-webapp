@@ -26,7 +26,7 @@ export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNo
   });
 
   const [donations, donees] = data || [];
-  
+
   return {
     nextAuctionDonations: data && useMemo(
       () => extractDonations(donations.nextAuctionDonations, donees),

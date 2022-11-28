@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { NextPage } from "next";
-import useGetDonationsForNextNoun from "../hooks/useGetDonationsForNextNoun";
+import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
 import ExampleNoun from "../components/ExampleNoun";
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   const isMounted = useIsMounted();
   // Get donations pertaining to next noun
   const { nextAuctionDonations, nextAuctionedId } =
-    useGetDonationsForNextNoun();
+    useGetDonationsForUpcomingNoun();
   const [filteredTraitType, setFilteredTraitType] = useState<number | null>();
   const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
   const traitTypes = ["backgrounds", "bodies", "accessories", "heads", "glasses"];
