@@ -21,8 +21,8 @@ const Home: NextPage = () => {
   return (
     <div className="container mx-auto pb-10">
       {/* Intro description */}
-      <div className="text-center py-2 max-w-lg mx-auto">
-        <h1 className="text-3xl font-bold mb-2">Sponsor Nouns. <br />Send money to charity.</h1>
+      <div className="text-center py-2 max-w-lg mx-auto my-10">
+        <h1 className="text-3xl font-serif mb-2">Sponsor Nouns. <br />Send money to charity.</h1>
         <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis parturient.</p>
         <Link href="/add"><a className="underline bold">Create a Request</a></Link>
       </div>

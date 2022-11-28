@@ -23,7 +23,7 @@ const MatchBanner = (props: MatchBannerProps) => {
   if (matchData.auctionedNounDonations && utils.formatEther(totalReimbursement) !== "0.0") {
     return (
       <div className="bg-blue-500 p-2 text-center">
-        <p className="text-white">Noun {matchData.auctionedNounId} has a request to be matched! earn Ξ  {utils.formatEther(totalReimbursement)} by matching it. <Link href="/match"><a className="underline uppercase font-bold">Match</a></Link></p>
+        <p className="text-white">Noun {matchData.auctionedNounId} has a request to be matched! earn Ξ  {utils.formatEther(totalReimbursement)} by matching it. <Link href="/match"><a className="underline uppercase font-bold text-white">Match</a></Link></p>
       </div>
     );
   }

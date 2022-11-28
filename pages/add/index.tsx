@@ -67,7 +67,7 @@ const Add: NextPage = () => {
     <div>
       <h1 className="text-3xl font-bold mb-2 text-center">Sponsor a Noun trait</h1>
       {/* Stepper */}
-      <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">	
+      <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-white rounded-lg">	
         <div className="flex p-1 justify-center gap-5 bg-white border-slate-200 border-2 items-center rounded-lg">
           {steps.map((step, i) => {
             return (
