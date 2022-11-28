@@ -16,7 +16,7 @@ export function AppWrapper({ children }) {
       {
         address: nounSeekContract.address,
         abi: nounSeekContract.abi,
-        functionName: 'donationsAndReimbursementForPreviousNoun',
+        functionName: 'donationsForMatchableNoun',
       },
     ],
   });

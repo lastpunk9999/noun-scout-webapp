@@ -22,6 +22,21 @@ const abi = [
   },
   {
     inputs: [],
+    name: "AlreadyRemoved",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AuctionEndingSoon",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "DonationAlreadySent",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InactiveDonee",
     type: "error",
   },
@@ -39,11 +54,6 @@ const abi = [
   {
     inputs: [],
     name: "NoMatch",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TooLate",
     type: "error",
   },
   {
@@ -149,6 +159,32 @@ const abi = [
       },
     ],
     name: "Matched",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newMaxReimbursement",
+        type: "uint256",
+      },
+    ],
+    name: "MaxReimbursementChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newMinReimbursement",
+        type: "uint256",
+      },
+    ],
+    name: "MinReimbursementChanged",
     type: "event",
   },
   {
@@ -342,15 +378,15 @@ const abi = [
         type: "uint16",
       },
       {
-        indexed: false,
-        internalType: "uint16",
-        name: "doneeId",
-        type: "uint16",
-      },
-      {
         indexed: true,
         internalType: "uint16",
         name: "nounId",
+        type: "uint16",
+      },
+      {
+        indexed: false,
+        internalType: "uint16",
+        name: "doneeId",
         type: "uint16",
       },
       {
@@ -403,61 +439,6 @@ const abi = [
         internalType: "uint16",
         name: "",
         type: "uint16",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "MAX_REIMBURSEMENT",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "MIN_REIMBURSEMENT",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "_donees",
-    outputs: [
-      {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "active",
-        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -582,40 +563,6 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-      {
-        internalType: "uint16",
-        name: "traitId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nounId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "doneeId",
-        type: "uint16",
-      },
-    ],
-    name: "amountForDoneeByTrait",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "bytes32",
         name: "",
         type: "bytes32",
@@ -665,6 +612,19 @@ const abi = [
   },
   {
     inputs: [],
+    name: "baseReimbursementBPS",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "bodyCount",
     outputs: [
       {
@@ -678,7 +638,7 @@ const abi = [
   },
   {
     inputs: [],
-    name: "donationsAndReimbursementForPreviousNoun",
+    name: "donationsForMatchableNoun",
     outputs: [
       {
         internalType: "uint16",
@@ -709,174 +669,6 @@ const abi = [
         internalType: "uint256[5]",
         name: "reimbursementPerTrait",
         type: "uint256[5]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-    ],
-    name: "donationsAndReimbursementForPreviousNounByTrait",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "auctionedNounId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nonAuctionedNounId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256[]",
-        name: "auctionedNounDonations",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "nonAuctionedNounDonations",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256",
-        name: "totalDonations",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "reimbursement",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "donationsForCurrentNoun",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "currentAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "prevNonAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256[][5]",
-        name: "currentAuctionDonations",
-        type: "uint256[][5]",
-      },
-      {
-        internalType: "uint256[][5]",
-        name: "prevNonAuctionDonations",
-        type: "uint256[][5]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-    ],
-    name: "donationsForCurrentNounByTrait",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "currentAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "prevNonAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256[]",
-        name: "currentAuctionDonations",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "prevNonAuctionDonations",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "donationsForNextNoun",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "nextAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nextNonAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256[][][5]",
-        name: "nextAuctionDonations",
-        type: "uint256[][][5]",
-      },
-      {
-        internalType: "uint256[][][5]",
-        name: "nextNonAuctionDonations",
-        type: "uint256[][][5]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-    ],
-    name: "donationsForNextNounByTrait",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "nextAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nextNonAuctionId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256[][]",
-        name: "nextAuctionDonations",
-        type: "uint256[][]",
-      },
-      {
-        internalType: "uint256[][]",
-        name: "nextNonAuctionDonations",
-        type: "uint256[][]",
       },
     ],
     stateMutability: "view",
@@ -926,6 +718,110 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "enum NounSeek.Traits",
+        name: "trait",
+        type: "uint8",
+      },
+      {
+        internalType: "uint16",
+        name: "traitId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "nounId",
+        type: "uint16",
+      },
+    ],
+    name: "donationsForNounIdByTraitId",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "donations",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "donationsForNounOnAuction",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "currentAuctionId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "prevNonAuctionId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint256[][5]",
+        name: "currentAuctionDonations",
+        type: "uint256[][5]",
+      },
+      {
+        internalType: "uint256[][5]",
+        name: "prevNonAuctionDonations",
+        type: "uint256[][5]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint16",
+        name: "nounId",
+        type: "uint16",
+      },
+    ],
+    name: "donationsForOnChainNoun",
+    outputs: [
+      {
+        internalType: "uint256[][5]",
+        name: "donations",
+        type: "uint256[][5]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "donationsForUpcomingNoun",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "nextAuctionId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "nextNonAuctionId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint256[][][5]",
+        name: "nextAuctionDonations",
+        type: "uint256[][][5]",
+      },
+      {
+        internalType: "uint256[][][5]",
+        name: "nextNonAuctionDonations",
+        type: "uint256[][][5]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "donees",
     outputs: [
@@ -950,19 +846,6 @@ const abi = [
         internalType: "struct NounSeek.Donee[]",
         name: "",
         type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "doneesCount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "length",
-        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -1044,12 +927,25 @@ const abi = [
   },
   {
     inputs: [],
-    name: "maxReimbursementBPS",
+    name: "maxReimbursement",
     outputs: [
       {
-        internalType: "uint16",
+        internalType: "uint256",
         name: "",
-        type: "uint16",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "minReimbursement",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -1071,35 +967,6 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-      {
-        internalType: "uint16",
-        name: "traitId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nounId",
-        type: "uint16",
-      },
-    ],
-    name: "nonceForTraits",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "nonce",
-        type: "uint16",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "bytes32",
         name: "",
         type: "bytes32",
@@ -1111,35 +978,6 @@ const abi = [
         internalType: "uint16",
         name: "",
         type: "uint16",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "enum NounSeek.Traits[]",
-        name: "traits",
-        type: "uint8[]",
-      },
-      {
-        internalType: "uint16[]",
-        name: "traitIds",
-        type: "uint16[]",
-      },
-      {
-        internalType: "uint16[]",
-        name: "nounIds",
-        type: "uint16[]",
-      },
-    ],
-    name: "noncesForTraits",
-    outputs: [
-      {
-        internalType: "uint16[]",
-        name: "noncesList",
-        type: "uint16[]",
       },
     ],
     stateMutability: "view",
@@ -1207,32 +1045,6 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "requestId",
-        type: "uint256",
-      },
-    ],
-    name: "remove",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "requester",
         type: "address",
@@ -1243,7 +1055,7 @@ const abi = [
         type: "uint256",
       },
     ],
-    name: "requestById",
+    name: "rawRequestById",
     outputs: [
       {
         components: [
@@ -1284,6 +1096,83 @@ const abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "requester",
+        type: "address",
+      },
+    ],
+    name: "rawRequestsByAddress",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint16",
+            name: "nonce",
+            type: "uint16",
+          },
+          {
+            internalType: "enum NounSeek.Traits",
+            name: "trait",
+            type: "uint8",
+          },
+          {
+            internalType: "uint16",
+            name: "traitId",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "doneeId",
+            type: "uint16",
+          },
+          {
+            internalType: "uint16",
+            name: "nounId",
+            type: "uint16",
+          },
+          {
+            internalType: "uint128",
+            name: "amount",
+            type: "uint128",
+          },
+        ],
+        internalType: "struct NounSeek.Request[]",
+        name: "requests",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "requestId",
+        type: "uint256",
+      },
+    ],
+    name: "remove",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1345,46 +1234,12 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "enum NounSeek.Traits",
-        name: "requestTrait",
-        type: "uint8",
-      },
-      {
-        internalType: "uint16",
-        name: "requestTraitId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "requestNounId",
-        type: "uint16",
-      },
-      {
-        internalType: "uint16",
-        name: "nounId",
-        type: "uint16",
-      },
-    ],
-    name: "requestParamsMatchNounParams",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "requester",
         type: "address",
       },
     ],
-    name: "requestsActiveByAddress",
+    name: "requestsByAddress",
     outputs: [
       {
         components: [
@@ -1414,11 +1269,6 @@ const abi = [
             type: "uint16",
           },
           {
-            internalType: "string",
-            name: "doneeName",
-            type: "string",
-          },
-          {
             internalType: "uint16",
             name: "nounId",
             type: "uint16",
@@ -1428,8 +1278,13 @@ const abi = [
             name: "amount",
             type: "uint128",
           },
+          {
+            internalType: "enum NounSeek.RequestStatus",
+            name: "status",
+            type: "uint8",
+          },
         ],
-        internalType: "struct NounSeek.ActiveRequest[]",
+        internalType: "struct NounSeek.RequestWithStatus[]",
         name: "requests",
         type: "tuple[]",
       },
@@ -1440,52 +1295,45 @@ const abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "requester",
-        type: "address",
+        internalType: "uint256",
+        name: "doneeId",
+        type: "uint256",
       },
-    ],
-    name: "requestsByAddress",
-    outputs: [
       {
-        components: [
-          {
-            internalType: "uint16",
-            name: "nonce",
-            type: "uint16",
-          },
-          {
-            internalType: "enum NounSeek.Traits",
-            name: "trait",
-            type: "uint8",
-          },
-          {
-            internalType: "uint16",
-            name: "traitId",
-            type: "uint16",
-          },
-          {
-            internalType: "uint16",
-            name: "doneeId",
-            type: "uint16",
-          },
-          {
-            internalType: "uint16",
-            name: "nounId",
-            type: "uint16",
-          },
-          {
-            internalType: "uint128",
-            name: "amount",
-            type: "uint128",
-          },
-        ],
-        internalType: "struct NounSeek.Request[]",
-        name: "requests",
-        type: "tuple[]",
+        internalType: "bool",
+        name: "active",
+        type: "bool",
       },
     ],
-    stateMutability: "view",
+    name: "setDoneeActive",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMaxReimbursement",
+        type: "uint256",
+      },
+    ],
+    name: "setMaxReimbursement",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinReimbursement",
+        type: "uint256",
+      },
+    ],
+    name: "setMinReimbursement",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -1510,19 +1358,6 @@ const abi = [
       },
     ],
     name: "setReimbursementBPS",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "doneeId",
-        type: "uint256",
-      },
-    ],
-    name: "toggleDoneeActive",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

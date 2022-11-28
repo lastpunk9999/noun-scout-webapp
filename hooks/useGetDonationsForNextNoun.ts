@@ -4,18 +4,18 @@ import { nounSeekContract } from "../config";
 import { extractDonations } from "../utils";
 import { DonationsByTraitType } from "../types";
 
-export interface DonationsForNextNoun {
+export interface DonationsForUpcomingNoun {
   nextAuctionDonations: DonationsByTraitType;
   nextAuctionedId: number;
 }
 
-export default function useGetDonationsForNextNoun(): DonationsForNextNoun {
+export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNoun {
   const { data } = useContractReads({
     contracts: [
       {
         address: nounSeekContract.address,
         abi: nounSeekContract.abi,
-        functionName: "donationsForNextNoun",
+        functionName: "donationsForUpcomingNoun",
       },
       {
         address: nounSeekContract.address,

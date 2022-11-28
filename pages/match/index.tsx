@@ -19,7 +19,7 @@ const Match: NextPage = () => {
   const matchData = useContractRead({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
-    functionName: 'donationsAndReimbursementForPreviousNoun',
+    functionName: 'donationsForMatchableNoun',
   }).data;
   // const isMounted = useIsMounted();
   if (!isConnected || !matchData) return null;

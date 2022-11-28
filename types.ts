@@ -21,7 +21,7 @@ export interface Request {
   donation: Donation;
 }
 
-export interface DonationsForNextNoun {
+export interface DonationsForUpcomingNoun {
   nextAuctionedId: number;
   nextNonAuctionedId: number;
   nextAuctionDonations: [
