@@ -23,13 +23,13 @@ const MatchItem = (props: MatchItemProps) => {
   const [isTransactionLoading, setIsTransactionLoading] = useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] = useState<boolean>(false);
 
-  const { config } = usePrepareContractWrite({ 
-    address: nounSeekContract.address, 
+  const { config } = usePrepareContractWrite({
+    address: nounSeekContract.address,
     abi: nounSeekContract.abi,
     functionName: 'matchAndDonate',
     args: [
-      props.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses) 
-    ], 
+      props.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
+    ],
     onError(error) {
       console.log("Error", error);
       setErrorMessage(error.error.message);
@@ -37,7 +37,7 @@ const MatchItem = (props: MatchItemProps) => {
   });
 
   const { isLoading, isSuccess, write } = useContractWrite({
-    ...config, 
+    ...config,
     onSuccess() {
       setIsTransactionLoading(true);
     },
@@ -88,10 +88,11 @@ const MatchItem = (props: MatchItemProps) => {
         <div className="text-center  bg-slate-200 p-10 rounded-lg">
           <p className="text-lg font-bold">Match confirmed!</p>
           <p className="underline">
-            <a href={
-              process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet" ? 
-              `https://etherscan.io/tx/${transactionData}` : 
-              `https://goerli.etherscan.io/tx/${transactionData}`
+            <a
+              href={
+                process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
+                  ? `https://etherscan.io/tx/${transactionData}`
+                  : `https://goerli.etherscan.io/tx/${transactionData}`
               }
               target="_blank"
             >
@@ -101,35 +102,43 @@ const MatchItem = (props: MatchItemProps) => {
         </div>
       ) : (
         <div className="flex flex-row w-full gap-10 items-center justify-between">
-          <div className={cx('w-full', isTransactionLoading || isLoading ? 'opacity-40' : 'opacity-100')}>
-            <RequestCard 
+          <div
+            className={cx(
+              "w-full",
+              isTransactionLoading || isLoading ? "opacity-40" : "opacity-100"
+            )}
+          >
+            <RequestCard
               trait={buildTraitFromIds(props.traitTypeId, props.traitId)}
               donations={donationData}
               nounSeed={props.nounSeed}
             />
           </div>
           <div className="w-[25%] flex flex-col justify-center">
-              <button 
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
-                disabled={!write || isLoading || isTransactionLoading}
-                onClick={() => write?.()}
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
+              disabled={!write || isLoading || isTransactionLoading}
+              onClick={() => write?.()}
+            >
+              {isLoading || isTransactionLoading ? "Matching..." : "Match"}
+            </button>
+            {errorMessage && (
+              <div
+                className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
+                role="alert"
               >
-                {isLoading || isTransactionLoading ? "Matching..." : "Match"}
-              </button>
-              {errorMessage && (
-                <div className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center" role="alert">
-                  <strong className="font-bold">⌐×-×</strong> {" "}
-                  <span className="block sm:inline">{errorMessage}</span>
-                </div>
-              )}
-              {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
-              <p className="text-xs text-center">Reward: Ξ {traitReimbursmentTotal()}</p>
+                <strong className="font-bold">⌐×-×</strong>{" "}
+                <span className="block sm:inline">{errorMessage}</span>
+              </div>
+            )}
+            {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
+            <p className="text-xs text-center">
+              Reward: Ξ {utils.formatEther(props.reimbursement)}
+            </p>
           </div>
         </div>
       )}
-      
     </div>
-    
   );
 }
 
