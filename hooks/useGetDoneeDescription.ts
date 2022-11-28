@@ -8,7 +8,7 @@ export default function useGetDoneeDescription(doneeId: number) {
     ...donees[doneeId],
     ...doneeDescriptions[doneeId],
   };
-  return useMemo(() => 
+  return useMemo(() =>
     donee, [doneeId]
   );
 }

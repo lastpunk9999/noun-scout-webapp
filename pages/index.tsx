@@ -28,9 +28,9 @@ const Home: NextPage = () => {
       </div>
 
       {/* Example rotator */}
-      {nextAuctionDonations && 
-        <ExampleNoun 
-          nextAuctionDonations={nextAuctionDonations} 
+      {nextAuctionDonations &&
+        <ExampleNoun
+          nextAuctionDonations={nextAuctionDonations}
         />
       }
       <div className="text-center mt-10">
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
           );
         })}
         {filteredTraitType && (
-          <button onClick={() => setFilteredTraitType(null)} className="py-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none">clear</button>	
+          <button onClick={() => setFilteredTraitType(null)} className="py-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none">clear</button>
         )}
       </div>
 
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
           if (filteredTraitType && traitTypeId != filteredTraitType) return;
           const grid = Object.values(traits).filter(f => f.trait.traitTypeId === traitTypeId).map((request) => {
                 return (
-                  <RequestCard 
+                  <RequestCard
                     trait={request.trait}
                     donations={request.donations}
                     key={request.trait.name}
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
           return grid;
         })}
       </div>
-     
+
     </div>
   );
 };

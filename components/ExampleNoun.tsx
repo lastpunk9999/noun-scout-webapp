@@ -15,7 +15,7 @@ type ExampleNounProps = {
   nextAuctionDonations: DonationsByTraitType;
 }
 
-const ExampleNoun = (props: ExampleNounProps) => {   
+const ExampleNoun = (props: ExampleNounProps) => {
     const [nounSeed, setNounSeed] = useState<NounSeed>({
         background: Math.floor(Math.random() * 2),
         body: Math.floor(Math.random() * 4),
@@ -62,7 +62,7 @@ const ExampleNoun = (props: ExampleNounProps) => {
 
     // Find donations that match the FOMO Noun head
     // const donationsForFOMOHead = props.nextAuctionDonations.heads[0];
-  
+
     const totalDonationsForFOMOHead = donationsForFOMOHead?.donations
       .map((d) => d.amount)
       .reduce((m, d) => m.add(d));
@@ -79,9 +79,9 @@ const ExampleNoun = (props: ExampleNounProps) => {
             <img src={src} alt="" className="w-full aspect-square rounded" />
           </div>
           <div className="flex flex-col justify-center w-full">
-            <div className="mx-auto my-4 w-full">	
+            <div className="mx-auto my-4 w-full">
               <div className="flex flex-col gap-5 w-full">
-                  <p className="text-md font-bold text-center mb-1">    
+                  <p className="text-md font-bold text-center mb-1">
                     {traitsWithDonations.length} sponsored trait{traitsWithDonations.length > 1 && ('s')}
                   </p>
                   {traitsWithDonations.map((traitTypeId) => {
@@ -96,7 +96,7 @@ const ExampleNoun = (props: ExampleNounProps) => {
                       }
                     }
                     return (
-                      <RequestCard 
+                      <RequestCard
                         trait={exampleTrait}
                         donations={donationsForFOMOHead?.donations}
                       />
@@ -107,7 +107,7 @@ const ExampleNoun = (props: ExampleNounProps) => {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 }
