@@ -1,19 +1,15 @@
 import { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
+import { useAccount } from "wagmi";
 import { nounSeekContract } from "../../config";
 import NounWithMatches from "./NounWithMatches";
 import { useIsMounted } from "../../hooks";
+import { useAppContext } from "../../context/state";
 
 const Match: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
-
-  const matchData = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: 'donationsForMatchableNoun',
-  }).data;
+  const [,matchData] = useAppContext() ?? []
 
   // const isMounted = useIsMounted();
   if (!matchData) return null;
