@@ -28,10 +28,10 @@ export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNo
   const [donations, donees] = data || [];
 
   return {
-    nextAuctionDonations: data && useMemo(
-      () => extractDonations(donations.nextAuctionDonations, donees),
-      [donations, donees]
-    ),
-    nextAuctionId: data && donations.nextAuctionId,
+    nextAuctionDonations: useMemo(() => {
+      if (!data || !donations) return;
+      return extractDonations(donations.nextAuctionDonations, donees);
+    }, [data, donations, donees]),
+    nextAuctionId: data && donations && donations.nextAuctionId,
   };
 }
