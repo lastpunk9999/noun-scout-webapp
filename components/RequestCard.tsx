@@ -61,7 +61,7 @@ const RequestCard = (props: RequestCardProps) => {
             <ul className="flex gap-4">
               {props.donations.map((donation, i) => {
                 console.log('props.donations.map', donation);
-                if (donation && utils.formatEther(donation.amount) !== "0.0") { 
+                if (donation && !donation.amount.isZero()) {
                   return (
                     <RequestDonee 
                       key={i}

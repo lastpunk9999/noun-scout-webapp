@@ -60,7 +60,7 @@ const MatchItem = (props: MatchItemProps) => {
   });
 
   const donationData = props.donations.map((donation, index) => {
-    if (utils.formatEther(donation) !== '0.0') {
+    if (!donation.isZero()) {
       return {
         to: index,
         amount: donation
@@ -72,7 +72,7 @@ const MatchItem = (props: MatchItemProps) => {
     let totalAmount = BigNumber.from(0);
     donationData.map(donation => {
       // reimbursmentAmount = donation ? reimbursmentAmount + Number(utils.formatEther(donation.amount)) : 0;
-      if (donation && utils.formatEther(donation.amount) !== "0.0") {
+      if (donation && !donation.amount.isZero()) {
         totalAmount = totalAmount.add(donation.amount);
       }
     })

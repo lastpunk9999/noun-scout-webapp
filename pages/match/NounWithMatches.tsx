@@ -33,7 +33,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   props.donations.map((doneeAmounts, i) => {
     // loop through each donee to see if there are values other than 0
     // return an array of traits that have donations to match
-    doneeAmounts.filter(a => utils.formatEther(a) !== '0.0').length > 0 && traitsWithDonation.push(i);
+    doneeAmounts.filter(a => !a.isZero()).length > 0 && traitsWithDonation.push(i);
   });
   return (
     <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">	
