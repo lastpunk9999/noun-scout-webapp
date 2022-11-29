@@ -1,75 +1,63 @@
 const doneeDescriptions = [
     {
-      "title": "Audubon Society",
-      "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
-      "image": "https://placeimg.com/320/320/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Freedom Of The Press Foundation",
+      "description": "",
+      "image": "donees/donee-logo-fpf.png",
+      "address": "0x998F25Be40241CA5D8F5fCaF3591B5ED06EF3Be7"
     }, 
     {
-      "title": "The Nature Conservancy",
-      "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
-      "image": "https://placeimg.com/320/320/animals",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Internet Archive",
+      "description": "",
+      "image": "donees/donee-logo-ia.svg",
+      "address": "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
     }, 
     {
-      "title": "Sierra Club",
-      "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
-      "image": "https://placeimg.com/320/320/people",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Rainforest Foundation US",
+      "description": "",
+      "image": "donees/donee-logo-rf.jpeg",
+      "address": "0x54334Ebc8c9ef04bc28D614Caa557143ED8AfC87"
     },
     {
-      "title": "Donee #4",
-      "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
-      "image": "https://placeimg.com/400/400/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Tor Project",
+      "description": "",
+      "image": "donees/donee-logo-tor.jpeg",
+      "address": "0x532Fb5D00f40ced99B16d1E295C77Cda2Eb1BB4F"
     }, 
     {
-      "title": "Donee #5",
-      "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
-      "image": "https://placeimg.com/400/400/animals",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Freedom Of The Press Foundation",
+      "description": "",
+      "image": "donees/donee-logo-fpf.png",
+      "address": "0x998F25Be40241CA5D8F5fCaF3591B5ED06EF3Be7"
     }, 
     {
-      "title": "Donee #6",
-      "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
-      "image": "https://placeimg.com/400/400/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Internet Archive",
+      "description": "",
+      "image": "donees/donee-logo-ia.svg",
+      "address": "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
+    }, 
+    {
+      "title": "Rainforest Foundation US",
+      "description": "",
+      "image": "donees/donee-logo-rf.jpeg",
+      "address": "0x54334Ebc8c9ef04bc28D614Caa557143ED8AfC87"
     },
     {
-      "title": "Donee #7",
-      "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
-      "image": "https://placeimg.com/500/500/tech",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Tor Project",
+      "description": "",
+      "image": "donees/donee-logo-tor.jpeg",
+      "address": "0x532Fb5D00f40ced99B16d1E295C77Cda2Eb1BB4F"
     }, 
     {
-      "title": "Donee #8",
-      "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
-      "image": "https://placeimg.com/500/500/people",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Freedom Of The Press Foundation",
+      "description": "",
+      "image": "donees/donee-logo-fpf.png",
+      "address": "0x998F25Be40241CA5D8F5fCaF3591B5ED06EF3Be7"
     }, 
     {
-      "title": "Donee #9",
-      "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
-      "image": "https://placeimg.com/500/500/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
-    },
-    {
-      "title": "Donee #10",
-      "description": "The Audubon Society protects birds and the places they need, today and tomorrow, throughout the Americas using science, advocacy, education, and on-the-ground conservation.",
-      "image": "https://placeimg.com/320/320/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
+      "title": "Internet Archive",
+      "description": "",
+      "image": "donees/donee-logo-ia.svg",
+      "address": "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
     }, 
-    {
-      "title": "The Nature Conservancy",
-      "description": "The Nature Conservancy is a global conservation organization. We have been protecting nature for the benefit of all for more than 60 years. We work in all 50 United States and in more than 30 countries. We use science, policy, partnerships and field projects to conserve the lands and waters on which all life depends.",
-      "image": "https://placeimg.com/320/320/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
-    }, 
-    {
-      "title": "Sierra Club",
-      "description": "The Sierra Club is the nation's oldest and largest grassroots environmental organization. We work to protect communities, wild places, and the planet itself.",
-      "image": "https://placeimg.com/320/320/nature",
-      "address": "0x8A6636Af3e6B3589fDdf09611Db7d030A8532943"
-    },
   ] as const;
   export default doneeDescriptions;

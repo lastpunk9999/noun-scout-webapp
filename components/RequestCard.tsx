@@ -25,7 +25,7 @@ const RequestCard = (props: RequestCardProps) => {
   const traitTypeNames = traitTypeNamesById(traitTypeId);
   const part = traitTypeId !== 0 && getPart(traitTypeNames[1], traitId);
   return (
-    <div className="bg-white w-full rounded-lg overflow-hidden shadow-lg p-3">
+    <div className="bg-white p-3 w-full rounded-lg border border-slate-200 pb-4">
         <div>
           {props.id > 0 && (
             <>
@@ -33,8 +33,8 @@ const RequestCard = (props: RequestCardProps) => {
             </>
           )}
         </div>
-        <div className="flex gap-3">        
-          <div className="w-1/4">
+        <div className="flex gap-3 items-center">        
+          <div className="w-2/4">
             {/* Trait image - use bg color from noun if available */}
             <div 
               className="aspect-square rounded-lg w-lg relative"
