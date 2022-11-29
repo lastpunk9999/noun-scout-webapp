@@ -15,10 +15,13 @@ export default function NavBar() {
 
   return (
       <header>
-        <nav className="bg-white border-gray-200 px-4 md:px-6 py-3 border-b-2 md:mb-10">
+        <nav className="bg-white border-gray-200 px-4 md:px-6 py-3 md:py-5 border-b-2 md:mb-10">
             <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-                <h1 className="self-center text-xl font-semibold whitespace-nowrap">
-                  <a href="/" className="flex items-center">Noun Seek ⌐◨-◨</a>
+                <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
+                  <a href="/" className="flex items-center">
+                    {/* Noun Seek ⌐◨-◨ */}
+                    <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
+                  </a>
                 </h1>
                 <div className="flex items-center md:order-2 md:hidden">
                   <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">

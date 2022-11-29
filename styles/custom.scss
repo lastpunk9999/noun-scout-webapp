@@ -1,0 +1,21 @@
+html, body {
+    background: rgba(62, 75, 95, 0.04);
+    color: #555;
+}
+
+$darkBlue: #3E4B5F;
+a {
+    color: $darkBlue;
+    font-weight: bold;
+    text-decoration: underline;
+    &:hover {
+        text-decoration: none;
+    }
+}
+h1, h2, h3, h4, h5, h6 {
+    color: $darkBlue;
+}
+p, li {
+    color: #444;
+    line-height: 1.4;
+}

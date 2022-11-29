@@ -68,12 +68,12 @@ const ExampleNoun = (props: ExampleNounProps) => {
       .reduce((m, d) => m.add(d));
 
   return (
-    <>
-      <div className="text-center my-10">
-        <h2 className="text-3xl font-bold">How it works</h2>
+    <div className="bg-white p-5 rounded-lg border border-slate-200 pb-4">
+      <div className="text-center mb-5">
+        <h2 className="text-2xl font-serif">How it works</h2>
         <p>If this Noun were minted, {!totalDonationsForFOMOHead ? "no funds would be sent to non-profits." : `${utils.formatEther(totalDonationsForFOMOHead)} ETH would be sent to non-profits.`}</p>
       </div>
-      <div className="mb-20">
+      <div className="mb-5">
         <div className="flex justify-center gap-5 flex-col md:flex-row rounded overflow-hidden">
           <div className="w-full max-w-md text-center">
             <img src={src} alt="" className="w-full aspect-square rounded" />
@@ -108,7 +108,7 @@ const ExampleNoun = (props: ExampleNounProps) => {
         </div>
       </div>
 
-    </>
+    </div>
   );
 }
 
