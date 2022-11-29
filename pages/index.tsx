@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     <div className="container mx-auto pb-10">
       {/* Intro description */}
       <div className="text-center py-2 max-w-lg mx-auto my-10">
-        <h1 className="text-3xl font-bold text-serif mb-2">
+        <h1 className="text-3xl font-bold font-serif mb-2">
           Sponsor Nouns. <br />
           Send money to charity.
         </h1>
