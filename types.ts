@@ -14,9 +14,18 @@ export type PluralTraitName =
   | "heads"
   | "glasses";
 
+export enum RequestStatus {
+  CAN_REMOVE, // 0
+  REMOVED, // 1
+  DONATION_SENT, // 2
+  AUCTION_ENDING_SOON, // 3
+  MATCH_FOUND, // 4
+}
+
 export interface Request {
   id: number;
   nounId: number;
+  status: RequestStatus;
   trait: TraitNameAndImageData;
   donation: Donation;
 }
