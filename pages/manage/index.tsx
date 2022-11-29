@@ -3,15 +3,38 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { utils } from "ethers";
+import groupby from "lodash.groupby";
 import { nounSeekContract } from "../../config";
-import { Request } from "../../types";
+import { Request, RequestStatus } from "../../types";
 import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
 import RequestCard from "../../components/RequestCard";
 import ManageTrait from "./ManageTrait";
+import { requestStatusToMessage } from "../../utils";
+
+const DisabledSponsorshipsMessage = ({
+  status,
+  requestsLength,
+}: {
+  status: RequestStatus;
+  requestsLength: number;
+}): JSX.Element | undefined => {
+  if (status == RequestStatus.CAN_REMOVE) return;
+  return (
+    <>
+      <h2 className="text-3xl font-bold mb-2 text-center">
+        {requestsLength > 1 ? "These sponsorships" : "This sponsorship"} can't
+        be removed right now.
+      </h2>
+      <p className="text-center">
+        {requestStatusToMessage(status, requestsLength)}
+      </p>
+    </>
+  );
+};
 
 const Manage: NextPage = () => {
-  const { isConnected, isConnecting, address } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,36 +43,49 @@ const Manage: NextPage = () => {
     router.push("/");
   }, [isConnected, isConnecting, router]);
 
-  const requests = useGetUserRequests(address);
+  const requests = useGetUserRequests();
 
   if (!isConnected || !requests) return null;
-  console.log('requests', requests)
-  
+  console.log("computed requests", requests);
+
+  const groupedRequests = groupby(requests, (r) => r.status);
+
   return (
     <div>
       <h1 className="text-3xl font-bold mb-2 text-center">Your Sponsorships</h1>
       {requests.length == 0 && (
         <>
           <p className="text-center">You have no sponsorships yet.</p>
-          <p className="text-center"><Link href="/add">Add a sponsorship</Link></p>
+          <p className="text-center">
+            <Link href="/add">Add a sponsorship</Link>
+          </p>
         </>
       )}
-      <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
-        {requests.map((request, i) => {
-          if (request) {
-            return (
-              <li 
-                key={i} 
-                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
-              >
-                <ManageTrait 
-                  request={request}
-                />
-              </li>
-            );
-          }
-        })}
-      </ul>
+      {Object.values(RequestStatus).map((status) => {
+        if (!groupedRequests[status] || groupedRequests[status].length == 0)
+          return;
+        return (
+          <>
+            <DisabledSponsorshipsMessage
+              status={status as RequestStatus}
+              requestsLength={groupedRequests[status].length}
+            />
+            <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+              {groupedRequests[status].map((request, i) => {
+                return (
+                  <li
+                    key={i}
+                    className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                  >
+                    <ManageTrait request={request} />
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        );
+      })}
+      ;
     </div>
   );
 };

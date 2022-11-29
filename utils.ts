@@ -7,6 +7,7 @@ import {
   Donation,
   TraitAndDonations,
   TraitNameAndImageData,
+  RequestStatus,
 } from "./types";
 
 const nounImages = ImageData.images;
@@ -21,10 +22,12 @@ const traitNames = [
   ["glasses", "glasses"],
 ] as TraitNames[];
 
-export function capitalizeFirstLetter(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1)};
+export function capitalizeFirstLetter(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 export function parseTraitName(partName: string): string {
-  return partName.substring(partName.indexOf('-') + 1).replace(/-/g, ' ');
+  return partName.substring(partName.indexOf("-") + 1).replace(/-/g, " ");
 }
 
 export function singularTraitToPlural(
@@ -50,12 +53,13 @@ export function traitTypeNamesById(
 
 const bgColorNames = ["Cool", "Warm"];
 
-export function traitNamesById(
-  traitTypeId: number,
-  traitId: number
-): string {
+export function traitNamesById(traitTypeId: number, traitId: number): string {
   let traitName = "";
-  traitTypeId === 0 ? traitName = bgColorNames[traitId] : traitName = parseTraitName(nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename);
+  traitTypeId === 0
+    ? (traitName = bgColorNames[traitId])
+    : (traitName = parseTraitName(
+        nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename
+      ));
   return traitName;
 }
 
@@ -66,7 +70,13 @@ export function getTraitTraitNameAndImageData(
   const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
   const imageData = nounImages[pluralTrait][traitId];
   const name = imageData.filename.replace(`${singularTrait}-`, "");
-  return { name, traitId: traitId, traitTypeId: trait, type: singularTrait, imageData };
+  return {
+    name,
+    traitId: traitId,
+    traitTypeId: trait,
+    type: singularTrait,
+    imageData,
+  };
 }
 
 export function extractDonations(donations, donees): DonationsByTraitType {
@@ -76,7 +86,7 @@ export function extractDonations(donations, donees): DonationsByTraitType {
       (traitsObj, donateesArray, traitId) => {
         const donations = donateesArray
           .map((amount, doneeId) => {
-            if (amount.eq("0")) return;
+            if (amount.isZero()) return;
             return {
               to: doneeId,
               amount,
@@ -97,4 +107,28 @@ export function extractDonations(donations, donees): DonationsByTraitType {
     obj[pluralTrait] = traitsObj;
     return obj;
   }, {});
+}
+
+export function requestStatusToMessage(
+  status: RequestStatus,
+  requestsLength: number
+): string {
+  let message = "Can remove";
+  switch (status) {
+    case RequestStatus.AUCTION_ENDING_SOON:
+      message = "Auction is ending soon.";
+      break;
+    case RequestStatus.DONATION_SENT:
+      message = "Already matched.";
+      break;
+    case RequestStatus.MATCH_FOUND:
+      message = `The current or previous Noun matches ${
+        requestsLength > 1 ? "these sponsorships" : "this sponsorship"
+      }.`;
+      break;
+    case RequestStatus.REMOVED:
+      message = "Already removed.";
+      break;
+  }
+  return message;
 }
