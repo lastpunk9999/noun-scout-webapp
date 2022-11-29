@@ -52,12 +52,12 @@ const RequestCard = (props: RequestCardProps) => {
             </div>
           </div>
           <div className="w-3/4">
-            <p className="text-slate-500 text-sm leading-none capitalize">{traitTypeNames[0]}</p>
+            <p className="text-slate-400 text-xs leading-none capitalize">{traitTypeNames[0]}</p>
             <h3 className="text-xl font-bold leading-none capitalize">
               {traitNamesById(traitTypeId, traitId)}
             </h3>
-            <hr className="my-2 border-slate-500/25" /> 
-            <p className="text-slate-500 text-sm mb-1">Supporting</p>
+            <hr className="my-1 border-slate-500/25" /> 
+            <p className="text-slate-400 text-xs mb-1">Supporting</p>
             <ul className="flex gap-4">
               {props.donations.map((donation, i) => {
                 console.log('props.donations.map', donation);
