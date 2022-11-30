@@ -23,13 +23,20 @@ const ManageTrait = (props: ManageTraitProps) => {
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
 
-  const enabled = props.request.status == RequestStatus.CAN_REMOVE;
+  const canRemove =
+    !isTransactionComplete && props.request.status == RequestStatus.CAN_REMOVE;
+  const removed =
+    isTransactionComplete || props.request.status == RequestStatus.REMOVED;
+  const donationSent = props.request.status == RequestStatus.DONATION_SENT;
+  const matchFound = props.request.status == RequestStatus.MATCH_FOUND;
+  const endingSoon = props.request.status == RequestStatus.AUCTION_ENDING_SOON;
+
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
     functionName: "remove",
     args: [BigNumber.from(props.request.id)],
-    enabled: enabled,
+    enabled: canRemove,
     onError(error) {
       console.log("Error", error);
       setErrorMessage(error.error.message);
@@ -60,79 +67,76 @@ const ManageTrait = (props: ManageTraitProps) => {
     },
   });
 
-  let statusMessage;
-  switch (props.request.status) {
-    case RequestStatus.AUCTION_ENDING_SOON:
-      statusMessage = "Auction is ending soon.";
-      break;
-    case RequestStatus.DONATION_SENT:
-      statusMessage = "Already matched";
-      break;
-    case RequestStatus.MATCH_FOUND:
-      statusMessage = "Current Noun matches this request";
-      break;
-    case RequestStatus.REMOVED:
-      statusMessage = "Already removed";
-      break;
-  }
   return (
     <>
-      {isTransactionComplete ? (
-        <div className="text-center  bg-slate-200 p-10 rounded-lg">
-          <p className="text-lg font-bold">Sponsorship removed</p>
-          <p className="underline">
-            <a
-              href={
-                process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
-                  ? `https://etherscan.io/tx/${transactionData}`
-                  : `https://goerli.etherscan.io/tx/${transactionData}`
-              }
-              target="_blank"
-            >
-              View transaction
-            </a>
-          </p>
+      <div className="w-full flex flex-col md:flex-row justify-between gap-5 items-center">
+        <div
+          className={cx(
+            "w-full",
+            isTransactionComplete || isTransactionLoading || isLoading
+              ? "opacity-40"
+              : "opacity-100"
+          )}
+        >
+          <RequestCard
+            id={props.request.nounId}
+            trait={props.request.trait}
+            donations={[props.request.donation]}
+          />
         </div>
-      ) : (
-        <div className="w-full flex flex-col md:flex-row justify-between gap-5 items-center">
-          <div
-            className={cx(
-              "w-full",
-              isTransactionLoading || isLoading ? "opacity-40" : "opacity-100"
-            )}
-          >
-            <RequestCard
-              id={props.request.nounId}
-              trait={props.request.trait}
-              donations={[props.request.donation]}
-            />
-          </div>
-          <div className="text-center md:text-left md:w-1/3">
-            {enabled && (
-              <div className="w-full flex flex-col gap-3 justify-center">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
-                  disabled={
-                    !enabled || !write || isLoading || isTransactionLoading
-                  }
-                  onClick={() => write?.()}
+        <div className="text-center md:text-left md:w-1/3">
+          {(canRemove || matchFound || endingSoon) && (
+            <div className="w-full flex flex-col gap-3 justify-center">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
+                disabled={
+                  !canRemove ||
+                  !write ||
+                  isLoading ||
+                  isTransactionLoading ||
+                  isTransactionComplete
+                }
+                onClick={() => write?.()}
+              >
+                {isLoading ? "Removing..." : "Remove"}
+              </button>
+              {errorMessage && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
+                  role="alert"
                 >
-                  {isLoading ? "Removing..." : "Remove"}
-                </button>
-                {errorMessage && (
-                  <div
-                    className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
-                    role="alert"
+                  <strong className="font-bold">⌐×-×</strong>{" "}
+                  <span className="block sm:inline">{errorMessage}</span>
+                </div>
+              )}
+            </div>
+          )}
+          {!canRemove && (
+            <div className="text-center rounded-lg">
+              <p className="text-lg font-bold">
+                {removed && `Removed`}
+                {donationSent && `Donation Sent`}
+              </p>
+              <p>
+                {donationSent && `Thanks for sponsoring!`}
+                {transactionData && (
+                  <a
+                    href={
+                      process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
+                        ? `https://etherscan.io/tx/${transactionData}`
+                        : `https://goerli.etherscan.io/tx/${transactionData}`
+                    }
+                    target="_blank"
+                    className="underline"
                   >
-                    <strong className="font-bold">⌐×-×</strong>{" "}
-                    <span className="block sm:inline">{errorMessage}</span>
-                  </div>
+                    View transaction
+                  </a>
                 )}
-              </div>
-            )}
-          </div>
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
