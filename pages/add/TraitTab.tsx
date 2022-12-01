@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { ImageData, getPartData } from "@nouns/assets";
 import cx from "classnames";
-import { parseTraitName } from "../../utils";
+import { parseTraitName, traitNames } from "../../utils";
 import { Request } from "../../types";
 import { buildSVG } from "@nouns/sdk";
+import Image from "next/image";
 
 type TraitTabProps = {
   traitIndex: number;
@@ -28,19 +29,34 @@ const TraitTab = (props: TraitTabProps) => {
     return { image };
   };
 
-  const selectedTraits = ImageData.images[
-    traitTypes[props.traitIndex].toLowerCase()
-  ].map((trait, index) => {
-    return {
-      id: index,
-      filename: trait.filename,
-      image: getPart(traitTypes[props.traitIndex].toLowerCase(), index).image,
-    };
-  });
+  const selectedTraits =
+    props.traitIndex > 0
+      ? ImageData.images[traitTypes[props.traitIndex].toLowerCase()].map(
+          (trait, index) => {
+            return {
+              id: index,
+              filename: trait.filename,
+              image: getPart(traitTypes[props.traitIndex].toLowerCase(), index)
+                .image,
+            };
+          }
+        )
+      : [
+          {
+            id: 0,
+            filename: "Cool",
+            image: "",
+          },
+          {
+            id: 1,
+            filename: "Warm",
+            image: "",
+          },
+        ];
 
   return (
     <>
-      <div className="grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-5">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xxl:grid-cols-7 gap-5 items-start">
         {selectedTraits
           .filter(
             (f) =>
@@ -52,22 +68,22 @@ const TraitTab = (props: TraitTabProps) => {
               <button
                 key={f.filename}
                 className={cx(
-                  "text-left p-3 border border-slate-200 rounded-lg hover:shadow-md transition-shadow	relative",
-                  props.requestSeed?.trait.name === f.filename &&
+                  "text-left border border-transparent rounded-lg hover:shadow-md transition-shadow	relative",
+                  props.requestSeed?.trait?.name === f.filename &&
                     "bg-white shadow-lg border-2 border-blue-500! opacity-100",
-                  props.requestSeed?.trait.name &&
-                    props.requestSeed?.trait.name !== f.filename
+                  props.requestSeed?.trait?.name &&
+                    props.requestSeed?.trait?.name !== f.filename
                     ? "opacity-50 hover:opacity-80 transition-opacity"
                     : ""
                 )}
                 onClick={() =>
-                  props.requestSeed?.trait.name === f.filename
+                  props.requestSeed?.trait?.name === f.filename
                     ? props.setRequestSeed()
                     : props.setRequestSeed({
                         trait: {
                           name: f.filename,
                           traitId: f.id,
-                          type: traitTypes[props.traitIndex],
+                          type: traitNames[props.traitIndex][0],
                           traitTypeId: props.traitIndex,
                           imageData: {
                             filename: f.filename,
@@ -75,27 +91,53 @@ const TraitTab = (props: TraitTabProps) => {
                           },
                         },
                         donation: {
-                          to: undefined,
-                          amount: undefined,
+                          to: props.requestSeed?.donation?.to,
+                          amount: props.requestSeed?.donation?.amount,
                         },
                       })
                 }
               >
-                {props.requestSeed?.trait.name === f.filename && (
+                {props.requestSeed?.trait?.name === f.filename && (
                   <div className="absolute top-0 right-1">
                     <input type="checkbox" checked />
                   </div>
                 )}
+                <div
+                  className={cx(
+                    "p-3 rounded-lg hover:rounded-b-none transition-rounded",
+                    props.requestSeed?.trait?.name === f.filename &&
+                      "rounded-b-none"
+                  )}
+                  style={{
+                    backgroundColor:
+                      props.traitIndex === 0
+                        ? `#${ImageData.bgcolors[f.id]}`
+                        : `#${ImageData.bgcolors[1]}`,
+                  }}
+                >
+                  {props.traitIndex === 0 ? (
+                    <div
+                      className="opacity-30 relative z-10 h-100 aspect-square"
+                      // style={{
+                      //   backgroundColor: `#${ImageData.bgcolors[f.id]}`,
+                      // }}
+                    />
+                  ) : (
+                    <Image
+                      src={f.image}
+                      layout="responsive"
+                      width={320}
+                      height={320}
+                      alt={`${parseTraitName(f.filename)} trait`}
+                      className="w-full aspect-square"
+                    />
+                  )}
+                </div>
 
-                <img
-                  src={f.image}
-                  alt=""
-                  className="w-full aspect-square rounded"
-                />
                 <p
                   className={cx(
-                    "text-xs capitalize text-center text-slate-400",
-                    props.requestSeed?.trait.name === f.filename && "font-bold"
+                    "text-xs lg:text-sm capitalize text-center text-slate-400 py-1 leading-none",
+                    props.requestSeed?.trait?.name === f.filename && "font-bold"
                   )}
                 >
                   {parseTraitName(f.filename)}

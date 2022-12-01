@@ -15,17 +15,16 @@ import Link from "next/link";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import RequestInText from "../../components/RequestInText";
 
-type ConfirmProps = {
+type ConfirmButtonProps = {
   requestSeed: Request;
   setRequestSeed: Function;
   setCurrentStep: Function;
-  currentStep: number;
 };
 
-const Confirm = (props: ConfirmProps) => {
-  const { isConnected } = useAccount();
+const ConfirmButton = (props: ConfirmButtonProps) => {
+  const { connector: activeConnector, isConnected } = useAccount();
+
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(
     undefined
@@ -75,15 +74,19 @@ const Confirm = (props: ConfirmProps) => {
     }
   }, [isIdFieldVisible]);
 
+  console.log("props.requestSeed", props.requestSeed);
+
   // prepare data to write to contract
   const traitTypes = ["bodies", "accessories", "heads", "glasses"];
-  // const traitTypeId =
-  //   traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
-  // const traitId = ImageData.images[
-  //   `${props.requestSeed.trait.type.toLowerCase()}`
-  // ].findIndex((trait) => {
-  //   return trait.filename === props.requestSeed.trait.imageData.filename;
-  // });
+  const traitTypeId =
+    // traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
+    props.requestSeed.trait.traitTypeId;
+  //   const traitId = ImageData.images[
+  //     `${props.requestSeed.trait.type.toLowerCase()}`
+  //   ].findIndex((trait) => {
+  //     return trait.filename === props.requestSeed.trait.imageData.filename;
+  //   });
+  const traitId = props.requestSeed.trait.traitId;
 
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
@@ -98,6 +101,12 @@ const Confirm = (props: ConfirmProps) => {
     ],
     overrides: {
       value: props.requestSeed.donation.amount,
+    },
+    onSuccess(data) {
+      console.log("Success", data);
+    },
+    onSettled(data, error) {
+      console.log("Settled", { data, error });
     },
     onError(error) {
       console.log("Error", error);
@@ -144,7 +153,7 @@ const Confirm = (props: ConfirmProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div>
       {isTransactionComplete ? (
         <div className="text-center">
           <p>Your sponsorship has been submitted!</p>
@@ -166,66 +175,18 @@ const Confirm = (props: ConfirmProps) => {
         </div>
       ) : (
         <>
-          <h1 className="text-3xl font-bold font-serif mb-0 text-center">
+          <h3 className="text-3xl font-bold font-serif mb-0 text-center">
             Confirm Sponsorship
-          </h1>
+          </h3>
           <div
             className={cx(
               "w-full",
               isLoading || isTransactionLoading ? "opacity-40" : "opacity-100"
             )}
-          >
-            <div className="max-w-lg mx-auto my-4">
-              <RequestCard
-                id={props.requestSeed.id}
-                trait={props.requestSeed?.trait}
-                donations={[props.requestSeed.donation]}
-              />
-            </div>
-            <RequestInText requestSeed={props.requestSeed} />
-            {/* <div className="flex justify-center items-center mt-4">
-              <input
-                id="default-checkbox"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
-                onChange={() => setIsIdFieldVisible(!isIdFieldVisible)}
-                disabled={isLoading || isTransactionLoading}
-              />
-              <label
-                htmlFor="default-checkbox"
-                className="ml-2 text-sm font-medium text-slate-900"
-              >
-                Apply this sponsorship only to a specific Future Noun ID
-              </label>
-            </div> */}
-            <div className="flex flex-row mt-2 gap-3 justify-center items-center">
-              {isIdFieldVisible && (
-                <>
-                  <label
-                    htmlFor="nounID"
-                    className="text-sm font-bold text-slate-900"
-                  >
-                    Future Noun ID
-                  </label>
-                  <input
-                    id="nounID"
-                    type="number"
-                    // placeholder={minNounId.toString()}
-                    min={minNounId}
-                    className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600"
-                    value={futureNounId}
-                    onChange={(event) =>
-                      setFutureNounId(Number(event.target.value))
-                    }
-                  />
-                </>
-              )}
-            </div>
-          </div>
+          ></div>
           {isConnected ? (
             <>
-              <div className="flex flex-col mt-4 gap-3 justify-center items-center">
+              <div className="flex flex-col my-4 gap-3 justify-center items-center">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
                   disabled={!write || isLoading || isTransactionLoading}
@@ -233,7 +194,7 @@ const Confirm = (props: ConfirmProps) => {
                 >
                   {isLoading || isTransactionLoading
                     ? "Submitting..."
-                    : "Submit ⌐◨-◨"}
+                    : "Submit"}
                 </button>
                 {errorMessage && (
                   <div
@@ -252,16 +213,10 @@ const Confirm = (props: ConfirmProps) => {
               <ConnectButton showBalance={false} />
             </>
           )}
-          <button
-            className="underline text-slate-500"
-            onClick={() => props.setCurrentStep(props.currentStep - 1)}
-          >
-            Back
-          </button>
         </>
       )}
     </div>
   );
 };
 
-export default Confirm;
+export default ConfirmButton;

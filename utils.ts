@@ -14,7 +14,7 @@ const nounImages = ImageData.images;
 
 type TraitNames = [SingularTraitName, PluralTraitName];
 
-const traitNames = [
+export const traitNames = [
   ["background", "backgrounds"],
   ["body", "bodies"],
   ["accessory", "accessories"],
