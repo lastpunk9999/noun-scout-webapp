@@ -12,7 +12,6 @@ type DoneeProps = {
 
 const Donee = (props: DoneeProps) => {
   const doneeDescription = useGetDoneeDescription(props.doneeId);
-  console.log("doneeDescription", doneeDescription);
   return (
     <button
       className={cx(

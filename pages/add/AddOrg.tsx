@@ -62,7 +62,7 @@ const AddOrgs = (props: AddOrgsProps) => {
       </div>
       <div className="">
         <div>
-          <h3 className="text-xl font-bold">Charities</h3>
+          <h3 className="text-xl font-bold">Select a charity</h3>
           <div className="flex flex-col gap-10">
             {doneesList.map((org, i) => {
               return (

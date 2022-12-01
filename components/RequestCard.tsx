@@ -9,6 +9,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 type RequestCardProps = {
+  style: string;
   trait: TraitNameAndImageData | undefined;
   donations: Donation[] | undefined;
   id?: number;
@@ -30,10 +31,16 @@ const RequestCard = (props: RequestCardProps) => {
   const traitTypeNames = traitTypeNamesById(traitTypeId) || undefined;
   const part =
     traitTypeId > 0 && traitTypeNames && getPart(traitTypeNames[1], traitId);
+  console.log("props.donations", props.donations);
 
   return (
-    <div className="bg-white p-3 w-full rounded-lg border border-slate-200 pb-4">
-      <div className="flex gap-3 items-center">
+    <div className="bg-white w-full rounded-lg border border-slate-200 relative">
+      <div className="absolute top-3 right-3">
+        <p className="text-mdleading-none px-3 py-2 font-bold bg-green-700 text-white rounded-md">
+          X ETH
+        </p>
+      </div>
+      <div className="flex gap-5 items-center p-3">
         <div className="w-2/4">
           {/* Trait image - use bg color from noun if available */}
           <div
@@ -72,35 +79,45 @@ const RequestCard = (props: RequestCardProps) => {
           </div>
         </div>
         <div className="w-3/4">
-          <p className="text-slate-400 text-xs leading-none capitalize">
+          <p className="text-slate-400 text-sm leading-none capitalize">
             {traitId >= 0 ? traitTypeNames[0] : "Trait type"}
           </p>
-          <h3 className="text-xl font-bold leading-none capitalize">
+          <h3 className="text-3xl font-bold leading-none capitalize">
             {traitId !== undefined ? (
               traitNamesById(traitTypeId, traitId)
             ) : (
               <>Select a Noun trait</>
             )}
           </h3>
-          <hr className="my-1 border-slate-500/25" />
-          <p className="text-slate-400 text-xs mb-1">Supporting</p>
-          <ul className="flex gap-4">
-            {props.donations
-              ? props.donations.map((donation, i) => {
-                  if (
-                    !donation.amount?.isZero() ||
-                    donation.amount === undefined
-                  ) {
-                    return <RequestDonee key={i} donation={donation} />;
-                  } else {
-                    // return <Skeleton width={100} />;
-                    return "Charity of your choice";
-                  }
-                })
-              : "Charity of your choice"}
-          </ul>
         </div>
       </div>
+      {/* {props.donations[0]?.to !== undefined ||
+        (props.donations[0]?.amount !== undefined && ( */}
+      <footer className="bg-slate-200 p-3">
+        <p className="text-slate-400 text-xs mb-1">Supporting</p>
+        <ul className="flex gap-4">
+          {props.donations
+            ? props.donations.map((donation, i) => {
+                if (
+                  donation.amount?.isZero() ||
+                  donation.amount === undefined ||
+                  donation.to === undefined
+                ) {
+                  return "Charity of your choice";
+                } else {
+                  return (
+                    <RequestDonee
+                      style={props.style}
+                      key={i}
+                      donation={donation}
+                    />
+                  );
+                }
+              })
+            : "Charity of your choice"}
+        </ul>
+      </footer>
+      {/* ))} */}
     </div>
   );
 };

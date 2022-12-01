@@ -91,7 +91,7 @@ const Add: NextPage = () => {
               Build your request
             </h1>
             <RequestCard
-              // id={requestSeed.id}
+              style="full"
               trait={requestSeed && requestSeed.trait}
               donations={requestSeed && [requestSeed.donation]}
             />
@@ -136,32 +136,16 @@ const Add: NextPage = () => {
               </button>
             </div>
           )}
-          {/* {currentStep === 2 && (
-            <div className="flex flex-col md:flex-row-reverse gap-3">
-              <ConfirmButton
-                requestSeed={requestSeed}
-                setRequestSeed={setRequestSeed}
-                setCurrentStep={setCurrentStep}
-              />
-              <button
-                className="underline text-slate-500"
-                onClick={() => setCurrentStep(currentStep - 1)}
-              >
-                Back
-              </button>
-            </div>
-          )} */}
         </div>
       </div>
       {/* Stepper */}
       <div
         className={cx(
-          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white p-10",
-          // currentStep === 2 && "!w-0"
+          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white p-10 justify-center w-full",
           currentStep === 2 && "!w-full"
         )}
       >
-        <div className="flex p-1 mb-4 justify-center gap-3 items-center rounded-lg justify-self-end border border-slate-200">
+        <div className="flex mx-auto p-1 mb-4 justify-center gap-3 items-center rounded-lg  border border-slate-200 max-w-lg">
           {steps.map((step, i) => {
             return (
               <button
