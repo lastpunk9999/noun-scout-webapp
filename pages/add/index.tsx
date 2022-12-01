@@ -56,7 +56,7 @@ const Add: NextPage = () => {
     } else if (
       currentStep === 1 &&
       amountInEth > 0 &&
-      requestSeed?.donation?.to
+      requestSeed?.donation?.to >= 0
     ) {
       console.log("ready for step 3", requestSeed);
       return true;
@@ -123,7 +123,7 @@ const Add: NextPage = () => {
             />
           )}
           {currentStep === 1 && (
-            <div className="flex flex-col md:flex-row-reverse gap-3">
+            <div className="flex flex-col gap-3">
               <NextButton
                 isActive={checkProgress()}
                 handleNextStep={handleNextStep}
@@ -161,7 +161,7 @@ const Add: NextPage = () => {
           currentStep === 2 && "!w-full"
         )}
       >
-        <div className="flex p-1 justify-center gap-3 items-center rounded-lg justify-self-end border border-slate-200">
+        <div className="flex p-1 mb-4 justify-center gap-3 items-center rounded-lg justify-self-end border border-slate-200">
           {steps.map((step, i) => {
             return (
               <button
