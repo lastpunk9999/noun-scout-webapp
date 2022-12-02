@@ -18,10 +18,16 @@ type RequestCardProps = {
   nounSeed?: NounSeed;
 };
 
-const getPart = (partType: string, partIndex: number) => {
-  const data = getPartData(partType, partIndex);
+const getPart = (traitTypeId: number, traitId: number) => {
+  let background;
+  let data = "";
+  if (traitTypeId === 0) {
+    background = ImageData.bgcolors[traitId];
+  } else {
+    data = getPartData(traitTypeNamesById(traitTypeId)[1], traitId);
+  }
   const image = `data:image/svg+xml;base64,${btoa(
-    buildSVG([{ data }], ImageData.palette)
+    buildSVG([{ data }], ImageData.palette, background)
   )}`;
   return { image };
 };
@@ -31,8 +37,7 @@ const RequestCard = (props: RequestCardProps) => {
     props.trait?.traitTypeId >= 0 ? props.trait.traitTypeId : undefined;
   const traitId = props.trait?.traitId >= 0 ? props.trait.traitId : undefined;
   const traitTypeNames = traitTypeNamesById(traitTypeId) || undefined;
-  const part =
-    traitTypeId > 0 && traitTypeNames && getPart(traitTypeNames[1], traitId);
+  const part = getPart(traitTypeId, traitId);
 
   const totalDonationAmount = useMemo(() => {
     if (!props.donations) return 0;
@@ -69,25 +74,7 @@ const RequestCard = (props: RequestCardProps) => {
                   }
             }
           >
-            {part ? (
-              <Image src={part.image} layout="fill" />
-            ) : (
-              <>
-                {/* exception for background color traits */}
-                {traitId >= 0 ? (
-                  <div
-                    className="opacity-30 relative z-10 h-100 aspect-square"
-                    style={{
-                      backgroundColor: `#${ImageData.bgcolors[traitId]}`,
-                    }}
-                  />
-                ) : (
-                  <div className="opacity-30 relative z-10 h-100 aspect-square">
-                    <Image src="/loading-noun.gif" layout="fill" />
-                  </div>
-                )}
-              </>
-            )}
+            <Image src={part.image} layout="fill" />
           </div>
         </div>
         <div className="w-3/4">
@@ -121,22 +108,21 @@ const RequestCard = (props: RequestCardProps) => {
           >
             {props.donations
               ? props.donations.map((donation, i) => {
-                if (
-                  donation === undefined ||
-                  donation.amount?.isZero() ||
-                  donation.amount === undefined ||
-                  donation.to === undefined
-                ) {
-                  return "Supporting the charity of your choice";
-                } else {
-                  return (
-                    <RequestDonee
-                      cardStyle={props.cardStyle || "detailed"}
-                      key={i}
-                      donation={donation}
-                    />
-                  );
-                }
+                  if (
+                    donation.amount?.isZero() ||
+                    donation.amount === undefined ||
+                    donation.to === undefined
+                  ) {
+                    return "Supporting the charity of your choice";
+                  } else {
+                    return (
+                      <RequestDonee
+                        cardStyle={props.cardStyle || "detailed"}
+                        key={i}
+                        donation={donation}
+                      />
+                    );
+                  }
                 })
               : "Supporting the charity of your choice"}
           </ul>
