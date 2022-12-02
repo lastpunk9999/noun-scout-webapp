@@ -40,10 +40,7 @@ const getPart = (
 };
 
 const RequestCard = (props: RequestCardProps) => {
-  const traitTypeId = props.trait?.traitTypeId;
-  const traitId = props.trait?.traitId;
-  const traitTypeName = props.trait?.type;
-  const part = getPart(traitTypeId, traitId);
+  const part = getPart(props.trait?.traitTypeId, props.trait?.traitId);
 
   const totalDonationAmount = useMemo(() => {
     if (!props.donations) return 0;
@@ -85,14 +82,10 @@ const RequestCard = (props: RequestCardProps) => {
         </div>
         <div className="w-3/4">
           <p className="text-slate-400 text-sm leading-none capitalize">
-            {traitId ? traitTypeName : "Trait type"}
+            {props.trait?.type ?? "Trait type"}
           </p>
           <h3 className="text-3xl font-bold leading-none capitalize">
-            {traitTypeName !== undefined ? (
-              traitTypeName
-            ) : (
-              <>Select a Noun trait</>
-            )}
+            {props.trait?.name ?? "Select a Noun trait"}
           </h3>
         </div>
       </div>
