@@ -50,45 +50,101 @@ const Manage: NextPage = () => {
 
   const groupedRequests = groupby(requests, (r) => r.status);
 
+  if (requests.length == 0) {
+    return (
+      <div>
+        <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
+          You have no sponsorships yet.
+        </h1>
+        <p className="text-center">
+          <Link href="/add">Add a sponsorship</Link>
+        </p>
+      </div>
+    );
+  }
   return (
     <div>
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
         Your Sponsorships
       </h1>
-      {requests.length == 0 && (
-        <>
-          <p className="text-center">You have no sponsorships yet.</p>
-          <p className="text-center">
-            <Link href="/add">Add a sponsorship</Link>
+      {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 && (
+        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+          {groupedRequests[RequestStatus.CAN_REMOVE].map((request, i) => {
+            return (
+              <li
+                key={i}
+                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+              >
+                <ManageTrait request={request} />
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
+      {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
+        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+          <p>
+            The current Noun or the previous Noun has traits which match the
+            following{" "}
+            {groupedRequests[RequestStatus.MATCH_FOUND].length > 1
+              ? "sponsorships. They "
+              : "sponsorship. It "}
+            cannot be removed yet.
           </p>
+          {groupedRequests[RequestStatus.MATCH_FOUND].map((request, i) => {
+            return (
+              <li
+                key={i}
+                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+              >
+                <ManageTrait request={request} />
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
+      {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
+        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+          <p>
+            The Noun auction is ending soon. These sponsorships cannot be
+            removed until the auction is settled.
+          </p>
+          {groupedRequests[RequestStatus.AUCTION_ENDING_SOON].map(
+            (request, i) => {
+              return (
+                <li
+                  key={i}
+                  className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                >
+                  <ManageTrait request={request} />
+                </li>
+              );
+            }
+          )}
+        </ul>
+      )}
+
+      {groupedRequests[RequestStatus.DONATION_SENT]?.length > 0 && (
+        <>
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            Past Sponsorships
+          </h1>
+          <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+            {groupedRequests[RequestStatus.DONATION_SENT].map((request, i) => {
+              return (
+                <li
+                  key={i}
+                  className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                >
+                  <ManageTrait request={request} />
+                </li>
+              );
+            })}
+          </ul>
         </>
       )}
-      {Object.values(RequestStatus).map((status) => {
-        if (!groupedRequests[status] || groupedRequests[status].length == 0)
-          return;
-        return (
-          <>
-            <DisabledSponsorshipsMessage
-              status={status as RequestStatus}
-              requestsLength={groupedRequests[status].length}
-            />
-            {/* <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 "> */}
-            <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10 ">
-              {groupedRequests[status].map((request, i) => {
-                return (
-                  <li
-                    key={i}
-                    className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
-                  >
-                    <ManageTrait request={request} />
-                  </li>
-                );
-              })}
-            </ul>
-          </>
-        );
-      })}
-      ;
     </div>
   );
 };
