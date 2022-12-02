@@ -20,7 +20,6 @@ export default function useGetUserRequests(): Request[] {
     if (!requests) return [];
     console.log("RAW requests data", requests);
     return requests.map((request) => {
-      if (request.trait === 0) return null;
       return {
         id: request.id.toNumber(),
         nounId: request.nounId,
