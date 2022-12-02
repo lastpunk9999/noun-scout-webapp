@@ -68,12 +68,12 @@ const Manage: NextPage = () => {
         Your Sponsorships
       </h1>
       {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 && (
-        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
           {groupedRequests[RequestStatus.CAN_REMOVE].map((request, i) => {
             return (
               <li
                 key={i}
-                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
               >
                 <ManageTrait request={request} />
               </li>
@@ -83,7 +83,7 @@ const Manage: NextPage = () => {
       )}
 
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
-        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
           <p>
             The current Noun or the previous Noun has traits which match the
             following{" "}
@@ -96,7 +96,7 @@ const Manage: NextPage = () => {
             return (
               <li
                 key={i}
-                className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
               >
                 <ManageTrait request={request} />
               </li>
@@ -106,7 +106,7 @@ const Manage: NextPage = () => {
       )}
 
       {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
-        <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
           <p>
             The Noun auction is ending soon. These sponsorships cannot be
             removed until the auction is settled.
@@ -116,7 +116,7 @@ const Manage: NextPage = () => {
               return (
                 <li
                   key={i}
-                  className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                  className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
                 >
                   <ManageTrait request={request} />
                 </li>
@@ -131,12 +131,12 @@ const Manage: NextPage = () => {
           <h1 className="text-3xl font-bold mb-2 text-center">
             Past Sponsorships
           </h1>
-          <ul className="flex flex-col max-w-xl mx-auto my-4 p-5 gap-10 border border-slate-200 pb-4 bg-slate-100">
+          <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
             {groupedRequests[RequestStatus.DONATION_SENT].map((request, i) => {
               return (
                 <li
                   key={i}
-                  className="w-full flex flex-col md:flex-row justify-between gap-5 items-center"
+                  className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
                 >
                   <ManageTrait request={request} />
                 </li>
