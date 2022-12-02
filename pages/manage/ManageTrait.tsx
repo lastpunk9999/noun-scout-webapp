@@ -94,7 +94,7 @@ const ManageTrait = (props: ManageTraitProps) => {
           </p>
         </div>
       ) : (
-        <div className="w-full flex flex-col md:flex-row justify-between gap-5 items-center">
+        <div className="w-full flex flex-col md:flex-col justify-between gap-5 items-center">
           <div
             className={cx(
               "w-full",
@@ -105,6 +105,7 @@ const ManageTrait = (props: ManageTraitProps) => {
               id={props.request.nounId}
               trait={props.request.trait}
               donations={[props.request.donation]}
+              cardStyle="detailed"
             />
           </div>
           <div className="text-center md:text-left md:w-1/3">
@@ -117,7 +118,7 @@ const ManageTrait = (props: ManageTraitProps) => {
                   }
                   onClick={() => write?.()}
                 >
-                  {isLoading ? "Removing..." : "Remove"}
+                  {isLoading || isTransactionLoading ? "Removing..." : "Remove"}
                 </button>
                 {errorMessage && (
                   <div
