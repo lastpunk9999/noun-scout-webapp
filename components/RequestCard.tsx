@@ -44,7 +44,7 @@ const RequestCard = (props: RequestCardProps) => {
     <div className="bg-white w-full rounded-lg border border-slate-200 relative">
       <div className="absolute top-3 right-3">
         {totalDonationAmount && (
-          <p className="text-mdleading-none px-3 py-2 font-bold bg-green-700 text-white rounded-md">
+          <p className="text-mdleading-none px-3 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
             Ξ {totalDonationAmount}
           </p>
         )}
@@ -114,7 +114,7 @@ const RequestCard = (props: RequestCardProps) => {
                 } else {
                   return (
                     <RequestDonee
-                      cardStyle={props.cardStyle}
+                      cardStyle={props.cardStyle || "detailed"}
                       key={i}
                       donation={donation}
                     />
@@ -123,6 +123,7 @@ const RequestCard = (props: RequestCardProps) => {
               })
             : "The charity of your choice"}
         </ul>
+        {props.cardStyle === "compact" && <button>details</button>}
       </footer>
       {/* ))} */}
     </div>

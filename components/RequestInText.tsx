@@ -33,7 +33,7 @@ const RequestInText = (props: RequestInTextProps) => {
       )}{" "}
       will be sent to{" "}
       {props.requestSeed.donation.to ? (
-        <span className="bg-slate-200 font-bold">{doneeDescription.title}</span>
+        <span className="bg-slate-200 font-bold">{doneeDescription.name}</span>
       ) : (
         "charity"
       )}

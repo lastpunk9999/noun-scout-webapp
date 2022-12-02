@@ -169,7 +169,12 @@ const Confirm = (props: ConfirmProps) => {
         </div>
       ) : (
         <>
-          <h1 className="text-5xl font-bold">Confirm Sponsorship</h1>
+          <div className="text-center">
+            <span className="text-sm uppercase color-blue-500 opacity-70">
+              step {props.currentStep + 1}
+            </span>
+            <h1 className="text-5xl font-bold">Confirm Sponsorship</h1>
+          </div>
           <div
             className={cx(
               "w-full",
@@ -187,22 +192,6 @@ const Confirm = (props: ConfirmProps) => {
             <div className="max-w-md mx-auto">
               <RequestInText requestSeed={props.requestSeed} />
             </div>
-            {/* <div className="flex justify-center items-center mt-4">
-              <input
-                id="default-checkbox"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
-                onChange={() => setIsIdFieldVisible(!isIdFieldVisible)}
-                disabled={isLoading || isTransactionLoading}
-              />
-              <label
-                htmlFor="default-checkbox"
-                className="ml-2 text-sm font-medium text-slate-900"
-              >
-                Apply this sponsorship only to a specific Future Noun ID
-              </label>
-            </div> */}
             <div className="flex flex-row gap-3 justify-center items-center">
               {isIdFieldVisible && (
                 <>
@@ -215,7 +204,6 @@ const Confirm = (props: ConfirmProps) => {
                   <input
                     id="nounID"
                     type="number"
-                    // placeholder={minNounId.toString()}
                     min={minNounId}
                     className="w-20 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline invalid:border-pink-500 invalid:text-pink-600"
                     value={futureNounId}
@@ -256,12 +244,6 @@ const Confirm = (props: ConfirmProps) => {
               <ConnectButton showBalance={false} />
             </>
           )}
-          <button
-            className="underline text-slate-500"
-            onClick={() => props.setCurrentStep(props.currentStep - 1)}
-          >
-            Back
-          </button>
         </>
       )}
     </div>

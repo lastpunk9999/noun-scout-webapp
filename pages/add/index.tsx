@@ -162,78 +162,14 @@ const Add: NextPage = () => {
             currentStep={currentStep}
           />
         )}
-
-        {/* <div className="">
-          {currentStep === 0 && (
-            <NextButton
-              isActive={checkProgress()}
-              handleNextStep={handleNextStep}
-            />
-          )}
-          {currentStep === 1 && (
-            <div className="flex flex-col gap-3">
-              <NextButton
-                isActive={checkProgress()}
-                handleNextStep={handleNextStep}
-              />
-              <button
-                className="underline text-slate-500"
-                onClick={() => setCurrentStep(currentStep - 1)}
-              >
-                Back
-              </button>
-            </div>
-          )}
-        </div> */}
       </div>
       {/* Stepper */}
       <div
         className={cx(
           "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white p-10 justify-center w-full pb-[20rem] transition-all",
-          // currentStep === 3 && "!w-full"
           currentStep >= 3 && "w-0 hidden"
         )}
       >
-        {/* <div className="flex mx-auto p-1 mb-10 justify-center gap-3 items-center rounded-lg  border border-slate-200 max-w-lg">
-          {steps.map((step, i) => {
-            return (
-              <button
-                className={cx(
-                  "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg",
-                  currentStep === i && "",
-                  i > currentStep && "opacity-40 hover:opacity-80"
-                )}
-                onClick={() =>
-                  (requestSeed?.donation || i < currentStep) &&
-                  setCurrentStep(i)
-                }
-                disabled={
-                  requestSeed?.donation || i < currentStep ? false : true
-                }
-              >
-                <p
-                  className={cx(
-                    "text-sm font-bold rounded-full text-center aspect-square h-7 leading-6",
-                    i < currentStep
-                      ? "bg-blue-700 text-white"
-                      : "text-blue-700 border-blue-700 border-2",
-                    i > currentStep && "border-slate-400 text-slate-400"
-                  )}
-                >
-                  {i < currentStep ? "✓" : i + 1}
-                </p>
-                <p
-                  className={cx(
-                    "text-sm leading-none",
-                    i === currentStep && "text-blue-700 font-bold"
-                  )}
-                >
-                  {step.title}
-                </p>
-              </button>
-            );
-          })}
-        </div> */}
         {/* Step wrapper */}
 
         {currentStep < steps.length - 1 && (
@@ -279,21 +215,18 @@ const Add: NextPage = () => {
       <div
         className={cx(
           "flex flex-row py-3 px-5 bg-white shadow-2xl fixed bottom-0 w-full text-center justify-center items-center"
-          // currentStep === 3 && "!bg-transparent !shadow-none"
         )}
       >
-        {currentStep < 3 && (
-          <button
-            className={cx(
-              "underline text-slate-500",
-              currentStep < 1 && "opacity-0"
-            )}
-            onClick={() => setCurrentStep(currentStep - 1)}
-            disabled={currentStep < 1 && currentStep > 3 ? true : false}
-          >
-            Back
-          </button>
-        )}
+        <button
+          className={cx(
+            "underline text-slate-400",
+            currentStep < 1 && "opacity-0"
+          )}
+          onClick={() => setCurrentStep(currentStep - 1)}
+          disabled={currentStep < 1 && currentStep > 3 ? true : false}
+        >
+          Back
+        </button>
 
         {/* Stepper */}
 
