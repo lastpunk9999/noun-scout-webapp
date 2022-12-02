@@ -136,7 +136,7 @@ const Add: NextPage = () => {
             <p className="text-md font-bold uppercase text-left w-full mb-3">
               How it works
             </p>
-            <ol className="bg-white flex flex-col gap-1 list-decimal mb-5 rounded-lg border border-slate-200">
+            <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
               <li className="text-lg p-5 leading-snug ml-10 pl-3">
                 Create a request with an amount of ETH to incentivize minting{" "}
               </li>

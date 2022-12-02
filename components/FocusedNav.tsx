@@ -15,9 +15,9 @@ export default function FocusedNav() {
 
   return (
     <header>
-      <nav className="w-full fixed">
+      <nav className="w-full fixed z-10">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px] absolute top-5 left-5">
+          <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[250px] absolute top-5 left-5">
             <a href="/" className="flex items-center">
               {/* Noun Seek ⌐◨-◨ */}
               <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
