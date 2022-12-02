@@ -37,7 +37,7 @@ const RequestCard = (props: RequestCardProps) => {
   const totalDonationAmount = useMemo(() => {
     if (!props.donations) return 0;
     return props.donations.reduce(function (acc, obj) {
-      const amount = obj.amount ? Number(utils.formatEther(obj.amount)) : 0;
+      const amount = obj?.amount ? Number(utils.formatEther(obj.amount)) : 0;
       return acc + amount;
     }, 0);
   }, [props.donations]);
@@ -121,21 +121,22 @@ const RequestCard = (props: RequestCardProps) => {
           >
             {props.donations
               ? props.donations.map((donation, i) => {
-                  if (
-                    donation.amount?.isZero() ||
-                    donation.amount === undefined ||
-                    donation.to === undefined
-                  ) {
-                    return "Supporting the charity of your choice";
-                  } else {
-                    return (
-                      <RequestDonee
-                        cardStyle={props.cardStyle || "detailed"}
-                        key={i}
-                        donation={donation}
-                      />
-                    );
-                  }
+                if (
+                  donation === undefined ||
+                  donation.amount?.isZero() ||
+                  donation.amount === undefined ||
+                  donation.to === undefined
+                ) {
+                  return "Supporting the charity of your choice";
+                } else {
+                  return (
+                    <RequestDonee
+                      cardStyle={props.cardStyle || "detailed"}
+                      key={i}
+                      donation={donation}
+                    />
+                  );
+                }
                 })
               : "Supporting the charity of your choice"}
           </ul>

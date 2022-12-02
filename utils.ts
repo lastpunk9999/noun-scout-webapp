@@ -10,11 +10,23 @@ import {
   RequestStatus,
 } from "./types";
 
-const nounImages = ImageData.images;
+export const nounImages = {
+  backgrounds: [
+    {
+      filename: "Cool",
+      data: "",
+    },
+    {
+      filename: "Warm",
+      data: "",
+    },
+  ],
+  ...ImageData.images,
+};
 
 type TraitNames = [SingularTraitName, PluralTraitName];
 
-export const traitNames = [
+const traitNames = [
   ["background", "backgrounds"],
   ["body", "bodies"],
   ["accessory", "accessories"],
@@ -54,26 +66,23 @@ export function traitTypeNamesById(
 const bgColorNames = ["Cool", "Warm"];
 
 export function traitNamesById(traitTypeId: number, traitId: number): string {
-  let traitName = "";
-  traitTypeId === 0
-    ? (traitName = bgColorNames[traitId])
-    : (traitName = parseTraitName(
-        nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename
-      ));
+  let traitName = parseTraitName(
+    nounImages[traitTypeNamesById(traitTypeId)[1]][traitId].filename
+  );
   return traitName;
 }
 
 export function getTraitTraitNameAndImageData(
-  trait: number,
+  traitTypeId: number,
   traitId: number
 ): TraitNameAndImageData {
-  const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
+  const [singularTrait, pluralTrait] = traitTypeNamesById(traitTypeId);
   const imageData = nounImages[pluralTrait][traitId];
-  const name = imageData.filename.replace(`${singularTrait}-`, "");
+  const name = traitNamesById(traitTypeId, traitId);
   return {
     name,
-    traitId: traitId,
-    traitTypeId: trait,
+    traitId,
+    traitTypeId,
     type: singularTrait,
     imageData,
   };

@@ -87,5 +87,5 @@ export interface TraitNameAndImageData {
   traitId: number;
   traitTypeId: number;
   type: SingularTraitName;
-  imageData: ImageData;
+  imageData: ImageData | undefined;
 }

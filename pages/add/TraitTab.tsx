@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { ImageData, getPartData } from "@nouns/assets";
 import cx from "classnames";
-import { parseTraitName, traitNames } from "../../utils";
+import {
+  getTraitTraitNameAndImageData,
+  parseTraitName,
+  traitNames,
+} from "../../utils";
 import { Request } from "../../types";
 import { buildSVG } from "@nouns/sdk";
 import Image from "next/image";
@@ -69,27 +73,21 @@ const TraitTab = (props: TraitTabProps) => {
                 key={f.filename}
                 className={cx(
                   "text-left border border-transparent rounded-lg hover:shadow-md transition-shadow	relative",
-                  props.requestSeed?.trait?.name === f.filename &&
+                  props.requestSeed?.trait?.imageData.filename === f.filename &&
                     "bg-white shadow-lg border-2 border-blue-500! opacity-100",
-                  props.requestSeed?.trait?.name &&
-                    props.requestSeed?.trait?.name !== f.filename
+                  props.requestSeed?.trait?.imageData.filename &&
+                    props.requestSeed?.trait?.imageData.filename !== f.filename
                     ? "opacity-50 hover:opacity-80 transition-opacity"
                     : ""
                 )}
                 onClick={() =>
-                  props.requestSeed?.trait?.name === f.filename
+                  props.requestSeed?.trait?.imageData.filename === f.filename
                     ? props.setRequestSeed()
                     : props.setRequestSeed({
-                        trait: {
-                          name: f.filename,
-                          traitId: f.id,
-                          type: traitNames[props.traitIndex][0],
-                          traitTypeId: props.traitIndex,
-                          imageData: {
-                            filename: f.filename,
-                            data: f.data,
-                          },
-                        },
+                        trait: getTraitTraitNameAndImageData(
+                          props.traitIndex,
+                          f.id
+                        ),
                         donation: {
                           to: props.requestSeed?.donation?.to,
                           amount: props.requestSeed?.donation?.amount,
@@ -97,7 +95,8 @@ const TraitTab = (props: TraitTabProps) => {
                       })
                 }
               >
-                {props.requestSeed?.trait?.name === f.filename && (
+                {props.requestSeed?.trait?.imageData.filename ===
+                  f.filename && (
                   <div className="absolute top-0 right-1">
                     <input type="checkbox" checked />
                   </div>
@@ -105,8 +104,8 @@ const TraitTab = (props: TraitTabProps) => {
                 <div
                   className={cx(
                     "p-3 rounded-lg hover:rounded-b-none transition-rounded",
-                    props.requestSeed?.trait?.name === f.filename &&
-                      "rounded-b-none"
+                    props.requestSeed?.trait?.imageData.filename ===
+                      f.filename && "rounded-b-none"
                   )}
                   style={{
                     backgroundColor:
@@ -137,7 +136,8 @@ const TraitTab = (props: TraitTabProps) => {
                 <p
                   className={cx(
                     "text-xs lg:text-sm capitalize text-center text-slate-400 py-1 leading-none",
-                    props.requestSeed?.trait?.name === f.filename && "font-bold"
+                    props.requestSeed?.trait?.imageData.filename ===
+                      f.filename && "font-bold"
                   )}
                 >
                   {parseTraitName(f.filename)}

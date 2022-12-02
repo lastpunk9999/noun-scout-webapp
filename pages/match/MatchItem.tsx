@@ -3,30 +3,31 @@ import RequestCard from "../../components/RequestCard";
 import { BigNumber, utils } from "ethers";
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
 import { nounSeekContract } from "../../config";
-import { useCallback, useState } from "react";
+import { useMemo, useState } from "react";
 import cx from "classnames";
 import Link from "next/link";
-import { traitTypeNamesById } from "../../utils";
-import { ImageData } from "@nouns/assets";
+import { getTraitTraitNameAndImageData } from "../../utils";
 
 type MatchItemProps = {
   donations: readonly BigNumber[];
   reimbursement: BigNumber;
   traitTypeId: number;
   traitId: number;
-  nounSeed: NounSeed
-}
+  nounSeed: NounSeed;
+};
 
 const MatchItem = (props: MatchItemProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [transactionData, setTransactionData] = useState<string>();
-  const [isTransactionLoading, setIsTransactionLoading] = useState<boolean>(false);
-  const [isTransactionComplete, setIsTransactionComplete] = useState<boolean>(false);
+  const [isTransactionLoading, setIsTransactionLoading] =
+    useState<boolean>(false);
+  const [isTransactionComplete, setIsTransactionComplete] =
+    useState<boolean>(false);
 
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
-    functionName: 'matchAndDonate',
+    functionName: "matchAndDonate",
     args: [
       props.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
     ],
@@ -43,10 +44,10 @@ const MatchItem = (props: MatchItemProps) => {
     },
     onSettled(settledData) {
       if (settledData) {
-          setTransactionData(settledData?.hash.toString());
+        setTransactionData(settledData?.hash.toString());
       }
     },
-  })
+  });
 
   // wait for transaction to complete and then update the UI
   useWaitForTransaction({
@@ -59,28 +60,24 @@ const MatchItem = (props: MatchItemProps) => {
       setErrorMessage(error.message);
     },
   });
-
-  const donationData = props.donations.map((donation, index) => {
-    if (!donation.isZero()) {
+  console.log("matchitem props.donations", props.traitTypeId, props.donations);
+  const donationData = props.donations
+    .map((donation, index) => {
       return {
         to: index,
-        amount: donation
-      }
-    }
-  });
+        amount: donation,
+      };
+    })
+    .filter((data) => !data.amount.isZero());
 
-  const buildTraitFromIds = useCallback((traitTypeId: number, traitId: number) => {
-    const traitTypeNames = traitTypeNamesById(traitTypeId);
-    const trait: TraitNameAndImageData = {
-      name: ImageData.images[traitTypeNames[1]][traitId].filename,
-      traitId: traitId,
-      traitTypeId: traitTypeId,
-      type: traitTypeNames[0],
-      imageData: ImageData.images[traitTypeNames[1]][traitId].imageData,
-    }
-    console.log('buildTrait results', trait);
+  const trait = useMemo(() => {
+    const trait = getTraitTraitNameAndImageData(
+      props.traitTypeId,
+      props.traitId
+    );
+    console.log("buildTrait results", trait);
     return trait;
-  },[])
+  }, [props.traitTypeId, props.traitId]);
 
   return (
     <div className="my-5">
@@ -109,7 +106,7 @@ const MatchItem = (props: MatchItemProps) => {
             )}
           >
             <RequestCard
-              trait={buildTraitFromIds(props.traitTypeId, props.traitId)}
+              trait={trait}
               donations={donationData}
               nounSeed={props.nounSeed}
             />
@@ -140,6 +137,6 @@ const MatchItem = (props: MatchItemProps) => {
       )}
     </div>
   );
-}
+};
 
 export default MatchItem;
