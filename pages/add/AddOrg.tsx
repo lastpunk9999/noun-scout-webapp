@@ -16,6 +16,7 @@ type AddOrgsProps = {
 const AddOrgs = (props: AddOrgsProps) => {
   const [amount, setAmount] = useState<string | undefined>(undefined);
   const doneesList = useAppContext()[0];
+  console.log(doneesList, "doneesList");
 
   useEffect(() => {
     if (amount) {
@@ -32,26 +33,9 @@ const AddOrgs = (props: AddOrgsProps) => {
 
   return (
     <div className="flex flex-col gap-10 relative">
-      <div>
-        <h3 className="text-xl font-bold">Amount to donate</h3>
-        <div className="relative mb-2 w-30">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-            Ξ
-          </span>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 pl-7 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="number"
-            placeholder={`0.1`}
-            min="0.1"
-            value={amount}
-            onChange={(event) => setAmount(event.target.value)}
-            onLoad={(event) => setAmount("0.1")}
-          />
-        </div>
-      </div>
       <div className="prose">
         <h3 className="text-lg font-bold mb-2 text-slate-500">
-          Charity overview
+          About these charities
         </h3>
         <p>
           Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget

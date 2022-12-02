@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { Donation, NounSeed, TraitNameAndImageData } from "../types";
 import Image from "next/image";
 import { ImageData, getPartData } from "@nouns/assets";
@@ -7,9 +7,10 @@ import { traitTypeNamesById, traitNamesById } from "../utils";
 import RequestDonee from "./RequestDonee";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useMemo } from "react";
 
 type RequestCardProps = {
-  style: string;
+  cardStyle: "detailed" | "compact" | undefined;
   trait: TraitNameAndImageData | undefined;
   donations: Donation[] | undefined;
   id?: number;
@@ -31,14 +32,22 @@ const RequestCard = (props: RequestCardProps) => {
   const traitTypeNames = traitTypeNamesById(traitTypeId) || undefined;
   const part =
     traitTypeId > 0 && traitTypeNames && getPart(traitTypeNames[1], traitId);
-  console.log("props.donations", props.donations);
 
+  const totalDonationAmount = useMemo(() => {
+    if (!props.donations) return 0;
+    return props.donations.reduce(function (acc, obj) {
+      const amount = obj.amount ? Number(utils.formatEther(obj.amount)) : 0;
+      return acc + amount;
+    }, 0);
+  }, [props.donations]);
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative">
       <div className="absolute top-3 right-3">
-        <p className="text-mdleading-none px-3 py-2 font-bold bg-green-700 text-white rounded-md">
-          X ETH
-        </p>
+        {totalDonationAmount && (
+          <p className="text-mdleading-none px-3 py-2 font-bold bg-green-700 text-white rounded-md">
+            Ξ {totalDonationAmount}
+          </p>
+        )}
       </div>
       <div className="flex gap-5 items-center p-3">
         <div className="w-2/4">
@@ -91,8 +100,6 @@ const RequestCard = (props: RequestCardProps) => {
           </h3>
         </div>
       </div>
-      {/* {props.donations[0]?.to !== undefined ||
-        (props.donations[0]?.amount !== undefined && ( */}
       <footer className="bg-slate-200 p-3">
         <p className="text-slate-400 text-xs mb-1">Supporting</p>
         <ul className="flex gap-4">
@@ -103,18 +110,18 @@ const RequestCard = (props: RequestCardProps) => {
                   donation.amount === undefined ||
                   donation.to === undefined
                 ) {
-                  return "Charity of your choice";
+                  return "The charity of your choice";
                 } else {
                   return (
                     <RequestDonee
-                      style={props.style}
+                      cardStyle={props.cardStyle}
                       key={i}
                       donation={donation}
                     />
                   );
                 }
               })
-            : "Charity of your choice"}
+            : "The charity of your choice"}
         </ul>
       </footer>
       {/* ))} */}

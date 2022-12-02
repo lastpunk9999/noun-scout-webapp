@@ -147,7 +147,10 @@ const Confirm = (props: ConfirmProps) => {
     <div className="flex flex-col gap-3">
       {isTransactionComplete ? (
         <div className="text-center">
-          <p>Your sponsorship has been submitted!</p>
+          <h1 className="text-3xl font-bold font-serif mb-2 text-center">
+            Your sponsorship has been submitted!
+          </h1>
+          <RequestInText requestSeed={props.requestSeed} />
           <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
             <button
               className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
@@ -158,7 +161,7 @@ const Confirm = (props: ConfirmProps) => {
               Sponsor another Noun trait
             </button>
             <Link href="/manage">
-              <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
+              <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
                 Manage your sponsorships
               </a>
             </Link>
@@ -166,23 +169,24 @@ const Confirm = (props: ConfirmProps) => {
         </div>
       ) : (
         <>
-          <h1 className="text-3xl font-bold font-serif mb-0 text-center">
-            Confirm Sponsorship
-          </h1>
+          <h1 className="text-5xl font-bold">Confirm Sponsorship</h1>
           <div
             className={cx(
               "w-full",
               isLoading || isTransactionLoading ? "opacity-40" : "opacity-100"
             )}
           >
-            <div className="max-w-lg mx-auto my-4">
+            <div className="max-w-md mx-auto my-4">
               <RequestCard
                 id={props.requestSeed.id}
                 trait={props.requestSeed?.trait}
                 donations={[props.requestSeed.donation]}
+                cardStyle="detailed"
               />
             </div>
-            <RequestInText requestSeed={props.requestSeed} />
+            <div className="max-w-md mx-auto">
+              <RequestInText requestSeed={props.requestSeed} />
+            </div>
             {/* <div className="flex justify-center items-center mt-4">
               <input
                 id="default-checkbox"
@@ -199,7 +203,7 @@ const Confirm = (props: ConfirmProps) => {
                 Apply this sponsorship only to a specific Future Noun ID
               </label>
             </div> */}
-            <div className="flex flex-row mt-2 gap-3 justify-center items-center">
+            <div className="flex flex-row gap-3 justify-center items-center">
               {isIdFieldVisible && (
                 <>
                   <label
@@ -227,7 +231,7 @@ const Confirm = (props: ConfirmProps) => {
             <>
               <div className="flex flex-col mt-4 gap-3 justify-center items-center">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
+                  className="text-xl bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
                   disabled={!write || isLoading || isTransactionLoading}
                   onClick={() => write?.()}
                 >

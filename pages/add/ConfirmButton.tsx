@@ -15,11 +15,13 @@ import Link from "next/link";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import RequestInText from "../../components/RequestInText";
 
 type ConfirmButtonProps = {
   requestSeed: Request;
   setRequestSeed: Function;
   setCurrentStep: Function;
+  currentStep: number;
 };
 
 const ConfirmButton = (props: ConfirmButtonProps) => {
@@ -74,20 +76,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     }
   }, [isIdFieldVisible]);
 
-  console.log("props.requestSeed", props.requestSeed);
-
   // prepare data to write to contract
-  const traitTypes = ["bodies", "accessories", "heads", "glasses"];
-  const traitTypeId =
-    // traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
-    props.requestSeed.trait.traitTypeId;
-  //   const traitId = ImageData.images[
-  //     `${props.requestSeed.trait.type.toLowerCase()}`
-  //   ].findIndex((trait) => {
-  //     return trait.filename === props.requestSeed.trait.imageData.filename;
-  //   });
-  const traitId = props.requestSeed.trait.traitId;
-
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
@@ -132,6 +121,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      props.setCurrentStep(props.currentStep + 1);
     },
     onError(error) {
       setErrorMessage(error.message);
@@ -156,7 +146,6 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     <div>
       {isTransactionComplete ? (
         <div className="text-center">
-          <p>Your sponsorship has been submitted!</p>
           <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
             <button
               className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
@@ -167,7 +156,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
               Sponsor another Noun trait
             </button>
             <Link href="/manage">
-              <a className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
+              <a className="inline-block !no-underline bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
                 Manage your sponsorships
               </a>
             </Link>
@@ -175,9 +164,9 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
         </div>
       ) : (
         <>
-          <h3 className="text-3xl font-bold font-serif mb-0 text-center">
+          {/* <h3 className="text-3xl font-bold font-serif mb-0 text-center">
             Confirm Sponsorship
-          </h3>
+          </h3> */}
           <div
             className={cx(
               "w-full",
@@ -215,6 +204,12 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
           )}
         </>
       )}
+      <button
+        className="underline text-slate-500"
+        onClick={() => props.setCurrentStep(props.currentStep - 1)}
+      >
+        Back
+      </button>
     </div>
   );
 };

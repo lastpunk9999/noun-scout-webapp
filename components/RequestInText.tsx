@@ -15,15 +15,28 @@ const RequestInText = (props: RequestInTextProps) => {
     props.requestSeed?.donation?.to || 0
   );
   return (
-    <p className="text-center">
+    <p className="text-center text-lg">
       If a Noun is minted with the{" "}
-      {capitalizeFirstLetter(parseTraitName(props.requestSeed.trait.name))}{" "}
-      {props.requestSeed.trait.type} trait{" "}
-      {props.requestSeed.donation.amount
-        ? `${utils.formatEther(props.requestSeed.donation.amount)} eth`
-        : "a donation"}{" "}
+      <span className="bg-slate-200 font-bold">
+        {capitalizeFirstLetter(parseTraitName(props.requestSeed.trait.name))}{" "}
+        {props.requestSeed.trait.type} trait
+      </span>
+      ,{" "}
+      {props.requestSeed.donation.amount ? (
+        <>
+          <span className="bg-slate-200 font-bold">
+            {utils.formatEther(props.requestSeed.donation.amount)} eth
+          </span>
+        </>
+      ) : (
+        "a donation"
+      )}{" "}
       will be sent to{" "}
-      {props.requestSeed.donation.to ? doneeDescription.title : "charity"}
+      {props.requestSeed.donation.to ? (
+        <span className="bg-slate-200 font-bold">{doneeDescription.title}</span>
+      ) : (
+        "charity"
+      )}
     </p>
   );
 };
