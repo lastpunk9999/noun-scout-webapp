@@ -89,18 +89,9 @@ const Add: NextPage = () => {
       <div
         className={cx(
           "flex flex-col w-2/5 max-w-[40rem] p-10 h-screen justify-center gap-10 items-center sticky top-0 transition-all duration-300",
-          // currentStep === 3 && "hidden"
           currentStep >= 3 && "!w-full"
         )}
       >
-        {/* <button
-          className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
-          onClick={() => {
-            setCurrentStep(4);
-          }}
-        >
-          go to confirm state
-        </button> */}
         {currentStep === steps.length && (
           <div className="text-center">
             <h1 className="text-3xl font-bold font-serif mb-2 text-center">
@@ -138,21 +129,28 @@ const Add: NextPage = () => {
           </>
         )}
         {currentStep === 0 && (
-          <>
-            <h1 className="text-3xl font-bold font-serif mb-0">
+          <div>
+            <h1 className="text-5xl font-bold font-serif mb-5">
               Want a Noun Trait minted?
             </h1>
-            <h2 className="text-lg">
-              1.Create a request with an amount of ETH to incentivize minting{" "}
-              <br />
-              2. When a Noun with your trait is minted, the ETH will be sent to
-              a non-profit of your choice
-            </h2>
-            <p>
+            <p className="text-md font-bold uppercase text-left w-full mb-3">
+              How it works
+            </p>
+            <ol className="bg-white flex flex-col gap-1 list-decimal mb-5 rounded-lg border border-slate-200">
+              <li className="text-lg p-5 leading-snug ml-10 pl-3">
+                Create a request with an amount of ETH to incentivize minting{" "}
+              </li>
+              <hr />
+              <li className="text-lg p-5 leading-snug ml-10 pl-3">
+                When a Noun with your trait is minted, the ETH will be sent to a
+                non-profit of your choice
+              </li>
+            </ol>
+            <p className="text-lg leading-tight">
               Nouns are minted once every 24 hours, so each day is another
               opportunity to mint your trait
             </p>
-          </>
+          </div>
         )}
         {currentStep === 3 && (
           <Confirm
