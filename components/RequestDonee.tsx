@@ -8,10 +8,14 @@ type RequestDoneeProps = {
 };
 
 const RequestDonee = (props: RequestDoneeProps) => {
-  console.log("props.donation", props.donation);
   const doneeDescription = useGetDoneeDescription(props.donation.to);
   return (
-    <li className="flex justify-center items-center gap-3">
+    <li
+      className={cx(
+        "flex justify-center items-center gap-3",
+        props.cardStyle === "detailed" && "!justify-start"
+      )}
+    >
       <div
         className={cx(props.cardStyle === "detailed" ? "w-[40px]" : "w-[30px]")}
       >
@@ -26,9 +30,9 @@ const RequestDonee = (props: RequestDoneeProps) => {
           <p className="text-lg font-bold leading-none">
             {doneeDescription.title}
           </p>
-          {/* <p className="text-md text-slate-500 leading-none">
+          <p className="text-md text-slate-500 leading-none">
             {utils.formatEther(props.donation.amount)} ETH
-          </p> */}
+          </p>
         </div>
       )}
     </li>

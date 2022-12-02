@@ -50,7 +50,7 @@ const RequestCard = (props: RequestCardProps) => {
           </p>
         )}
       </div>
-      <div className="flex gap-5 items-center p-3">
+      <div className="flex gap-5 items-center p-3 text-left">
         <div className="w-2/4">
           {/* Trait image - use bg color from noun if available */}
           <div
@@ -108,8 +108,15 @@ const RequestCard = (props: RequestCardProps) => {
         )}
       >
         <div className="flex flex-row gap-2 items-center">
-          <p className="text-slate-400 text-xs">Supporting</p>
-          <ul className="flex gap-4">
+          {props.cardStyle === "compact" && (
+            <p className="text-slate-400 text-xs">Supporting</p>
+          )}
+          <ul
+            className={cx(
+              "flex flex-col gap-4 w-full align-start",
+              props.cardStyle === "compact" && "!flex-row"
+            )}
+          >
             {props.donations
               ? props.donations.map((donation, i) => {
                   if (

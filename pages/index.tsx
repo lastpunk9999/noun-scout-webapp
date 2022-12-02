@@ -5,6 +5,8 @@ import RequestCard from "../components/RequestCard";
 import Link from "next/link";
 import ExampleNoun from "../components/ExampleNoun";
 import { useIsMounted } from "../hooks";
+import Modal from "../components/Modal";
+import { Request, TraitAndDonations } from "../types";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -12,8 +14,28 @@ const Home: NextPage = () => {
   const { nextAuctionDonations, nextAuctionId } =
     useGetDonationsForUpcomingNoun();
   const [filteredTraitType, setFilteredTraitType] = useState<number | null>();
-  const orderedTraitTitles = [3,4,2,1]; // not showing backgrounds in tabs
-  const traitTypes = ["backgrounds", "bodies", "accessories", "heads", "glasses"];
+  const orderedTraitTitles = [3, 4, 2, 1]; // not showing backgrounds in tabs
+  const traitTypes = [
+    "backgrounds",
+    "bodies",
+    "accessories",
+    "heads",
+    "glasses",
+  ];
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+
+  const handleModal = (request: TraitAndDonations) => {
+    setModalContent(
+      <RequestCard
+        trait={request.trait}
+        donations={request.donations}
+        key={request.trait.name}
+        cardStyle="detailed"
+      />
+    );
+    setShowModal(!showModal);
+  };
 
   if (!isMounted) return null;
   return (
@@ -89,17 +111,28 @@ const Home: NextPage = () => {
             const grid = Object.values(traits)
               .filter((f) => f.trait.traitTypeId === traitTypeId)
               .map((request) => {
-                return (
+                const requestCard = (
                   <RequestCard
                     trait={request.trait}
                     donations={request.donations}
                     key={request.trait.name}
+                    cardStyle="compact"
                   />
+                );
+                return (
+                  <>
+                    <button onClick={() => handleModal(request)}>
+                      {requestCard}
+                    </button>
+                  </>
                 );
               });
             return grid;
           })}
       </div>
+      {showModal && (
+        <Modal setShowModal={setShowModal} modalContent={modalContent}></Modal>
+      )}
     </div>
   );
 };
