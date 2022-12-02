@@ -8,6 +8,7 @@ import RequestDonee from "./RequestDonee";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMemo } from "react";
+import cx from "classnames";
 
 type RequestCardProps = {
   cardStyle: "detailed" | "compact" | undefined;
@@ -100,30 +101,39 @@ const RequestCard = (props: RequestCardProps) => {
           </h3>
         </div>
       </div>
-      <footer className="bg-slate-200 p-3">
-        <p className="text-slate-400 text-xs mb-1">Supporting</p>
-        <ul className="flex gap-4">
-          {props.donations
-            ? props.donations.map((donation, i) => {
-                if (
-                  donation.amount?.isZero() ||
-                  donation.amount === undefined ||
-                  donation.to === undefined
-                ) {
-                  return "The charity of your choice";
-                } else {
-                  return (
-                    <RequestDonee
-                      cardStyle={props.cardStyle || "detailed"}
-                      key={i}
-                      donation={donation}
-                    />
-                  );
-                }
-              })
-            : "The charity of your choice"}
-        </ul>
-        {props.cardStyle === "compact" && <button>details</button>}
+      <footer
+        className={cx(
+          "bg-slate-200 p-3",
+          props.cardStyle === "compact" && "flex flex-row justify-between gap-4"
+        )}
+      >
+        <div className="flex flex-row gap-2 items-center">
+          <p className="text-slate-400 text-xs">Supporting</p>
+          <ul className="flex gap-4">
+            {props.donations
+              ? props.donations.map((donation, i) => {
+                  if (
+                    donation.amount?.isZero() ||
+                    donation.amount === undefined ||
+                    donation.to === undefined
+                  ) {
+                    return "The charity of your choice";
+                  } else {
+                    return (
+                      <RequestDonee
+                        cardStyle={props.cardStyle || "detailed"}
+                        key={i}
+                        donation={donation}
+                      />
+                    );
+                  }
+                })
+              : "The charity of your choice"}
+          </ul>
+        </div>
+        {props.cardStyle === "compact" && (
+          <button className="text-sm underline opacity-70">details</button>
+        )}
       </footer>
       {/* ))} */}
     </div>
