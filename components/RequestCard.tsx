@@ -44,10 +44,12 @@ const RequestCard = (props: RequestCardProps) => {
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative">
       <div className="absolute top-3 right-3">
-        {totalDonationAmount && (
+        {totalDonationAmount ? (
           <p className="text-mdleading-none px-3 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
             Ξ {totalDonationAmount}
           </p>
+        ) : (
+          <></>
         )}
       </div>
       <div className="flex gap-5 items-center p-3 text-left">
@@ -124,7 +126,7 @@ const RequestCard = (props: RequestCardProps) => {
                     donation.amount === undefined ||
                     donation.to === undefined
                   ) {
-                    return "The charity of your choice";
+                    return "Supporting the charity of your choice";
                   } else {
                     return (
                       <RequestDonee
@@ -135,7 +137,7 @@ const RequestCard = (props: RequestCardProps) => {
                     );
                   }
                 })
-              : "The charity of your choice"}
+              : "Supporting the charity of your choice"}
           </ul>
         </div>
         {props.cardStyle === "compact" && (

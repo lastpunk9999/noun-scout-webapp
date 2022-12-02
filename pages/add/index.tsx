@@ -115,7 +115,7 @@ const Add: NextPage = () => {
             </div>
           </div>
         )}
-        {currentStep > 0 && currentStep < 3 && requestSeed && (
+        {currentStep >= 0 && currentStep < 3 && requestSeed && (
           <>
             <h1 className="text-3xl font-bold font-serif mb-0">
               Build your request
@@ -128,7 +128,7 @@ const Add: NextPage = () => {
             <RequestInText requestSeed={requestSeed} />
           </>
         )}
-        {currentStep === 0 && (
+        {currentStep === 0 && !requestSeed && (
           <div>
             <h1 className="text-5xl font-bold font-serif mb-5">
               Want a Noun Trait minted?
