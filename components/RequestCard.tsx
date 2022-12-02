@@ -18,7 +18,14 @@ type RequestCardProps = {
   nounSeed?: NounSeed;
 };
 
-const getPart = (traitTypeId: number, traitId: number) => {
+const getPart = (
+  traitTypeId: number | undefined,
+  traitId: number | undefined
+) => {
+  if (traitTypeId === undefined || traitId === undefined)
+    return {
+      image: "/loading-noun.gif",
+    };
   let background;
   let data = "";
   if (traitTypeId === 0) {
@@ -33,10 +40,9 @@ const getPart = (traitTypeId: number, traitId: number) => {
 };
 
 const RequestCard = (props: RequestCardProps) => {
-  const traitTypeId =
-    props.trait?.traitTypeId >= 0 ? props.trait.traitTypeId : undefined;
-  const traitId = props.trait?.traitId >= 0 ? props.trait.traitId : undefined;
-  const traitTypeNames = traitTypeNamesById(traitTypeId) || undefined;
+  const traitTypeId = props.trait?.traitTypeId;
+  const traitId = props.trait?.traitId;
+  const traitTypeName = props.trait?.type;
   const part = getPart(traitTypeId, traitId);
 
   const totalDonationAmount = useMemo(() => {
@@ -79,11 +85,11 @@ const RequestCard = (props: RequestCardProps) => {
         </div>
         <div className="w-3/4">
           <p className="text-slate-400 text-sm leading-none capitalize">
-            {traitId >= 0 ? traitTypeNames[0] : "Trait type"}
+            {traitId ? traitTypeName : "Trait type"}
           </p>
           <h3 className="text-3xl font-bold leading-none capitalize">
-            {traitId !== undefined ? (
-              traitNamesById(traitTypeId, traitId)
+            {traitTypeName !== undefined ? (
+              traitTypeName
             ) : (
               <>Select a Noun trait</>
             )}
