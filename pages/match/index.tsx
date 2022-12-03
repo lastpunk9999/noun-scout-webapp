@@ -28,6 +28,7 @@ const Match: NextPage = () => {
             <NounWithMatches
               nounId={matchData.nonAuctionedNounId}
               donations={matchData.nonAuctionedNounDonations}
+              reimbursements={matchData.reimbursementPerTrait}
             />
           </>
         )}
