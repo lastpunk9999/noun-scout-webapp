@@ -17,13 +17,13 @@ export default function FocusedNav() {
     <header>
       <nav className="w-full fixed z-10">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[250px] absolute top-5 left-5">
+          <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[250px] absolute top-2 left-2">
             <a href="/" className="flex items-center">
               {/* Noun Seek ⌐◨-◨ */}
               <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
             </a>
           </h1>
-          <div className="absolute top-5 right-5">
+          <div className="absolute top-2 right-2">
             <ConnectButton showBalance={false} />
           </div>
         </div>

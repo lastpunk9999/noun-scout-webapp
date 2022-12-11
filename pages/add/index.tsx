@@ -164,53 +164,124 @@ const Add: NextPage = () => {
       {/* Stepper */}
       <div
         className={cx(
-          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white p-10 justify-center w-full pb-[20rem] transition-all",
+          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white justify-center pb-[20rem] transition-all relative",
           currentStep >= 3 && "w-0 hidden"
         )}
       >
         {/* Step wrapper */}
-
-        {currentStep < steps.length - 1 && (
-          <div className="mt-10 mb-5">
-            <span className="text-sm uppercase color-blue-500 opacity-70">
-              step {currentStep + 1}
-            </span>
-            <h1 className="text-5xl font-bold">{steps[currentStep].title}</h1>
+        <div
+          className={cx(
+            "w-3/5 flex flex-row gap-5 p-2 px-10 fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between"
+          )}
+        >
+          {/* <button
+            className={cx(
+              "underline text-slate-400",
+              currentStep < 1 && "opacity-0"
+            )}
+            onClick={() => setCurrentStep(currentStep - 1)}
+            disabled={currentStep < 1 && currentStep > 3 ? true : false}
+          >
+            Back
+          </button> */}
+          <div className="flex bg-white p-1 justify-center gap-2 w-full items-center rounded-lg border border-slate-200">
+            {steps.map((step, i) => {
+              return (
+                <button
+                  className={cx(
+                    "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg",
+                    currentStep === i && "",
+                    i > currentStep && "opacity-40 hover:opacity-80"
+                  )}
+                  onClick={() =>
+                    (requestSeed?.donation || i < currentStep) &&
+                    setCurrentStep(i)
+                  }
+                  disabled={
+                    requestSeed?.donation || i < currentStep ? false : true
+                  }
+                >
+                  <p
+                    className={cx(
+                      "text-sm font-bold rounded-full text-center aspect-square h-7 leading-6",
+                      i < currentStep
+                        ? "bg-blue-700 text-white"
+                        : "text-blue-700 border-blue-700 border-2",
+                      i > currentStep && "border-slate-400 text-slate-400"
+                    )}
+                  >
+                    {i < currentStep ? "✓" : i + 1}
+                  </p>
+                  <p
+                    className={cx(
+                      "text-sm leading-none",
+                      i === currentStep && "text-blue-700 font-bold"
+                    )}
+                  >
+                    {step.title}
+                  </p>
+                </button>
+              );
+            })}
           </div>
-        )}
+          {currentStep < 3 && (
+            <div className="">
+              {currentStep < 3 && (
+                <NextButton
+                  isActive={checkProgress()}
+                  handleNextStep={handleNextStep}
+                />
+              )}
+            </div>
+          )}
+        </div>
+        {/* step content wrapper */}
+        <div className="p-10 mt-10">
+          {currentStep < steps.length - 1 && (
+            <div className="mt-10 mb-5">
+              <span className="text-sm uppercase color-blue-500 opacity-70">
+                step {currentStep + 1}
+              </span>
+              <h1 className="text-5xl font-bold">{steps[currentStep].title}</h1>
+            </div>
+          )}
 
-        {currentStep === 0 && (
-          <>
-            <AddTrait
-              setRequestSeed={setRequestSeed}
+          {currentStep === 0 && (
+            <>
+              <AddTrait
+                setRequestSeed={setRequestSeed}
+                requestSeed={requestSeed}
+              />
+            </>
+          )}
+          {currentStep === 1 && (
+            <>
+              <AddAmount
+                setRequestSeed={setRequestSeed}
+                requestSeed={requestSeed}
+              />
+            </>
+          )}
+          {currentStep === 2 && (
+            <>
+              <AddOrg
+                setRequestSeed={setRequestSeed}
+                requestSeed={requestSeed}
+              />
+            </>
+          )}
+          {currentStep === 3 && (
+            <Confirm
               requestSeed={requestSeed}
-            />
-          </>
-        )}
-        {currentStep === 1 && (
-          <>
-            <AddAmount
               setRequestSeed={setRequestSeed}
-              requestSeed={requestSeed}
+              setCurrentStep={setCurrentStep}
+              currentStep={currentStep}
             />
-          </>
-        )}
-        {currentStep === 2 && (
-          <>
-            <AddOrg setRequestSeed={setRequestSeed} requestSeed={requestSeed} />
-          </>
-        )}
-        {currentStep === 3 && (
-          <Confirm
-            requestSeed={requestSeed}
-            setRequestSeed={setRequestSeed}
-            setCurrentStep={setCurrentStep}
-            currentStep={currentStep}
-          />
-        )}
+          )}
+        </div>
       </div>
 
-      <div
+      {/* <div
         className={cx(
           "flex flex-row py-3 px-5 bg-white shadow-2xl fixed bottom-0 w-full text-center justify-center items-center"
         )}
@@ -225,9 +296,6 @@ const Add: NextPage = () => {
         >
           Back
         </button>
-
-        {/* Stepper */}
-
         <div className="flex bg-white mx-auto p-1 justify-center gap-3 items-center rounded-lg  border border-slate-200 max-w-lg">
           {steps.map((step, i) => {
             return (
@@ -278,7 +346,7 @@ const Add: NextPage = () => {
             )}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
