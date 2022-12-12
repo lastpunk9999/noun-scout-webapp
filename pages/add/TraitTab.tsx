@@ -114,7 +114,7 @@ const TraitTab = (props: TraitTabProps) => {
                 </div>
                 <div
                   className={cx(
-                    "p-3 rounded-t-lg hover:rounded-b-none transition-rounded",
+                    "rounded-t-lg hover:rounded-b-none transition-rounded",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "rounded-b-none"
                   )}
@@ -128,20 +128,30 @@ const TraitTab = (props: TraitTabProps) => {
                   {props.traitIndex === 0 ? (
                     <div className="opacity-30 relative z-10 h-100 aspect-square" />
                   ) : (
-                    <Image
-                      src={f.image}
-                      layout="responsive"
-                      width={320}
-                      height={320}
-                      alt={`${parseTraitName(f.filename)} trait`}
-                      className="w-full aspect-square"
-                    />
+                    <div className="w-full overflow-hidden">
+                      <Image
+                        src={f.image}
+                        layout="responsive"
+                        width={320}
+                        height={320}
+                        alt={`${parseTraitName(f.filename)} trait`}
+                        className={cx(
+                          "w-full aspect-square",
+                          // scale up accessory and bodies
+                          (props.traitIndex === 1 || props.traitIndex === 2) &&
+                            "scale-[170%] !-top-[70%]",
+                          props.traitIndex === 4 &&
+                            "scale-[150%] !top-[10%] !left-[3%]",
+                          props.traitIndex === 3 && "!top-[20%]"
+                        )}
+                      />
+                    </div>
                   )}
                 </div>
 
                 <p
                   className={cx(
-                    "text-xs lg:text-sm capitalize text-center text-slate-500 py-1 leading-none font-bold",
+                    "p-1 text-sm capitalize text-center text-slate-500 py-1 leading-none font-bold",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "font-bold"
                   )}
