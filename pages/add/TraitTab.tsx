@@ -72,7 +72,7 @@ const TraitTab = (props: TraitTabProps) => {
               <button
                 key={f.filename}
                 className={cx(
-                  "group bg-white shadow-md text-left border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
+                  "group bg-white shadow-md text-left border border-transparent rounded-lg h-full hover:shadow-md transition-shadow relative",
                   props.requestSeed?.trait?.imageData.filename === f.filename &&
                     "bg-white shadow-lg border-2 border-blue-500! opacity-100",
                   props.requestSeed?.trait?.imageData.filename &&

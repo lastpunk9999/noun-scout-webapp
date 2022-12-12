@@ -15,7 +15,8 @@ const Donee = (props: DoneeProps) => {
   return (
     <button
       className={cx(
-        "flex gap-5 text-left p-3 text-left border border-transparent rounded-lg hover:shadow-md transition-shadowrelative",
+        "group bg-white shadow-md flex flex-col gap-5 h-full text-left p-3 border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
+        // " text-left border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
         props.requestSeed?.donation?.to === props.doneeId &&
           "bg-white shadow-lg border-2 opacity-100",
         props.requestSeed?.donation?.to >= 0 &&
@@ -42,7 +43,7 @@ const Donee = (props: DoneeProps) => {
       }
     >
       {doneeDescription.image && (
-        <div className="w-40 rounded">
+        <div className="w-20 rounded">
           <Image
             src={doneeDescription.image}
             alt={`${doneeDescription.name} logo`}
@@ -56,8 +57,21 @@ const Donee = (props: DoneeProps) => {
         <h4 className="text-lg font-bold">{doneeDescription.name}</h4>
         <p>{doneeDescription.description}</p>
       </div>
+      <div
+        className={cx(
+          "absolute top-0 right-1 hidden group-hover:block",
+          props.requestSeed?.donation?.to === props.doneeId && "!block"
+        )}
+      >
+        <input
+          type="checkbox"
+          checked={
+            props.requestSeed?.donation?.to === props.doneeId ? true : false
+          }
+        />
+      </div>
       <div>
-        {props.requestSeed?.donation?.to === props.doneeId && (
+        {/* {props.requestSeed?.donation?.to === props.doneeId && (
           <div
             className={cx(
               "flex flex-row gap-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
@@ -67,8 +81,8 @@ const Donee = (props: DoneeProps) => {
           >
             <input type="checkbox" checked /> Selected
           </div>
-        )}
-
+        )} */}
+        {/* 
         <div
           className={cx(
             "flex flex-row gap-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
@@ -86,7 +100,7 @@ const Donee = (props: DoneeProps) => {
           ) : (
             "Select"
           )}
-        </div>
+        </div> */}
       </div>
     </button>
   );
