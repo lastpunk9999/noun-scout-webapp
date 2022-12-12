@@ -12,6 +12,7 @@ module.exports = {
       'serif': ['Source Serif Pro', ...defaultTheme.fontFamily.serif],
     },
     extend: {
+      display: ["group-hover"],
       colors: {
         ...defaultTheme.colors,
         // TODO: add color variants here

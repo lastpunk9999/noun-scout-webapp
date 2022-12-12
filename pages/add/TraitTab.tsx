@@ -72,7 +72,7 @@ const TraitTab = (props: TraitTabProps) => {
               <button
                 key={f.filename}
                 className={cx(
-                  "text-left border border-transparent rounded-lg hover:shadow-md transition-shadow	relative",
+                  "group bg-white shadow-md text-left border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
                   props.requestSeed?.trait?.imageData.filename === f.filename &&
                     "bg-white shadow-lg border-2 border-blue-500! opacity-100",
                   props.requestSeed?.trait?.imageData.filename &&
@@ -95,15 +95,26 @@ const TraitTab = (props: TraitTabProps) => {
                       })
                 }
               >
-                {props.requestSeed?.trait?.imageData.filename ===
-                  f.filename && (
-                  <div className="absolute top-0 right-1">
-                    <input type="checkbox" checked />
-                  </div>
-                )}
                 <div
                   className={cx(
-                    "p-3 rounded-lg hover:rounded-b-none transition-rounded",
+                    "absolute top-0 right-1 hidden group-hover:block",
+                    props.requestSeed?.trait?.imageData.filename ===
+                      f.filename && "!block"
+                  )}
+                >
+                  <input
+                    type="checkbox"
+                    checked={
+                      props.requestSeed?.trait?.imageData.filename ===
+                      f.filename
+                        ? true
+                        : false
+                    }
+                  />
+                </div>
+                <div
+                  className={cx(
+                    "p-3 rounded-t-lg hover:rounded-b-none transition-rounded",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "rounded-b-none"
                   )}
@@ -115,12 +126,7 @@ const TraitTab = (props: TraitTabProps) => {
                   }}
                 >
                   {props.traitIndex === 0 ? (
-                    <div
-                      className="opacity-30 relative z-10 h-100 aspect-square"
-                      // style={{
-                      //   backgroundColor: `#${ImageData.bgcolors[f.id]}`,
-                      // }}
-                    />
+                    <div className="opacity-30 relative z-10 h-100 aspect-square" />
                   ) : (
                     <Image
                       src={f.image}
@@ -135,7 +141,7 @@ const TraitTab = (props: TraitTabProps) => {
 
                 <p
                   className={cx(
-                    "text-xs lg:text-sm capitalize text-center text-slate-400 py-1 leading-none",
+                    "text-xs lg:text-sm capitalize text-center text-slate-500 py-1 leading-none",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "font-bold"
                   )}
