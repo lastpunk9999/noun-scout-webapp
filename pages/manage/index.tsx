@@ -8,7 +8,7 @@ import { nounSeekContract } from "../../config";
 import { Request, RequestStatus } from "../../types";
 import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
-import RequestCard from "../../components/RequestCard";
+import cx from "classnames";
 import ManageTrait from "./ManageTrait";
 import { requestStatusToMessage } from "../../utils";
 
@@ -62,29 +62,35 @@ const Manage: NextPage = () => {
       </div>
     );
   }
+
+  const group = (status: RequestStatus) => {
+    return (
+      <ul
+        className={cx(
+          "mx-auto my-4 p-5 gap-10",
+          groupedRequests[status]?.length > 1
+            ? "grid md:grid-cols-2"
+            : "flex justify-center align-center"
+        )}
+      >
+        {groupedRequests[status].map((request, i) => {
+          return <ManageTrait key={i} request={request} />;
+        })}
+      </ul>
+    );
+  };
+
   return (
-    <div>
+    <div className="container">
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
         Your Sponsorships
       </h1>
-      {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 && (
-        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
-          {groupedRequests[RequestStatus.CAN_REMOVE].map((request, i) => {
-            return (
-              <li
-                key={i}
-                className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
-              >
-                <ManageTrait request={request} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 &&
+        group(RequestStatus.CAN_REMOVE)}
 
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
-        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
-          <p>
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
+          <p className="font-bold text-lg max-w-lg mx-auto">
             The current Noun or the previous Noun has traits which match the
             following{" "}
             {groupedRequests[RequestStatus.MATCH_FOUND].length > 1
@@ -92,42 +98,22 @@ const Manage: NextPage = () => {
               : "sponsorship. It "}
             cannot be removed yet.
           </p>
-          {groupedRequests[RequestStatus.MATCH_FOUND].map((request, i) => {
-            return (
-              <li
-                key={i}
-                className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
-              >
-                <ManageTrait request={request} />
-              </li>
-            );
-          })}
-        </ul>
+          {group(RequestStatus.MATCH_FOUND)}
+        </div>
       )}
 
       {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
-        <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
-          <p>
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
+          <p className="font-bold text-lg max-w-lg mx-auto">
             The Noun auction is ending soon. These sponsorships cannot be
             removed until the auction is settled.
           </p>
-          {groupedRequests[RequestStatus.AUCTION_ENDING_SOON].map(
-            (request, i) => {
-              return (
-                <li
-                  key={i}
-                  className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
-                >
-                  <ManageTrait request={request} />
-                </li>
-              );
-            }
-          )}
-        </ul>
+          {group(RequestStatus.AUCTION_ENDING_SOON)}
+        </div>
       )}
 
       {groupedRequests[RequestStatus.DONATION_SENT]?.length > 0 && (
-        <>
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
           <h1 className="text-3xl font-bold mb-2 text-center">
             Past Sponsorships
           </h1>
@@ -143,7 +129,7 @@ const Manage: NextPage = () => {
               );
             })}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );
