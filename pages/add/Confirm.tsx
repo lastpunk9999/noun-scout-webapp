@@ -9,8 +9,7 @@ import {
   useWaitForTransaction,
   useAccount,
 } from "wagmi";
-import { BigNumber, ethers, utils } from "ethers";
-import { ImageData } from "@nouns/assets";
+import { BigNumber } from "ethers";
 import Link from "next/link";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
@@ -91,6 +90,9 @@ const Confirm = (props: ConfirmProps) => {
     onError(error) {
       console.log("Error", error);
       setErrorMessage(error.message);
+    },
+    onSuccess() {
+      setErrorMessage(undefined);
     },
   });
 

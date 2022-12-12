@@ -172,7 +172,7 @@ const Add: NextPage = () => {
       {/* Stepper */}
       <div
         className={cx(
-          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white justify-center pb-[20rem] transition-all relative",
+          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white justify-center pb-[5rem] transition-all relative",
           currentStep >= 3 && "w-0 hidden"
         )}
       >

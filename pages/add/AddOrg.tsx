@@ -25,17 +25,19 @@ const AddOrgs = (props: AddOrgsProps) => {
       </div>
       <div className="">
         <div>
-          <h3 className="text-xl font-bold">Select a charity</h3>
-          <div className="grid gap-5 items-start grid-cols-1 md:grid-cols-3">
+          <h3 className="text-xl font-bold mb-2">Select a charity</h3>
+          <div className="grid gap-5 items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {doneesList.map((org, i) => {
-              return (
-                <Donee
-                  doneeId={i}
-                  key={i}
-                  requestSeed={props.requestSeed}
-                  setRequestSeed={props.setRequestSeed}
-                />
-              );
+              if (org.active) {
+                return (
+                  <Donee
+                    doneeId={i}
+                    key={i}
+                    requestSeed={props.requestSeed}
+                    setRequestSeed={props.setRequestSeed}
+                  />
+                );
+              }
             })}
           </div>
         </div>

@@ -26,7 +26,7 @@ const doneeDescriptions = [
     {
       "title": "Freedom Of The Press Foundation",
       "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla.",
-      "image": "/donees/donee-logo-fpf.png",
+      "image": "",
       "address": "0x998F25Be40241CA5D8F5fCaF3591B5ED06EF3Be7"
     }, 
     {
