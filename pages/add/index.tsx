@@ -62,13 +62,13 @@ const Add: NextPage = () => {
   const amount = requestSeed?.donation?.amount || 0;
   const amountInEth = parseFloat(utils.formatEther(amount));
   const stepRequirements = [
-    true,
     requestSeed?.trait?.name ? true : false,
     amountInEth > 0,
     requestSeed?.donation?.to >= 0,
   ];
 
   const isStepReady = (step: number) => {
+    console.log("stepRequirements", step, stepRequirements[step]);
     if (currentStep < 3) {
       if (stepRequirements[step]) {
         return true;
@@ -96,7 +96,11 @@ const Add: NextPage = () => {
     >
       <div
         className={cx(
-          "flex flex-col w-2/5 max-w-[40rem] p-10 h-screen justify-center gap-10 items-center sticky top-0 transition-all duration-300",
+          "flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300 h-[1000px] flex-1",
+          currentStep >= 0 &&
+            currentStep < 3 &&
+            requestSeed &&
+            "!h-auto flex-0",
           currentStep >= 3 && "!w-full"
         )}
       >
@@ -124,21 +128,25 @@ const Add: NextPage = () => {
           </div>
         )}
         {currentStep >= 0 && currentStep < 3 && requestSeed && (
-          <>
-            <h1 className="text-3xl font-bold font-serif mb-0">
+          <div className="flex flex-col w-full mb-2 md:mb-0">
+            <h1 className="text-3xl text-center font-bold font-serif mb-0">
               Build your request
             </h1>
-            <RequestCard
-              cardStyle="detailed"
-              trait={requestSeed && requestSeed.trait}
-              donations={requestSeed && [requestSeed.donation]}
-            />
-            <RequestInText requestSeed={requestSeed} />
-          </>
+            <div className="hidden md:block">
+              <RequestCard
+                cardStyle="detailed"
+                trait={requestSeed && requestSeed.trait}
+                donations={requestSeed && [requestSeed.donation]}
+              />
+            </div>
+            <div className="min-h-[4rem] transition-all">
+              <RequestInText requestSeed={requestSeed} />
+            </div>
+          </div>
         )}
         {currentStep === 0 && !requestSeed && (
           <div>
-            <h1 className="text-5xl font-bold font-serif mb-5">
+            <h1 className="text-center md:text-left text-5xl font-bold font-serif mb-5">
               Want a Noun Trait minted?
             </h1>
             <p className="text-md font-bold uppercase text-left w-full mb-3">
@@ -172,14 +180,14 @@ const Add: NextPage = () => {
       {/* Stepper */}
       <div
         className={cx(
-          "w-3/5 mx-auto border border-slate-200 border-top-0 bg-white justify-center pb-[5rem] transition-all relative",
+          "w-full md:w-3/5 mx-auto border border-slate-200 border-top-0 bg-white justify-center pb-[5rem] transition-all relative",
           currentStep >= 3 && "w-0 hidden"
         )}
       >
         {/* Step wrapper */}
         <div
           className={cx(
-            "w-3/5 flex flex-row gap-5 p-2 px-10 fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between"
+            "w-full md:w-3/5 flex flex-row gap-2 md:gap-5 p-2 md-px-10 sticky md:fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between "
           )}
         >
           <div className="flex bg-white p-1 justify-center gap-2 w-full items-center rounded-lg border border-slate-200">
@@ -187,7 +195,7 @@ const Add: NextPage = () => {
               return (
                 <button
                   className={cx(
-                    "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg",
+                    "md:min-w-30 text-lg text-center md:text-left text-slate flex flex-col gap-1 p-1 md:flex-row md:gap-2 md:p-3 justify-center items-center rounded-lg",
                     currentStep === i && "",
                     i > currentStep && "opacity-40",
                     isStepReady(i) && "opacity-100"
@@ -235,9 +243,9 @@ const Add: NextPage = () => {
           )}
         </div>
         {/* step content wrapper */}
-        <div className="p-10 mt-10">
+        <div className="container md:p-10 md:mt-10">
           {currentStep < steps.length - 1 && (
-            <div className="mt-10 mb-5">
+            <div className="mt-5 md:mt-10 mb-5">
               <span className="text-sm uppercase color-blue-500 opacity-70">
                 step {currentStep + 1}
               </span>
@@ -279,73 +287,6 @@ const Add: NextPage = () => {
           )}
         </div>
       </div>
-
-      {/* <div
-        className={cx(
-          "flex flex-row py-3 px-5 bg-white shadow-2xl fixed bottom-0 w-full text-center justify-center items-center"
-        )}
-      >
-        <button
-          className={cx(
-            "underline text-slate-400",
-            currentStep < 1 && "opacity-0"
-          )}
-          onClick={() => setCurrentStep(currentStep - 1)}
-          disabled={currentStep < 1 && currentStep > 3 ? true : false}
-        >
-          Back
-        </button>
-        <div className="flex bg-white mx-auto p-1 justify-center gap-3 items-center rounded-lg  border border-slate-200 max-w-lg">
-          {steps.map((step, i) => {
-            return (
-              <button
-                className={cx(
-                  "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg",
-                  currentStep === i && "",
-                  i > currentStep && "opacity-40 hover:opacity-80"
-                )}
-                onClick={() =>
-                  (requestSeed?.donation || i < currentStep) &&
-                  setCurrentStep(i)
-                }
-                disabled={
-                  requestSeed?.donation || i < currentStep ? false : true
-                }
-              >
-                <p
-                  className={cx(
-                    "text-sm font-bold rounded-full text-center aspect-square h-7 leading-6",
-                    i < currentStep
-                      ? "bg-blue-700 text-white"
-                      : "text-blue-700 border-blue-700 border-2",
-                    i > currentStep && "border-slate-400 text-slate-400"
-                  )}
-                >
-                  {i < currentStep ? "✓" : i + 1}
-                </p>
-                <p
-                  className={cx(
-                    "text-sm leading-none",
-                    i === currentStep && "text-blue-700 font-bold"
-                  )}
-                >
-                  {step.title}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-        {currentStep < 3 && (
-          <div className="">
-            {currentStep < 3 && (
-              <NextButton
-                isActive={checkProgress()}
-                handleNextStep={handleNextStep}
-              />
-            )}
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };

@@ -28,7 +28,7 @@ const AddAmount = (props: AddAmountProps) => {
   }, [amount]);
 
   return (
-    <div className="flex flex-col gap-10 relative">
+    <div className="flex flex-col gap-10 relative min-h-[50vh]">
       <div>
         <h3 className="text-xl font-bold">Amount to donate</h3>
         <div className="relative mb-2 w-30">

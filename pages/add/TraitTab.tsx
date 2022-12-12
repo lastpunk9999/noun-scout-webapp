@@ -60,7 +60,7 @@ const TraitTab = (props: TraitTabProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xxl:grid-cols-7 gap-5 items-start">
+      <div className="min-h-screen grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xxl:grid-cols-7 gap-5 items-start">
         {selectedTraits
           .filter(
             (f) =>
@@ -141,7 +141,7 @@ const TraitTab = (props: TraitTabProps) => {
 
                 <p
                   className={cx(
-                    "text-xs lg:text-sm capitalize text-center text-slate-500 py-1 leading-none",
+                    "text-xs lg:text-sm capitalize text-center text-slate-500 py-1 leading-none font-bold",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "font-bold"
                   )}
