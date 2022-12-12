@@ -75,16 +75,6 @@ const Confirm = (props: ConfirmProps) => {
     }
   }, [isIdFieldVisible]);
 
-  // prepare data to write to contract
-  const traitTypes = ["bodies", "accessories", "heads", "glasses"];
-  // const traitTypeId =
-  //   traitTypes.indexOf(props.requestSeed.trait.type.toLowerCase()) + 1;
-  // const traitId = ImageData.images[
-  //   `${props.requestSeed.trait.type.toLowerCase()}`
-  // ].findIndex((trait) => {
-  //   return trait.filename === props.requestSeed.trait.imageData.filename;
-  // });
-
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
@@ -92,7 +82,6 @@ const Confirm = (props: ConfirmProps) => {
     args: [
       props.requestSeed.trait.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
       props.requestSeed.trait.traitId, // traitId - index of trait type array
-      //   props.requestSeed.id || 0, // nounId - set to 0 for open id, or specify an id
       0,
       props.requestSeed.donation.to, // doneeId - index of donee array
     ],
@@ -246,6 +235,16 @@ const Confirm = (props: ConfirmProps) => {
           )}
         </>
       )}
+      <button
+        className={cx(
+          "underline text-slate-400",
+          props.currentStep < 1 && "opacity-0"
+        )}
+        onClick={() => props.setCurrentStep(props.currentStep - 1)}
+        disabled={props.currentStep < 1 && props.currentStep > 3 ? true : false}
+      >
+        Back
+      </button>
     </div>
   );
 };

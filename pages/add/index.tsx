@@ -59,23 +59,31 @@ const Add: NextPage = () => {
     setRequestSeed(undefined);
   };
 
-  const checkProgress = () => {
-    const amount = requestSeed?.donation?.amount || 0;
-    const amountInEth = parseFloat(utils.formatEther(amount));
-    console.log("check progress", amountInEth, amountInEth > 0);
-    if (currentStep === 0 && requestSeed?.trait?.name) {
-      // console.log("ready for step 2", requestSeed.trait.name);
-      return true;
-    } else if (currentStep === 1 && amountInEth > 0) {
-      return true;
-    } else if (
-      currentStep === 2 &&
-      amountInEth > 0 &&
-      requestSeed?.donation?.to >= 0
-    ) {
-      return true;
-    } else {
-      return false;
+  const amount = requestSeed?.donation?.amount || 0;
+  const amountInEth = parseFloat(utils.formatEther(amount));
+  const stepRequirements = [
+    true,
+    requestSeed?.trait?.name ? true : false,
+    amountInEth > 0,
+    requestSeed?.donation?.to >= 0,
+  ];
+
+  const isStepReady = (step: number) => {
+    if (currentStep < 3) {
+      if (stepRequirements[step]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+  const isStepComplete = (step: number) => {
+    if (step < 3) {
+      if (stepRequirements[step]) {
+        return true;
+      } else {
+        return false;
+      }
     }
   };
 
@@ -174,16 +182,6 @@ const Add: NextPage = () => {
             "w-3/5 flex flex-row gap-5 p-2 px-10 fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between"
           )}
         >
-          {/* <button
-            className={cx(
-              "underline text-slate-400",
-              currentStep < 1 && "opacity-0"
-            )}
-            onClick={() => setCurrentStep(currentStep - 1)}
-            disabled={currentStep < 1 && currentStep > 3 ? true : false}
-          >
-            Back
-          </button> */}
           <div className="flex bg-white p-1 justify-center gap-2 w-full items-center rounded-lg border border-slate-200">
             {steps.map((step, i) => {
               return (
@@ -191,26 +189,27 @@ const Add: NextPage = () => {
                   className={cx(
                     "min-w-30 text-lg text-left text-slate flex flex-row p-3 gap-2 justify-center items-center rounded-lg",
                     currentStep === i && "",
-                    i > currentStep && "opacity-40 hover:opacity-80"
+                    i > currentStep && "opacity-40",
+                    isStepReady(i) && "opacity-100"
                   )}
                   onClick={() =>
                     (requestSeed?.donation || i < currentStep) &&
                     setCurrentStep(i)
                   }
-                  disabled={
-                    requestSeed?.donation || i < currentStep ? false : true
-                  }
+                  disabled={!isStepReady(i)}
                 >
                   <p
                     className={cx(
                       "text-sm font-bold rounded-full text-center aspect-square h-7 leading-6",
-                      i < currentStep
+                      i < currentStep ||
+                        (isStepComplete(i) && i === currentStep)
                         ? "bg-blue-700 text-white"
                         : "text-blue-700 border-blue-700 border-2",
+
                       i > currentStep && "border-slate-400 text-slate-400"
                     )}
                   >
-                    {i < currentStep ? "✓" : i + 1}
+                    {isStepComplete(i) ? "✓" : i + 1}
                   </p>
                   <p
                     className={cx(
@@ -228,7 +227,7 @@ const Add: NextPage = () => {
             <div className="">
               {currentStep < 3 && (
                 <NextButton
-                  isActive={checkProgress()}
+                  isActive={isStepReady(currentStep)}
                   handleNextStep={handleNextStep}
                 />
               )}

@@ -1,9 +1,3 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import TraitTab from "./TraitTab";
-import cx from "classnames";
-import { ethers, utils } from "ethers";
-import { nounSeekContract } from "../../config";
 import { Request } from "../../types";
 import { useAppContext } from "../../context/state";
 import Donee from "./Donee";
@@ -14,22 +8,7 @@ type AddOrgsProps = {
 };
 
 const AddOrgs = (props: AddOrgsProps) => {
-  const [amount, setAmount] = useState<string | undefined>(undefined);
   const doneesList = useAppContext()[0];
-  console.log(doneesList, "doneesList");
-
-  useEffect(() => {
-    if (amount) {
-      const amountInWei = ethers.utils.parseEther(amount);
-      props.setRequestSeed((request) => ({
-        trait: request.trait,
-        donation: {
-          to: props.requestSeed?.donation?.to,
-          amount: amountInWei,
-        },
-      }));
-    }
-  }, [amount]);
 
   return (
     <div className="flex flex-col gap-10 relative">

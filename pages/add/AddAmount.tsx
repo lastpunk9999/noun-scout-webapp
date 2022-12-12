@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import TraitTab from "./TraitTab";
-import cx from "classnames";
 import { ethers, utils } from "ethers";
-import { nounSeekContract } from "../../config";
 import { Request } from "../../types";
-import { useAppContext } from "../../context/state";
-import Donee from "./Donee";
 
 type AddAmountProps = {
   setRequestSeed: Function;
@@ -14,9 +8,11 @@ type AddAmountProps = {
 };
 
 const AddAmount = (props: AddAmountProps) => {
-  const [amount, setAmount] = useState<string | undefined>(undefined);
-  const doneesList = useAppContext()[0];
-  console.log(doneesList, "doneesList");
+  const [amount, setAmount] = useState<string | undefined>(
+    props.requestSeed?.donation?.amount
+      ? utils.formatEther(props.requestSeed?.donation?.amount)
+      : "0.1"
+  );
 
   useEffect(() => {
     if (amount) {
@@ -46,7 +42,13 @@ const AddAmount = (props: AddAmountProps) => {
             min="0.1"
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
-            onLoad={(event) => setAmount("0.1")}
+            onLoad={() =>
+              setAmount(
+                props.requestSeed?.donation?.amount
+                  ? utils.formatEther(props.requestSeed?.donation?.amount)
+                  : "0.1"
+              )
+            }
           />
         </div>
         <p className="text-sm italic opacity-70">
