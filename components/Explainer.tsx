@@ -5,6 +5,8 @@ import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingN
 import { DonationsByTraitType, NounSeed } from "../types";
 import { useEffect, useState } from "react";
 import { ImageData } from "@nouns/assets";
+import { useAppContext } from "../context/state";
+import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
 type ExplainerProps = {
   nextAuctionDonations: DonationsByTraitType;
 };
@@ -48,39 +50,73 @@ const Explainer = (props: ExplainerProps) => {
     return newSeed;
   };
 
+  function getRandomNum(min, max, decimalPlaces) {
+    const rand = Math.random() * (max - min) + min;
+    const power = Math.pow(10, decimalPlaces);
+    return Math.floor(rand * power) / power;
+  }
+
+  const doneesList = useAppContext()[0];
+  const doneesContent = doneesList.map((org, i) => {
+    const donee = useGetDoneeDescription(i);
+    console.log(donee);
+    return donee;
+  });
+  const eligibleDonees = doneesContent.filter((org) => org.active && org.image);
+
+  const [exampleDonationAmount, setExampleDonationAmount] = useState(1);
+  const [exampleDoneeId, setExampleDoneeId] = useState(1);
+
+  const handleChange = () => {
+    setNounSeed(buildNounSeed());
+    setExampleDonationAmount(getRandomNum(0, 10, 2));
+    setExampleDoneeId(Math.floor(Math.random() * eligibleDonees.length));
+    return;
+  };
+
   useEffect(() => {
     const timerId = setInterval(() => {
-      setNounSeed(buildNounSeed());
-    }, 5000);
+      handleChange();
+    }, 7500);
     return () => {
       clearInterval(timerId);
     };
   }, [props.nextAuctionDonations]);
 
   return (
-    <div className="mx-4 my-10 flex md:grid grid-cols-3 gap-10">
+    <div className="mx-4 my-10 flex flex-col md:grid md:grid-cols-3 gap-10">
       {explainerContent.map((step, i) => {
         return (
           <div className="text-center mb-5 md:mb-0">
-            <div className="w-full max-w-[10rem] aspect-square mx-auto md:mb-3">
+            <div className="w-full max-w-[12rem] aspect-square mx-auto md:mb-3 flex items-center">
               {i === 0 && (
                 <ExplainerTrait
                   nextAuctionDonations={props.nextAuctionDonations}
                   nounSeed={nounSeed}
+                  handleChange={() => handleChange()}
                 />
               )}
-              {i === 1 && <ExplainerLogos />}
+              {i === 1 && (
+                <ExplainerLogos
+                  doneeId={exampleDoneeId}
+                  amount={exampleDonationAmount}
+                />
+              )}
               {i === 2 && (
                 <ExplainerNoun
                   nextAuctionDonations={props.nextAuctionDonations}
                   nounSeed={nounSeed}
+                  doneeId={exampleDoneeId}
+                  amount={exampleDonationAmount}
                 />
               )}
             </div>
             <span className="text-sm uppercase color-blue-500 opacity-70">
               step {i + 1}
             </span>
-            <h2 className="text-2xl font-bold font-serif mb-1">{step.title}</h2>
+            <h2 className="text-2xl leading-none font-bold font-serif mb-1">
+              {step.title}
+            </h2>
             <p className="text-md color-slate-400">{step.description}</p>
           </div>
         );
