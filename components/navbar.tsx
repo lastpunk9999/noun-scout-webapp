@@ -15,7 +15,7 @@ export default function NavBar() {
 
   return (
     <header>
-      <nav className=" border-gray-200 px-4 md:px-6 py-3 md:py-5 border-b-2 mb-10">
+      <nav className="px-4 md:px-6 py-3 md:py-5 mb-10">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <a href="/" className="flex items-center">

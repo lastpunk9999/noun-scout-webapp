@@ -88,7 +88,7 @@ const Explainer = (props: ExplainerProps) => {
       {explainerContent.map((step, i) => {
         return (
           <div className="text-center mb-5 md:mb-0">
-            <div className="w-full max-w-[12rem] aspect-square mx-auto md:mb-3 flex items-center">
+            <div className="w-full max-w-[12rem] md:aspect-square mx-auto md:mb-3 flex items-center">
               {i === 0 && (
                 <ExplainerTrait
                   nextAuctionDonations={props.nextAuctionDonations}
@@ -111,7 +111,7 @@ const Explainer = (props: ExplainerProps) => {
                 />
               )}
             </div>
-            <span className="text-sm uppercase color-blue-500 opacity-70">
+            <span className="text-sm uppercase color-blue-500 opacity-70 mt-3 block">
               step {i + 1}
             </span>
             <h2 className="text-2xl leading-none font-bold font-serif mb-1">

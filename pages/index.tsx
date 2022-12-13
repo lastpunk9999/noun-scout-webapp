@@ -43,7 +43,7 @@ const Home: NextPage = () => {
 
   if (!isMounted) return null;
   return (
-    <div className="container mx-auto pb-10">
+    <div className="container px-4 mx-auto pb-10">
       {/* Intro description */}
       <div className="text-center py-2 max-w-lg mx-auto my-10">
         <h1 className="text-5xl font-bold font-serif mb-2">
@@ -72,7 +72,7 @@ const Home: NextPage = () => {
       </div>
 
       {/* Filters */}
-      <div className="justify-center mt-5 mb-10 select-none flex">
+      <div className="justify-center mt-5 mb-10 select-none grid grid-cols-2 sm:flex gap-2">
         {nextAuctionDonations &&
           orderedTraitTitles.map((traitType, index) => {
             const traitCount = Object.values(
@@ -88,9 +88,7 @@ const Home: NextPage = () => {
                   filteredTraitType &&
                     filteredTraitType !== traitType &&
                     "opacity-50",
-
-                  "bg-white border-2 border-blue-500 text-blue-500",
-                  "py-2 px-4 rounded-full mx-1 cursor-pointer text-white font-sans font-semibold text-sm mr-2 hover:bg-slate-200 disabled:opacity-75 disabled:cursor-auto"
+                  "bg-white border-2 border-blue-500 text-blue-500 py-1 px-2 sm:py-2 sm:px-4 rounded-md sm:rounded-full mx-1 cursor-pointer font-sans font-semibold text-sm mr-2 hover:bg-slate-200 disabled:opacity-75 disabled:cursor-auto"
                 )}
                 onClick={() => {
                   setFilteredTraitType(traitType);
@@ -104,7 +102,7 @@ const Home: NextPage = () => {
         {filteredTraitType && (
           <button
             onClick={() => setFilteredTraitType(null)}
-            className="py-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none"
+            className="py-2 grid-cols-2 col-span-2 px-4 no-underline rounded-full text-slate-500 font-sans font-semibold text-sm border-red focus:outline-none active:shadow-none"
           >
             clear
           </button>
