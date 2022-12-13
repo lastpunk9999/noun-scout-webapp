@@ -10,17 +10,17 @@ export default function NavBar() {
   const { isConnected } = useAccount();
   const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  console.log("isMobile", isMobile);
   return (
     <header>
       <nav className="px-4 md:px-6 py-3 md:py-5 mb-10">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div className="flex flex-wrap md:flex-nowrap justify-between items-center mx-auto max-w-screen-xl gap-10">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <a href="/" className="flex items-center">
               {/* Noun Seek ⌐◨-◨ */}
               <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
             </a>
           </h1>
+
           <div className="flex items-center md:order-2 md:hidden">
             <button
               data-collapse-toggle="mobile-menu-2"
@@ -48,7 +48,7 @@ export default function NavBar() {
               </svg>
               <svg
                 className={cx(
-                  isMobile && isMobileNavExpanded ? "block" : "hidden",
+                  isMobile && isMobileNavExpanded ? "flex" : "hidden",
                   "w-6 h-6"
                 )}
                 fill="currentColor"
@@ -68,10 +68,9 @@ export default function NavBar() {
             <motion.div
               key={`${isMobileNavExpanded} ${isMobile}`}
               className={cx(
-                isMobile && "hidden",
+                isMobile ? "hidden w-full" : "flex",
                 isMobile && isMobileNavExpanded && "block",
-                !isMobile && "block",
-                `!md:flex justify-between items-center w-full md:w-auto md:order-1`
+                ``
               )}
               initial={
                 isMobile
@@ -110,7 +109,7 @@ export default function NavBar() {
                 <li>
                   <Link href="/add">
                     <a
-                      className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline"
+                      className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                       aria-current="page"
                     >
                       Add Sponsorship
@@ -122,7 +121,7 @@ export default function NavBar() {
                     <li>
                       <Link href="/manage">
                         <a
-                          className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline"
+                          className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                           aria-current="page"
                         >
                           Your Sponsorships
@@ -133,7 +132,7 @@ export default function NavBar() {
                 )}
                 <li>
                   <Link href="/about">
-                    <a className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline">
+                    <a className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none">
                       About
                     </a>
                   </Link>
