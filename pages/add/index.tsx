@@ -96,7 +96,7 @@ const Add: NextPage = () => {
     >
       <div
         className={cx(
-          "flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
+          "add-sidebar flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
           currentStep >= 3 && "!w-full"
         )}
       >
@@ -183,7 +183,7 @@ const Add: NextPage = () => {
         {/* Step wrapper */}
         <div
           className={cx(
-            "w-full md:w-3/5 flex flex-row gap-2 md:gap-5 p-2 md-px-10 sticky md:fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between "
+            "w-full md:w-3/5 flex flex-row gap-2 md:gap-5 p-2 md:px-10 md:py-2 sticky md:fixed z-10 top-0 bg-white text-center items-center shadow-sm justify-between "
           )}
         >
           <div className="flex bg-white p-1 justify-center gap-2 w-full items-center rounded-lg border border-slate-200">
@@ -239,7 +239,7 @@ const Add: NextPage = () => {
           )}
         </div>
         {/* step content wrapper */}
-        <div className="container md:p-10 md:mt-[15vh]">
+        <div className="px-4 md:p-10 md:mt-[5rem]">
           {currentStep < steps.length - 1 && (
             <div className="mt-5 md:mt-10 mb-5">
               <span className="text-sm uppercase color-blue-500 opacity-70">

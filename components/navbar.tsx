@@ -15,7 +15,7 @@ export default function NavBar() {
 
   return (
     <header>
-      <nav className="bg-white border-gray-200 px-4 md:px-6 py-3 md:py-5 border-b-2 mb-10">
+      <nav className=" border-gray-200 px-4 md:px-6 py-3 md:py-5 border-b-2 mb-10">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <a href="/" className="flex items-center">
@@ -72,7 +72,7 @@ export default function NavBar() {
                   <a
                     // see note above
                     // onClick={addOrConnect}
-                    className="block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0"
+                    className="text-md md:text-lg block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0 no-underline hover:underline"
                     aria-current="page"
                   >
                     Add Sponsorship
@@ -84,7 +84,7 @@ export default function NavBar() {
                   <li>
                     <Link href="/manage">
                       <a
-                        className="block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0"
+                        className="text-md md:text-lg block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0 no-underline hover:underline"
                         aria-current="page"
                       >
                         Your Sponsorships
@@ -95,7 +95,7 @@ export default function NavBar() {
               )}
               <li>
                 <Link href="/about">
-                  <a className="block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0">
+                  <a className="text-md md:text-lg block py-2 pr-4 pl-3 text-white rounded bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0 no-underline hover:underline">
                     About
                   </a>
                 </Link>

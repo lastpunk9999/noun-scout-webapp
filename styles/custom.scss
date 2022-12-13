@@ -1,6 +1,25 @@
 html, body {
-    background: rgba(62, 75, 95, 0.04);
+    
+    background-color: #F4F4FF;
+    background-repeat: no-repeat;
+
     color: #555;
+}
+.content-wrap {
+    position: relative;
+    z-index: 2;
+}
+.bg {
+    background: linear-gradient(180deg, #C1DBFF 0%, rgba(217, 217, 217, 0) 73.44%);
+    height: 60vh;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    opacity: 0.5;
+    z-index: 0;
+}
+.add-sidebar {
+    background-color: rgba(62, 75, 95, 0.04);
 }
 
 $darkBlue: #3E4B5F;
@@ -18,7 +37,4 @@ h1, h2, h3, h4, h5, h6 {
 p, li {
     color: #444;
     line-height: 1.4;
-}
-.container {
-    padding: 0 15px;
 }

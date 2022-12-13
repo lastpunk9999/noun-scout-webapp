@@ -81,7 +81,7 @@ const Manage: NextPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="px-4">
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
         Your Sponsorships
       </h1>
