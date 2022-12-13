@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function NavBar() {
   const { isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
   const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   console.log("isMobile", isMobile);
@@ -18,8 +17,6 @@ export default function NavBar() {
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <a href="/" className="flex items-center">
-              {isMobileNavExpanded.toString()}
-              {isMobile.toString()}
               {/* Noun Seek ⌐◨-◨ */}
               <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
             </a>
