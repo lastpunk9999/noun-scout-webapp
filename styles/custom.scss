@@ -5,14 +5,10 @@ html, body {
 
     color: #555;
 }
-.content-wrap {
-    position: relative;
-    z-index: 2;
-}
 .bg {
     background: linear-gradient(180deg, #C1DBFF 0%, rgba(217, 217, 217, 0) 73.44%);
     height: 60vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     opacity: 0.5;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { NextPage } from "next";
 import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import RequestCard from "../components/RequestCard";
@@ -7,6 +7,10 @@ import ExampleNoun from "../components/ExampleNoun";
 import { useIsMounted } from "../hooks";
 import Modal from "../components/Modal";
 import { Request, TraitAndDonations } from "../types";
+import cx from "classnames";
+import Image from "next/image";
+
+import Explainer from "../components/Explainer";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -42,25 +46,25 @@ const Home: NextPage = () => {
     <div className="container mx-auto pb-10">
       {/* Intro description */}
       <div className="text-center py-2 max-w-lg mx-auto my-10">
-        <h1 className="text-3xl font-bold font-serif mb-2">
+        <h1 className="text-5xl font-bold font-serif mb-2">
           Sponsor Nouns. <br />
           Send money to charity.
         </h1>
-        <p>
+        <p className="text-lg">
           Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
           Cum sociis natoque penatibus et magnis dis parturient.
         </p>
         <Link href="/add">
-          <a className="underline bold">Create a Request</a>
+          <a className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
+            Create a Request
+          </a>
         </Link>
       </div>
 
-      {/* Example rotator */}
-      {nextAuctionDonations && (
-        <ExampleNoun nextAuctionDonations={nextAuctionDonations} />
-      )}
-      <div className="text-center mt-10">
-        <h2 className="text-3xl font-bold">Open sponsorships</h2>
+      {/* Steps */}
+      <Explainer nextAuctionDonations={nextAuctionDonations} />
+      <div className="text-center mt-20">
+        <h2 className="text-4xl font-bold">Open sponsorships</h2>
         {/* TODO: Add countdown clock */}
         <p className="">
           Noun {nextAuctionId} available to mint in X hours, Y minutes
@@ -77,11 +81,17 @@ const Home: NextPage = () => {
             return (
               <button
                 key={index}
-                className={`${
-                  filteredTraitType === traitType
-                    ? "bg-slate-500 text-white"
-                    : "bg-slate-500/25 text-slate-500"
-                } py-2 px-4 rounded-full mx-1 cursor-pointer text-white font-sans font-semibold text-sm mr-2 hover:bg-slate-200 disabled:opacity-75 disabled:cursor-auto`}
+                className={cx(
+                  filteredTraitType &&
+                    filteredTraitType === traitType &&
+                    "border-blue-500 text-white",
+                  filteredTraitType &&
+                    filteredTraitType !== traitType &&
+                    "opacity-50",
+
+                  "bg-white border-2 border-blue-500 text-blue-500",
+                  "py-2 px-4 rounded-full mx-1 cursor-pointer text-white font-sans font-semibold text-sm mr-2 hover:bg-slate-200 disabled:opacity-75 disabled:cursor-auto"
+                )}
                 onClick={() => {
                   setFilteredTraitType(traitType);
                 }}
@@ -102,7 +112,7 @@ const Home: NextPage = () => {
       </div>
 
       {/* Grid of sponsorships */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-4">
         {nextAuctionDonations &&
           Object.entries(nextAuctionDonations).map(([traitType, traits]) => {
             const traitTypeId = traitTypes.indexOf(traitType);
