@@ -96,11 +96,7 @@ const Add: NextPage = () => {
     >
       <div
         className={cx(
-          "flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300 h-[1000px] flex-1",
-          currentStep >= 0 &&
-            currentStep < 3 &&
-            requestSeed &&
-            "!h-auto flex-0",
+          "flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
           currentStep >= 3 && "!w-full"
         )}
       >
@@ -195,7 +191,7 @@ const Add: NextPage = () => {
               return (
                 <button
                   className={cx(
-                    "md:min-w-30 text-lg text-center md:text-left text-slate flex flex-col gap-1 p-1 md:flex-row md:gap-2 md:p-3 justify-center items-center rounded-lg",
+                    "md:min-w-30 text-lg text-center lg:text-left text-slate flex flex-col gap-1 p-1 lg:flex-row lg:gap-2 lg:p-3 justify-center items-center rounded-lg",
                     currentStep === i && "",
                     i > currentStep && "opacity-40",
                     isStepReady(i) && "opacity-100"
@@ -243,7 +239,7 @@ const Add: NextPage = () => {
           )}
         </div>
         {/* step content wrapper */}
-        <div className="container md:p-10 md:mt-10">
+        <div className="container md:p-10 md:mt-[15vh]">
           {currentStep < steps.length - 1 && (
             <div className="mt-5 md:mt-10 mb-5">
               <span className="text-sm uppercase color-blue-500 opacity-70">

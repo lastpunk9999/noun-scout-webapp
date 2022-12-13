@@ -16,8 +16,8 @@ const NextButton = (props: NextButtonProps) => {
         disabled={!props.isActive}
         onClick={() => props.handleNextStep()}
       >
-        <span className="md:hidden">→</span>
-        <span className="hidden md:block">Continue</span>
+        <span className="lg:hidden">→</span>
+        <span className="hidden lg:block">Continue</span>
       </button>
     </>
   );
