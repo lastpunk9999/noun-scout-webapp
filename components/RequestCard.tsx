@@ -50,10 +50,10 @@ const RequestCard = (props: RequestCardProps) => {
     }, 0);
   }, [props.donations]);
   return (
-    <div className="bg-white w-full rounded-lg border border-slate-200 relative">
+    <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
       <div className="absolute top-3 right-3">
         {totalDonationAmount ? (
-          <p className="text-mdleading-none px-3 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
+          <p className="text-sm leading-none px-2 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
             Ξ {totalDonationAmount}
           </p>
         ) : (
@@ -84,14 +84,14 @@ const RequestCard = (props: RequestCardProps) => {
           <p className="text-slate-400 text-sm leading-none capitalize">
             {props.trait?.type ?? "Trait type"}
           </p>
-          <h3 className="text-3xl font-bold leading-none capitalize">
+          <h3 className="text-2xl font-bold leading-none capitalize">
             {props.trait?.name ?? "Select a Noun trait"}
           </h3>
         </div>
       </div>
       <footer
         className={cx(
-          "bg-slate-200 p-3",
+          "bg-slate-100 border-t border-t-slate-200 p-3",
           props.cardStyle === "compact" && "flex flex-row justify-between gap-4"
         )}
       >
