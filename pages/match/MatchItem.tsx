@@ -15,7 +15,7 @@ import { getTraitTraitNameAndImageData } from "../../utils";
 type MatchItemProps = {
   donations: readonly BigNumber[];
   reimbursement: BigNumber;
-  traitTypeId: number;
+  traitTypeId: BigNumber;
   traitId: number;
   nounSeed: NounSeed;
 };
@@ -82,9 +82,9 @@ const MatchItem = (props: MatchItemProps) => {
   }, [props.traitTypeId, props.traitId]);
 
   return (
-    <div>
+    <>
       {isTransactionComplete ? (
-        <div className="text-center bg-slate-200 p-10 rounded-lg">
+        <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col justify-center">
           <p className="text-lg font-bold">Match confirmed!</p>
           <p className="underline">
             <a
@@ -103,15 +103,18 @@ const MatchItem = (props: MatchItemProps) => {
         <div className="flex flex-col md:flex-row w-full gap-5 md:gap-10 items-center justify-between">
           <div
             className={cx(
-              "w-full",
+              "w-full relative max-w-sm",
               isTransactionLoading || isLoading ? "opacity-40" : "opacity-100"
             )}
           >
+            <span className="py-1 px-2 bg-green-600 text-white font-bold text-sm block rounded-md absolute -top-2 -left-2 z-10">
+              Matched!
+            </span>
             <RequestCard
               trait={trait}
               donations={donationData}
               nounSeed={props.nounSeed}
-              cardStyle="matching"
+              cardStyle="detailed"
             />
           </div>
           <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">
@@ -120,7 +123,7 @@ const MatchItem = (props: MatchItemProps) => {
               disabled={!write || isLoading || isTransactionLoading}
               onClick={() => write?.()}
             >
-              {isLoading || isTransactionLoading ? "Matching..." : "Match"}
+              {isLoading || isTransactionLoading ? "Settling..." : "Settle"}
             </button>
             {errorMessage && (
               <div
@@ -141,7 +144,7 @@ const MatchItem = (props: MatchItemProps) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

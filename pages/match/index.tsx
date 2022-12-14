@@ -38,10 +38,10 @@ const Match: NextPage = () => {
       </p>
       <div
         className={cx(
-          isNonAuctionedNoun
-            ? "lg:flex lg:flex-row gap-10 lg:max-w-5xl"
-            : "max-w-lg",
-          "mx-auto"
+          // isNonAuctionedNoun
+          // ? "lg:flex lg:flex-row gap-10 lg:max-w-5xl"
+          // : "max-w-lg",
+          "mx-auto max-w-3xl flex flex-col gap-5 my-10"
         )}
       >
         <NounWithMatches

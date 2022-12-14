@@ -54,40 +54,50 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
 
   if (!nounSeed) return;
   return (
-    <div className="my-4 p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit">
-      <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
-        <div className="max-w-[8rem]">
-          <Image
-            src={`data:image/svg+xml;base64,${svgBase64}`}
-            width={320}
-            height={320}
-            className="w-full rounded-lg"
-          />
-        </div>
-        <div className="text-center md:text-left">
-          <h3 className="text-3xl font-bold">Noun {props.nounId}</h3>
-          <p className="text-lg leading-none">
-            X sponsored traits, supporting Y charities with Z eth
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col mt-5 gap-5">
+    <>
+      <div className="flex flex-col gap-5">
         {traitsWithDonation.map((traitTypeId) => {
           return (
-            <MatchItem
-              traitTypeId={traitTypeId}
-              traitId={nounSeed[traitTypeId]}
-              donations={props.donations[traitTypeId]}
-              nounSeed={nounSeed}
-              reimbursement={props.reimbursements[traitTypeId]}
-            />
+            <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start">
+              <div className="">
+                <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
+                <div className="max-w-[5rem] md:max-w-[8rem]">
+                  <Image
+                    src={`data:image/svg+xml;base64,${svgBase64}`}
+                    width={320}
+                    height={320}
+                    className="w-full rounded-lg"
+                  />
+                </div>
+              </div>
+              <MatchItem
+                traitTypeId={traitTypeId}
+                traitId={nounSeed[traitTypeId]}
+                donations={props.donations[traitTypeId]}
+                nounSeed={nounSeed}
+                reimbursement={props.reimbursements[traitTypeId]}
+              />
+            </div>
           );
         })}
       </div>
-      {traitsWithDonation.length <= 0 && (
-        <p className="text-center">No matches</p>
+      {traitsWithDonation.length === 0 && (
+        <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-row gap-10">
+          <div className="max-w-[8rem]">
+            <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
+            <Image
+              src={`data:image/svg+xml;base64,${svgBase64}`}
+              width={320}
+              height={320}
+              className="w-full rounded-lg"
+            />
+          </div>
+          <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col justify-center">
+            <p className="text-lg font-bold">No matches</p>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
