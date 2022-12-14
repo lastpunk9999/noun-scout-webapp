@@ -46,7 +46,6 @@ const Manage: NextPage = () => {
   const requests = useGetUserRequests();
 
   if (!isConnected || !requests) return null;
-  console.log("computed requests", requests);
 
   const groupedRequests = groupby(requests, (r) => r.status);
 
@@ -67,9 +66,9 @@ const Manage: NextPage = () => {
     return (
       <ul
         className={cx(
-          "mx-auto my-4 p-5 gap-10",
+          "mx-auto my-4 p-5 gap-10 w-full max-w-3xl items-center",
           groupedRequests[status]?.length > 1
-            ? "grid md:grid-cols-2"
+            ? "flex flex-col md:grid md:grid-cols-2"
             : "flex justify-center align-center"
         )}
       >
@@ -113,23 +112,12 @@ const Manage: NextPage = () => {
       )}
 
       {groupedRequests[RequestStatus.DONATION_SENT]?.length > 0 && (
-        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
-          <h1 className="text-3xl font-bold mb-2 text-center">
+        <>
+          <h1 className="text-3xl font-bold mt-10 mb-2 text-center">
             Past Sponsorships
           </h1>
-          <ul className="grid md:grid-cols-2 mx-auto my-4 p-5 gap-10">
-            {groupedRequests[RequestStatus.DONATION_SENT].map((request, i) => {
-              return (
-                <li
-                  key={i}
-                  className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg"
-                >
-                  <ManageTrait request={request} />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+          {group(RequestStatus.DONATION_SENT)}
+        </>
       )}
     </div>
   );

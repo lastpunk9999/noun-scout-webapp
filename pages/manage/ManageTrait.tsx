@@ -85,7 +85,7 @@ const ManageTrait = (props: ManageTraitProps) => {
             cardStyle="detailed"
           />
         </div>
-        <div className="text-center md:text-left md:w-1/3">
+        <div className="text-center md:text-left">
           {(canRemove || matchFound || endingSoon) && (
             <div className="w-full flex flex-col gap-3 justify-center">
               <button
