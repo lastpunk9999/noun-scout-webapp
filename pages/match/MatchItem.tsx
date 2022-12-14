@@ -1,7 +1,11 @@
 import { Donation, NounSeed, TraitNameAndImageData } from "../../types";
 import RequestCard from "../../components/RequestCard";
 import { BigNumber, utils } from "ethers";
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import { nounSeekContract } from "../../config";
 import { useMemo, useState } from "react";
 import cx from "classnames";
@@ -60,7 +64,6 @@ const MatchItem = (props: MatchItemProps) => {
       setErrorMessage(error.message);
     },
   });
-  console.log("matchitem props.donations", props.traitTypeId, props.donations);
   const donationData = props.donations
     .map((donation, index) => {
       return {
@@ -75,14 +78,13 @@ const MatchItem = (props: MatchItemProps) => {
       props.traitTypeId,
       props.traitId
     );
-    console.log("buildTrait results", trait);
     return trait;
   }, [props.traitTypeId, props.traitId]);
 
   return (
-    <div className="my-5">
+    <div>
       {isTransactionComplete ? (
-        <div className="text-center  bg-slate-200 p-10 rounded-lg">
+        <div className="text-center bg-slate-200 p-10 rounded-lg">
           <p className="text-lg font-bold">Match confirmed!</p>
           <p className="underline">
             <a
@@ -98,7 +100,7 @@ const MatchItem = (props: MatchItemProps) => {
           </p>
         </div>
       ) : (
-        <div className="flex flex-row w-full gap-10 items-center justify-between">
+        <div className="flex flex-col md:flex-row w-full gap-5 md:gap-10 items-center justify-between">
           <div
             className={cx(
               "w-full",
@@ -109,9 +111,10 @@ const MatchItem = (props: MatchItemProps) => {
               trait={trait}
               donations={donationData}
               nounSeed={props.nounSeed}
+              cardStyle="matching"
             />
           </div>
-          <div className="w-[25%] flex flex-col justify-center">
+          <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
               disabled={!write || isLoading || isTransactionLoading}
@@ -129,8 +132,11 @@ const MatchItem = (props: MatchItemProps) => {
               </div>
             )}
             {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
-            <p className="text-xs text-center">
-              Reward: Ξ {utils.formatEther(props.reimbursement)}
+            <p className="text-xs text-center whitespace-nowrap">
+              Reward:{" "}
+              <span className="whitespace-nowrap">
+                Ξ {utils.formatEther(props.reimbursement)}
+              </span>
             </p>
           </div>
         </div>

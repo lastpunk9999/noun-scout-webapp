@@ -11,7 +11,7 @@ import { useMemo } from "react";
 import cx from "classnames";
 
 type RequestCardProps = {
-  cardStyle: "detailed" | "compact" | undefined;
+  cardStyle: "detailed" | "compact" | "matching" | undefined;
   trait: TraitNameAndImageData | undefined;
   donations: Donation[] | undefined;
   id?: number;
@@ -52,7 +52,7 @@ const RequestCard = (props: RequestCardProps) => {
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
       <div className="absolute top-3 right-3">
-        {totalDonationAmount ? (
+        {totalDonationAmount && props.cardStyle !== "matching" ? (
           <p className="text-sm leading-none px-2 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
             Ξ {totalDonationAmount}
           </p>
@@ -89,6 +89,11 @@ const RequestCard = (props: RequestCardProps) => {
           </h3>
         </div>
       </div>
+      {props.cardStyle === "matching" && totalDonationAmount && (
+        <p className="bg-blue-500 text-sm text-white font-bold p-2 pl-4">
+          {totalDonationAmount} Ξ will be sent to
+        </p>
+      )}
       <footer
         className={cx(
           "bg-slate-100 border-t border-t-slate-200 p-3",

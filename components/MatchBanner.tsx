@@ -23,8 +23,11 @@ const MatchBanner = (props: MatchBannerProps) => {
     <Link href="/match">
       <a className="bg-blue-500 p-2 text-center hover:cursor-pointer block">
         <p className="text-white">
-          Noun {matchData.auctionedNounId} has a request to be matched! earn Ξ{" "}
-          {utils.formatEther(totalReimbursement)} by matching it.{" "}
+          Noun {matchData.auctionedNounId} has a request to be matched! earn{" "}
+          <span className="whitespace-nowrap">
+            Ξ {utils.formatEther(totalReimbursement)}
+          </span>{" "}
+          by matching it.{" "}
           <span className="underline uppercase font-bold text-white">
             Match
           </span>

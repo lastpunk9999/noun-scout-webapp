@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../../config";
 import MatchItem from "./MatchItem";
+import Image from "next/image";
 
 type NounWithMatchesProps = {
   nounId: number;
@@ -28,8 +29,8 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   const nounSeed = useContractRead({
     address: nounsTokenContract.address,
     abi: nounsTokenContract.abi,
-    functionName: 'seeds',
-    args: [BigNumber.from(props.nounId)]
+    functionName: "seeds",
+    args: [BigNumber.from(props.nounId)],
   }).data;
 
   // get noun image
@@ -38,49 +39,56 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
     const { parts, background } = getNounData(nounSeed);
     const svgBinary = buildSVG(parts, ImageData.palette, background);
     return btoa(svgBinary);
-  }, [nounSeed])
+  }, [nounSeed]);
 
-  const traitsWithDonation = useMemo(()=> {
-    return props.donations.reduce(
-      (arr, amounts, traitTypeId) => {
-        // if any donee amount is non-zero
-        if (amounts.find((amount) => !amount.isZero())) {
-          // add the ID to the traits array
-          arr.push(traitTypeId);
-        }
-        return arr;
-      },
-      []
-    );
-  }, [props.donations])
+  const traitsWithDonation = useMemo(() => {
+    return props.donations.reduce((arr, amounts, traitTypeId) => {
+      // if any donee amount is non-zero
+      if (amounts.find((amount) => !amount.isZero())) {
+        // add the ID to the traits array
+        arr.push(traitTypeId);
+      }
+      return arr;
+    }, []);
+  }, [props.donations]);
 
   if (!nounSeed) return;
-    return (
-      <div className="max-w-4xl mx-auto my-4 p-5 border border-slate-200 pb-4 bg-slate-100">
-        <div className="flex flex-col">
-          <h3 className="text-lg font-bold">Noun {props.nounId}</h3>
-          <img
+  return (
+    <div className="my-4 p-5 border rounded-lg border-slate-200 pb-4 bg-white">
+      <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
+        <div className="max-w-[8rem]">
+          <Image
             src={`data:image/svg+xml;base64,${svgBase64}`}
-            className="w-40 rounded-lg"
+            width={320}
+            height={320}
+            className="w-full rounded-lg"
           />
         </div>
-        {
-          traitsWithDonation.map((traitTypeId) => {
-            return (
-              <MatchItem
-                traitTypeId={traitTypeId}
-                traitId={nounSeed[traitTypeId]}
-                donations={props.donations[traitTypeId]}
-                nounSeed={nounSeed}
-                reimbursement={props.reimbursements[traitTypeId]}
-              />
-            );
-          })}
-        {traitsWithDonation.length <= 0 && (
-          <p className="text-center">No matches</p>
-        )}
+        <div className="text-center md:text-left">
+          <h3 className="text-3xl font-bold">Noun {props.nounId}</h3>
+          <p className="text-lg leading-none">
+            X sponsored traits, supporting Y charities with Z eth
+          </p>
+        </div>
       </div>
-    );
-}
+      <div className="flex flex-col mt-10 gap-5">
+        {traitsWithDonation.map((traitTypeId) => {
+          return (
+            <MatchItem
+              traitTypeId={traitTypeId}
+              traitId={nounSeed[traitTypeId]}
+              donations={props.donations[traitTypeId]}
+              nounSeed={nounSeed}
+              reimbursement={props.reimbursements[traitTypeId]}
+            />
+          );
+        })}
+      </div>
+      {traitsWithDonation.length <= 0 && (
+        <p className="text-center">No matches</p>
+      )}
+    </div>
+  );
+};
 
 export default NounWithMatches;

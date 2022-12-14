@@ -3,7 +3,7 @@ import { Donation } from "../types";
 import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
 import cx from "classNames";
 type RequestDoneeProps = {
-  cardStyle: "detailed" | "compact" | undefined;
+  cardStyle: "detailed" | "compact" | "matching" | undefined;
   donation: Donation;
 };
 
@@ -12,12 +12,17 @@ const RequestDonee = (props: RequestDoneeProps) => {
   return (
     <li
       className={cx(
-        "flex justify-center items-center gap-3",
-        props.cardStyle === "detailed" && "!justify-start"
+        "flex justify-start items-center gap-3",
+        props.cardStyle === "detailed" ||
+          (props.cardStyle === "matching" && "!justify-start")
       )}
     >
       <div
-        className={cx(props.cardStyle === "detailed" ? "w-[40px]" : "w-[30px]")}
+        className={cx(
+          props.cardStyle === "detailed" || props.cardStyle === "matching"
+            ? "w-[40px]"
+            : "w-[30px]"
+        )}
       >
         <img
           src={doneeDescription.image}
@@ -25,8 +30,8 @@ const RequestDonee = (props: RequestDoneeProps) => {
           className="w-full aspect-square rounded-full"
         />
       </div>
-      {props.cardStyle === "detailed" && (
-        <div className="">
+      {(props.cardStyle === "detailed" || props.cardStyle === "matching") && (
+        <div>
           <p className="text-lg font-bold leading-none">
             {doneeDescription.title}
           </p>
