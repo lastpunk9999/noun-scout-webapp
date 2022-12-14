@@ -54,7 +54,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
 
   if (!nounSeed) return;
   return (
-    <div className="my-4 p-5 border rounded-lg border-slate-200 pb-4 bg-white">
+    <div className="my-4 p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit">
       <div className="flex flex-col md:flex-row items-center gap-2 md:gap-5">
         <div className="max-w-[8rem]">
           <Image
@@ -71,7 +71,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col mt-10 gap-5">
+      <div className="flex flex-col mt-5 gap-5">
         {traitsWithDonation.map((traitTypeId) => {
           return (
             <MatchItem

@@ -105,7 +105,7 @@ export default function NavBar() {
                 }
               }
             >
-              <ul className="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0 items-center">
+              <ul className="flex flex-col mt-4 font-medium md:flex-row md:mt-0 items-center">
                 <li>
                   <Link href="/add">
                     <a
