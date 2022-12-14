@@ -1,22 +1,9 @@
-import { getNounData, getPartData, ImageData } from "@nouns/assets";
+import { getPartData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
-import { BigNumber, utils } from "ethers";
-import { useCallback, useEffect, useState } from "react";
-import { useContractRead } from "wagmi";
-import { nounsTokenContract } from "../config";
-import useFakeNoun from "../hooks/useFakeNoun";
-import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Donation,
-  DonationsByTraitType,
-  NounSeed,
-  TraitAndDonations,
-  TraitNameAndImageData,
-} from "../types";
+import { DonationsByTraitType, NounSeed } from "../types";
 import { traitTypeNamesById } from "../utils";
-import RequestCard from "./RequestCard";
 
 type ExplainerTraitProps = {
   nextAuctionDonations: DonationsByTraitType;
@@ -33,12 +20,14 @@ const ExplainerTrait = (props: ExplainerTraitProps) => {
     return { image };
   };
   const traitImage = getPart(traitTypeNamesById(3)[1], props.nounSeed.head);
+  const bgColor = ImageData.bgcolors[props.nounSeed.background];
 
   return (
     <AnimatePresence mode="wait">
       {traitImage && (
         <motion.button
           className="w-full mx-auto scale-125 bg-white rounded-lg border border-slate-200 p-2"
+          style={{ backgroundColor: `#${bgColor}` }}
           key={props.nounSeed.head}
           initial={{
             scale: 0,
