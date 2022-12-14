@@ -16,3 +16,7 @@ export const nounsTokenContract = {
   address: process.env.NEXT_PUBLIC_NOUNS_TOKEN_ADDRESS,
   abi: nounsTokenABI,
 };
+
+export const siteTitle = "Noun Seek";
+export const siteDescription = "Sponsor Nouns. Send money to charity.";
+export const siteUrl = "";
