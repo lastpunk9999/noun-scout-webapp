@@ -135,7 +135,7 @@ const Confirm = (props: ConfirmProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 min-h-screen">
+    <div className="flex flex-col gap-3 min-h-screen justify-center py-10 px-4">
       {isTransactionComplete ? (
         <div className="text-center">
           <h1 className="text-3xl font-bold font-serif mb-2 text-center">

@@ -97,7 +97,7 @@ const Add: NextPage = () => {
       <div
         className={cx(
           "add-sidebar flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
-          currentStep >= 3 && "!w-full"
+          currentStep >= 3 && "!w-full !max-w-none"
         )}
       >
         {currentStep === steps.length && (
