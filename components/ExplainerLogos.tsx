@@ -13,7 +13,7 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        className="w-full flex flex-col h-fit mx-auto bg-white rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
+        className="w-full aspect-square flex flex-col h-fit mx-auto bg-white rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
         key={props.amount}
         initial={{
           y: 50,
@@ -32,14 +32,14 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
           opacity: 0,
         }}
       >
-        <div className="p-4">
+        <div className="p-4 h-full flex flex-col items-center justify-center">
           <h2 className="text-2xl font-bold leading-none">
             {props.amount} ETH
           </h2>
           <p className="text-md text-slate-400">Pledged to</p>
         </div>
-        <div className="bg-slate-100 border-t border-t-slate-200 p-3">
-          <div className="flex flex-row text-left gap-2 items-center">
+        <div className="bg-slate-100 border-t border-t-slate-200 px-3 py-6">
+          <div className="flex flex-row text-left gap-2 items-center justify-center">
             <div className="rounded-full w-full aspect-square max-w-[2.5rem] overflow-hidden">
               <Image
                 src={doneeDescription.image}
