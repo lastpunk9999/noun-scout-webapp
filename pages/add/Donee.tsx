@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import cx from "classnames";
 import { Request } from "../../types";
 import useGetDoneeDescription from "../../hooks/useGetDoneeDescription";
@@ -53,6 +52,7 @@ const Donee = (props: DoneeProps) => {
           layout="responsive"
           width={320}
           height={320}
+          className="rounded-md"
         />
       </div>
 
@@ -71,42 +71,11 @@ const Donee = (props: DoneeProps) => {
       >
         <input
           type="checkbox"
+          readOnly
           checked={
             props.requestSeed?.donation?.to === props.doneeId ? true : false
           }
         />
-      </div>
-      <div>
-        {/* {props.requestSeed?.donation?.to === props.doneeId && (
-          <div
-            className={cx(
-              "flex flex-row gap-2  bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-              props.requestSeed?.donation?.to === props.doneeId &&
-                " !bg-white  text-blue-500 "
-            )}
-          >
-            <input type="checkbox" checked /> Selected
-          </div>
-        )} */}
-        {/* 
-        <div
-          className={cx(
-            "flex flex-row gap-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-            props.requestSeed?.donation?.to &&
-              props.requestSeed?.donation?.to !== props.doneeId &&
-              "bg-slate-300",
-            props.requestSeed?.donation?.to === props.doneeId &&
-              " !bg-white  text-blue-500 "
-          )}
-        >
-          {props.requestSeed?.donation?.to === props.doneeId ? (
-            <></>
-          ) : props.requestSeed?.donation?.to === props.doneeId ? (
-            "Selected"
-          ) : (
-            "Select"
-          )}
-        </div> */}
       </div>
     </button>
   );

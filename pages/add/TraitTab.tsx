@@ -104,6 +104,7 @@ const TraitTab = (props: TraitTabProps) => {
                 >
                   <input
                     type="checkbox"
+                    readOnly
                     checked={
                       props.requestSeed?.trait?.imageData.filename ===
                       f.filename

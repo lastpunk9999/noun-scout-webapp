@@ -132,7 +132,7 @@ const RequestCard = (props: RequestCardProps) => {
           </ul>
         </div>
         {props.cardStyle === "compact" && (
-          <button className="text-sm underline opacity-70">details</button>
+          <p className="text-sm underline opacity-70 self-center">details</p>
         )}
       </footer>
       {/* ))} */}

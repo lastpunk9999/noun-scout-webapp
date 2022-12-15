@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useAccount, useContractRead } from "wagmi";
-import { Donation, Request } from "../../types";
+import { useAccount } from "wagmi";
+import { Request } from "../../types";
 import NextButton from "./NextButton";
 import AddTrait from "./AddTrait";
 import AddOrg from "./AddOrg";
 import Confirm from "./Confirm";
 import cx from "classnames";
 import { utils } from "ethers";
-import { parseTraitName, capitalizeFirstLetter } from "../../utils";
-import { nounSeekContract } from "../../config";
 import RequestCard from "../../components/RequestCard";
-import useGetDoneeDescription from "../../hooks/useGetDoneeDescription";
-import ConfirmButton from "./ConfirmButton";
 import RequestInText from "../../components/RequestInText";
 import AddAmount from "./AddAmount";
 import Link from "next/link";
@@ -68,7 +64,6 @@ const Add: NextPage = () => {
   ];
 
   const isStepReady = (step: number) => {
-    console.log("stepRequirements", step, stepRequirements[step]);
     if (currentStep < 3) {
       if (stepRequirements[step]) {
         return true;
@@ -196,6 +191,7 @@ const Add: NextPage = () => {
                     i > currentStep && "opacity-40",
                     isStepReady(i) && "opacity-100"
                   )}
+                  key={i}
                   onClick={() =>
                     (requestSeed?.donation || i < currentStep) &&
                     setCurrentStep(i)

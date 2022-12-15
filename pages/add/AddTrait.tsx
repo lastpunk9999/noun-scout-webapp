@@ -32,9 +32,10 @@ const AddTrait = (props: AddTraitProps) => {
     <div className="">
       <div className="bg-white flex flex-col md:flex-row justify-between items-center my-5">
         <nav className="flex flex-row">
-          {orderedTraitTitles.map((traitTitleIndex) => {
+          {orderedTraitTitles.map((traitTitleIndex, i) => {
             return (
               <button
+                key={i}
                 className={cx(
                   `text-gray-600 py-2 md:py-4 px-2 block border-b-2 border-transparent hover:text-blue-500 focus:outline-none`,
                   currentTraitType === traitTitleIndex &&

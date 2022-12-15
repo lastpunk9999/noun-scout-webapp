@@ -59,7 +59,6 @@ const Explainer = (props: ExplainerProps) => {
   const doneesList = useAppContext()[0];
   const doneesContent = doneesList.map((org, i) => {
     const donee = useGetDoneeDescription(i);
-    console.log(donee);
     return donee;
   });
   const eligibleDonees = doneesContent.filter((org) => org.active && org.image);
@@ -87,7 +86,7 @@ const Explainer = (props: ExplainerProps) => {
     <div className="mx-4 my-10 flex flex-col md:grid md:grid-cols-3 gap-10">
       {explainerContent.map((step, i) => {
         return (
-          <div className="text-center mb-5 md:mb-0">
+          <div className="text-center mb-5 md:mb-0" key={i}>
             <div className="w-full max-w-[12rem] md:aspect-square mx-auto md:mb-3 flex items-center">
               {i === 0 && (
                 <ExplainerTrait

@@ -18,7 +18,6 @@ export default function useGetUserRequests(): Request[] {
 
   return useMemo(() => {
     if (!requests) return [];
-    console.log("RAW requests data", requests);
     return requests.map((request) => {
       return {
         id: request.id.toNumber(),

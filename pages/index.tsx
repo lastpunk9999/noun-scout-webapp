@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       <RequestCard
         trait={request.trait}
         donations={request.donations}
-        key={request.trait.name}
+        key={`${request.donations}${request.trait.name}}`}
         cardStyle="detailed"
       />
     );
@@ -118,18 +118,17 @@ const Home: NextPage = () => {
             if (filteredTraitType && traitTypeId != filteredTraitType) return;
             const grid = Object.values(traits)
               .filter((f) => f.trait.traitTypeId === traitTypeId)
-              .map((request) => {
+              .map((request, i) => {
                 const requestCard = (
                   <RequestCard
                     trait={request.trait}
                     donations={request.donations}
-                    key={request.trait.name}
                     cardStyle="compact"
                   />
                 );
                 return (
                   <>
-                    <button onClick={() => handleModal(request)}>
+                    <button key={i} onClick={() => handleModal(request)}>
                       {requestCard}
                     </button>
                   </>

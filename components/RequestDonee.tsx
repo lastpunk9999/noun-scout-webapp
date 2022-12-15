@@ -10,7 +10,6 @@ type RequestDoneeProps = {
 
 const RequestDonee = (props: RequestDoneeProps) => {
   const doneeDescription = useGetDoneeDescription(props.donation.to);
-  console.log("doneeDescription", doneeDescription);
   return (
     <li
       className={cx(

@@ -56,9 +56,12 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   return (
     <>
       <div className="flex flex-col gap-5">
-        {traitsWithDonation.map((traitTypeId) => {
+        {traitsWithDonation.map((traitTypeId, i) => {
           return (
-            <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start">
+            <div
+              key={i}
+              className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start"
+            >
               <div className="">
                 <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
                 <div className="max-w-[5rem] md:max-w-[8rem]">
