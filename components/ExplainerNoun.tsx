@@ -117,7 +117,7 @@ const ExplainerNoun = (props: ExplainerNounProps) => {
             <Image
               src={src}
               alt="example trait image"
-              className="w-full aspect-square rounded"
+              className="w-full aspect-square rounded-md"
               layout="responsive"
               width={320}
               height={320}

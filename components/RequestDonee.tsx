@@ -1,6 +1,7 @@
 import { utils } from "ethers";
 import { Donation } from "../types";
 import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
+import Image from "next/image";
 import cx from "classNames";
 type RequestDoneeProps = {
   cardStyle: "detailed" | "compact" | "matching" | undefined;
@@ -9,6 +10,7 @@ type RequestDoneeProps = {
 
 const RequestDonee = (props: RequestDoneeProps) => {
   const doneeDescription = useGetDoneeDescription(props.donation.to);
+  console.log("doneeDescription", doneeDescription);
   return (
     <li
       className={cx(
@@ -24,16 +26,22 @@ const RequestDonee = (props: RequestDoneeProps) => {
             : "w-[30px]"
         )}
       >
-        <img
-          src={doneeDescription.image}
+        <Image
+          src={
+            doneeDescription.image
+              ? doneeDescription.image
+              : "/donees/placeholder.svg"
+          }
+          width={320}
+          height={320}
           alt={`${doneeDescription.title} logo`}
-          className="w-full aspect-square rounded-full"
+          className="w-full aspect-square rounded-md"
         />
       </div>
       {(props.cardStyle === "detailed" || props.cardStyle === "matching") && (
         <div>
           <p className="text-lg font-bold leading-none">
-            {doneeDescription.title}
+            {doneeDescription.name}
           </p>
           <p className="text-md text-slate-500 leading-none">
             {utils.formatEther(props.donation.amount)} ETH

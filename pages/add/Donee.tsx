@@ -42,17 +42,19 @@ const Donee = (props: DoneeProps) => {
             }))
       }
     >
-      {doneeDescription.image && (
-        <div className="w-20 rounded">
-          <Image
-            src={doneeDescription.image}
-            alt={`${doneeDescription.name} logo`}
-            layout="responsive"
-            width={320}
-            height={320}
-          />
-        </div>
-      )}
+      <div className="w-20 rounded">
+        <Image
+          src={
+            doneeDescription.image
+              ? doneeDescription.image
+              : "/donees/placeholder.svg"
+          }
+          alt={`${doneeDescription.name} logo`}
+          layout="responsive"
+          width={320}
+          height={320}
+        />
+      </div>
 
       <div>
         {doneeDescription.name && (
