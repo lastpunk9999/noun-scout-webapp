@@ -60,7 +60,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
           return (
             <div
               key={i}
-              className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start"
+              className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start justify-center w-full"
             >
               <div className="">
                 <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
@@ -73,6 +73,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
                   />
                 </div>
               </div>
+
               <MatchItem
                 traitTypeId={traitTypeId}
                 traitId={nounSeed[traitTypeId]}
