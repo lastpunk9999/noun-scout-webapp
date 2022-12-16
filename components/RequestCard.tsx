@@ -77,7 +77,20 @@ const RequestCard = (props: RequestCardProps) => {
                   }
             }
           >
-            <Image src={part.image} layout="fill" />
+            <Image
+              src={part.image}
+              layout="fill"
+              className={cx(
+                "w-full aspect-square",
+                // scale up accessory and bodies
+                (props.trait?.traitTypeId === 1 ||
+                  props.trait?.traitTypeId === 2) &&
+                  "scale-[170%] !-top-[70%]",
+                props.trait?.traitTypeId === 4 &&
+                  "scale-[150%] !top-[10%] !left-[3%]",
+                props.trait?.traitTypeId === 3 && "!top-[20%]"
+              )}
+            />
           </div>
         </div>
         <div className="w-3/4">
