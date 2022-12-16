@@ -64,7 +64,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
             >
               <div className="">
                 <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
-                <div className="max-w-[5rem] md:max-w-[8rem]">
+                <div className="max-w-[5rem] md:max-w-[12rem]">
                   <Image
                     src={`data:image/svg+xml;base64,${svgBase64}`}
                     width={320}
