@@ -66,10 +66,7 @@ const Manage: NextPage = () => {
     return (
       <ul
         className={cx(
-          "mx-auto my-4 p-5 gap-10 w-full max-w-3xl items-center",
-          groupedRequests[status]?.length > 1
-            ? "flex flex-col md:grid md:grid-cols-2"
-            : "flex justify-center align-center"
+          "mx-auto my-4 p-5 gap-10 w-full max-w-3xl items-center flex-col flex justify-center align-center"
         )}
       >
         {groupedRequests[status].map((request, i) => {

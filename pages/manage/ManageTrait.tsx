@@ -68,8 +68,8 @@ const ManageTrait = (props: ManageTraitProps) => {
   });
 
   return (
-    <li className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-slate-100 p-5 rounded-lg max-w-lg text-left">
-      <div className="w-full flex flex-col md:flex-col justify-between gap-5 items-center">
+    <li className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-white p-5 rounded-lg max-w-xl text-left">
+      <div className="w-full flex flex-col md:flex-row justify-between gap-5 items-center">
         <div
           className={cx(
             "w-full",
