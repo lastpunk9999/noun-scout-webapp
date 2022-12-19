@@ -61,7 +61,7 @@ const Home: NextPage = () => {
       </div>
 
       {/* Steps */}
-      <Explainer nextAuctionDonations={nextAuctionDonations} />
+      <Explainer />
       <div className="text-center mt-20">
         <h2 className="text-4xl font-bold">Open sponsorships</h2>
         {/* TODO: Add countdown clock */}
