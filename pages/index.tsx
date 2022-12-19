@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
-import ExampleNoun from "../components/ExampleNoun";
 import { useIsMounted } from "../hooks";
 import Modal from "../components/Modal";
 import { Request, TraitAndDonations } from "../types";

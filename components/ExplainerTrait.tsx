@@ -6,9 +6,7 @@ import { DonationsByTraitType, NounSeed } from "../types";
 import { traitTypeNamesById } from "../utils";
 
 type ExplainerTraitProps = {
-  nextAuctionDonations: DonationsByTraitType;
   nounSeed: NounSeed;
-  handleChange: Function;
 };
 
 const ExplainerTrait = (props: ExplainerTraitProps) => {
@@ -24,43 +22,39 @@ const ExplainerTrait = (props: ExplainerTraitProps) => {
 
   return (
     <AnimatePresence mode="wait">
-      {traitImage && (
-        <motion.button
-          className="w-full mx-auto scale-125 bg-white rounded-lg border border-slate-200 p-2"
-          style={{ backgroundColor: `#${bgColor}` }}
-          key={props.nounSeed.head}
-          initial={{
-            scale: 0,
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-            scale: [1, 0.8, 1],
-            transition: {
-              delay: 0.25,
-              duration: 0.1,
-            },
-          }}
-          exit={{
-            y: -10,
-            opacity: 0,
-          }}
-          transition={{
-            times: [0, 0.5, 1],
-            duration: 0.2,
-          }}
-          onClick={() => props.handleChange()}
-        >
-          <Image
-            src={traitImage.image}
-            alt="example trait image"
-            className="w-full aspect-square rounded"
-            layout="responsive"
-            width={320}
-            height={320}
-          />
-        </motion.button>
-      )}
+      <motion.div
+        className="w-full mx-auto scale-125 bg-white rounded-lg border border-slate-200 p-2"
+        style={{ backgroundColor: `#${bgColor}` }}
+        key={props.nounSeed.head}
+        initial={{
+          scale: 0,
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          scale: [1, 0.8, 1],
+          transition: {
+            delay: 0.25,
+            duration: 0.1,
+          },
+        }}
+        exit={{
+          y: -10,
+          opacity: 0,
+        }}
+        transition={{
+          times: [0, 0.5, 1],
+          duration: 0.2,
+        }}
+      >
+        <Image
+          src={traitImage.image}
+          className="w-full aspect-square rounded"
+          layout="responsive"
+          width={320}
+          height={320}
+        />
+      </motion.div>
     </AnimatePresence>
   );
 };
