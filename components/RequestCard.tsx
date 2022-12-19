@@ -93,7 +93,7 @@ const RequestCard = (props: RequestCardProps) => {
             />
           </div>
         </div>
-        <div className="w-3/4">
+        <div className="w-3/4 relative top-[15px] mb-[25px]">
           <p className="text-slate-400 text-sm leading-none capitalize">
             {props.trait?.type ?? "Trait type"}
           </p>
