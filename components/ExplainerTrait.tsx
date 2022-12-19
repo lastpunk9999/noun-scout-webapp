@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { getPartData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
 import Image from "next/image";
@@ -9,15 +10,18 @@ type ExplainerTraitProps = {
   nounSeed: NounSeed;
 };
 
+const getHeadPart = (headId: number) => {
+  const data = getPartData("heads", headId);
+  return `data:image/svg+xml;base64,${btoa(
+    buildSVG([{ data }], ImageData.palette)
+  )}`;
+};
+
 const ExplainerTrait = (props: ExplainerTraitProps) => {
-  const getPart = (partType: string, partIndex: number) => {
-    const data = getPartData(partType, partIndex);
-    const image = `data:image/svg+xml;base64,${btoa(
-      buildSVG([{ data }], ImageData.palette)
-    )}`;
-    return { image };
-  };
-  const traitImage = getPart(traitTypeNamesById(3)[1], props.nounSeed.head);
+  const image = useMemo(
+    () => getHeadPart(props.nounSeed.head),
+    [props.nounSeed.head]
+  );
   const bgColor = ImageData.bgcolors[props.nounSeed.background];
 
   return (
@@ -48,7 +52,7 @@ const ExplainerTrait = (props: ExplainerTraitProps) => {
         }}
       >
         <Image
-          src={traitImage.image}
+          src={image}
           className="w-full aspect-square rounded"
           layout="responsive"
           width={320}

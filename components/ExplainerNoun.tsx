@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Image from "next/image";
 import { DonationsByTraitType, NounSeed } from "../types";
 import { useAppContext } from "../context/state";
@@ -18,19 +19,16 @@ type ExplainerNounProps = {
   doneeId: number;
 };
 
-const ExplainerNoun = (props: ExplainerNounProps) => {
-  const { parts, background } = getNounData(props.nounSeed);
-  const image = `data:image/svg+xml;base64,${btoa(
+const getNounImage = (nounSeed) => {
+  const { parts, background } = getNounData(nounSeed);
+  return `data:image/svg+xml;base64,${btoa(
     buildSVG(parts, palette, background)
   )}`;
+};
 
+const ExplainerNoun = (props: ExplainerNounProps) => {
+  const image = useMemo(() => getNounImage(props.nounSeed), [props.nounSeed]);
   const doneeDescription = useGetDoneeDescription(props.doneeId);
-
-  function getRandomNum(min, max, decimalPlaces) {
-    const rand = Math.random() * (max - min) + min;
-    const power = Math.pow(10, decimalPlaces);
-    return Math.floor(rand * power) / power;
-  }
 
   return (
     <div className="relative mx-auto flex w-full">

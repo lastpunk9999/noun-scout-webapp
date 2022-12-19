@@ -11,14 +11,34 @@ type ExplainerProps = {
   nextAuctionDonations: DonationsByTraitType;
 };
 
+function getRandomNum(min, max, decimalPlaces) {
+  const rand = Math.random() * (max - min) + min;
+  const power = Math.pow(10, decimalPlaces);
+  return Math.floor(rand * power) / power;
+}
+
+const buildNounSeed = () => {
+  const newSeed = {} as NounSeed;
+  newSeed.background = Math.floor(Math.random() * 2);
+  newSeed.body = Math.floor(Math.random() * ImageData.images.bodies.length);
+  newSeed.accessory = Math.floor(
+    Math.random() * ImageData.images.accessories.length
+  );
+  newSeed.head = Math.floor(Math.random() * ImageData.images.heads.length);
+  newSeed.glasses = Math.floor(Math.random() * ImageData.images.glasses.length);
+  return newSeed;
+};
+
 const Explainer = (props: ExplainerProps) => {
-  const [nounSeed, setNounSeed] = useState<NounSeed>({
-    background: Math.floor(Math.random() * 2),
-    body: Math.floor(Math.random() * 4),
-    accessory: Math.floor(Math.random() * 4),
-    head: Math.floor(Math.random() * 4),
-    glasses: Math.floor(Math.random() * 4),
-  });
+  const [nounSeed, setNounSeed] = useState<NounSeed | undefined>(
+    buildNounSeed()
+  );
+
+  const [exampleDonationAmount, setExampleDonationAmount] = useState(
+    getRandomNum(0, 10, 2)
+  );
+  const [exampleDoneeId, setExampleDoneeId] = useState(1);
+
   const explainerContent = [
     {
       title: "Choose a trait",
@@ -36,46 +56,17 @@ const Explainer = (props: ExplainerProps) => {
         "When a Noun with your trait is minted, the ETH will be sent to a non-profit of your choice",
     },
   ];
-  const buildNounSeed = () => {
-    const newSeed = {} as NounSeed;
-    newSeed.background = Math.floor(Math.random() * 2);
-    newSeed.body = Math.floor(Math.random() * ImageData.images.bodies.length);
-    newSeed.accessory = Math.floor(
-      Math.random() * ImageData.images.accessories.length
-    );
-    newSeed.head = Math.floor(Math.random() * ImageData.images.heads.length);
-    newSeed.glasses = Math.floor(
-      Math.random() * ImageData.images.glasses.length
-    );
-    return newSeed;
-  };
-
-  function getRandomNum(min, max, decimalPlaces) {
-    const rand = Math.random() * (max - min) + min;
-    const power = Math.pow(10, decimalPlaces);
-    return Math.floor(rand * power) / power;
-  }
 
   const doneesList = useAppContext()[0];
-  const doneesContent = doneesList.map((org, i) => {
-    const donee = useGetDoneeDescription(i);
-    return donee;
-  });
-  const eligibleDonees = doneesContent.filter((org) => org.active && org.image);
-
-  const [exampleDonationAmount, setExampleDonationAmount] = useState(1);
-  const [exampleDoneeId, setExampleDoneeId] = useState(1);
-
-  const handleChange = () => {
-    setNounSeed(buildNounSeed());
-    setExampleDonationAmount(getRandomNum(0, 10, 2));
-    setExampleDoneeId(Math.floor(Math.random() * eligibleDonees.length));
-    return;
-  };
+  const eligibleDonees = doneesList
+    .map((org, i) => useGetDoneeDescription(i))
+    .filter((org) => org.active && org.image);
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      handleChange();
+      setNounSeed(buildNounSeed());
+      setExampleDonationAmount(getRandomNum(0, 10, 2));
+      setExampleDoneeId(Math.floor(Math.random() * eligibleDonees.length));
     }, 7500);
     return () => {
       clearInterval(timerId);
