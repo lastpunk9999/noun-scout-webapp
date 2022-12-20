@@ -13,7 +13,7 @@ const RequestDonee = (props: RequestDoneeProps) => {
   return (
     <li
       className={cx(
-        "flex justify-start items-center gap-3",
+        "flex justify-start items-center gap-3 leading-none",
         props.cardStyle === "detailed" ||
           (props.cardStyle === "matching" && "!justify-start")
       )}
