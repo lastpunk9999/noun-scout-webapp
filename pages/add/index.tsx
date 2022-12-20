@@ -91,82 +91,84 @@ const Add: NextPage = () => {
     >
       <div
         className={cx(
-          "add-sidebar flex md:flex-col md:w-2/5 md:max-w-[40rem] py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
+          "add-sidebar flex md:flex-col md:w-2/5 py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
           currentStep >= 3 && "!w-full !max-w-none"
         )}
       >
-        {currentStep === steps.length && (
-          <div className="text-center">
-            <h1 className="text-3xl font-bold font-serif mb-2 text-center">
-              Your sponsorship has been submitted!
-            </h1>
-            <RequestInText requestSeed={requestSeed} />
-            <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
-              <button
-                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
-                onClick={() => {
-                  handleResetSteps();
-                }}
-              >
-                Sponsor another Noun trait
-              </button>
-              <Link href="/manage">
-                <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
-                  Manage your sponsorships
-                </a>
-              </Link>
-            </div>
-          </div>
-        )}
-        {currentStep >= 0 && currentStep < 3 && requestSeed && (
-          <div className="flex flex-col w-full mb-2 md:mb-0">
-            <h1 className="text-3xl text-center font-bold font-serif mb-0">
-              Build your request
-            </h1>
-            <div className="hidden md:block">
-              <RequestCard
-                cardStyle="detailed"
-                trait={requestSeed && requestSeed.trait}
-                donations={requestSeed && [requestSeed.donation]}
-              />
-            </div>
-            <div className="min-h-[4rem] transition-all">
+        <div className="md:max-w-[40rem]">
+          {currentStep === steps.length && (
+            <div className="text-center">
+              <h1 className="text-3xl font-bold font-serif mb-2 text-center">
+                Your sponsorship has been submitted!
+              </h1>
               <RequestInText requestSeed={requestSeed} />
+              <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
+                <button
+                  className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
+                  onClick={() => {
+                    handleResetSteps();
+                  }}
+                >
+                  Sponsor another Noun trait
+                </button>
+                <Link href="/manage">
+                  <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
+                    Manage your sponsorships
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
-        {currentStep === 0 && !requestSeed && (
-          <div>
-            <h1 className="text-center md:text-left text-5xl font-bold font-serif mb-5">
-              Want a Noun Trait minted?
-            </h1>
-            <p className="text-md font-bold uppercase text-left w-full mb-3">
-              How it works
-            </p>
-            <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
-              <li className="text-lg p-5 leading-snug ml-10 pl-3">
-                Create a request with an amount of ETH to incentivize minting{" "}
-              </li>
-              <hr />
-              <li className="text-lg p-5 leading-snug ml-10 pl-3">
-                When a Noun with your trait is minted, the ETH will be sent to a
-                non-profit of your choice
-              </li>
-            </ol>
-            <p className="text-lg leading-tight">
-              Nouns are minted once every 24 hours, so each day is another
-              opportunity to mint your trait
-            </p>
-          </div>
-        )}
-        {currentStep === 3 && (
-          <Confirm
-            requestSeed={requestSeed}
-            setRequestSeed={setRequestSeed}
-            setCurrentStep={setCurrentStep}
-            currentStep={currentStep}
-          />
-        )}
+          )}
+          {currentStep >= 0 && currentStep < 3 && requestSeed && (
+            <div className="flex flex-col w-full mb-2 md:mb-0">
+              <h1 className="text-3xl text-center font-bold font-serif mb-0">
+                Build your request
+              </h1>
+              <div className="hidden md:block my-2">
+                <RequestCard
+                  cardStyle="detailed"
+                  trait={requestSeed && requestSeed.trait}
+                  donations={requestSeed && [requestSeed.donation]}
+                />
+              </div>
+              <div className="min-h-[4rem] transition-all">
+                <RequestInText requestSeed={requestSeed} />
+              </div>
+            </div>
+          )}
+          {currentStep === 0 && !requestSeed && (
+            <div>
+              <h1 className="text-center md:text-left text-5xl font-bold font-serif mb-5">
+                Want a Noun Trait minted?
+              </h1>
+              <p className="text-md font-bold uppercase text-left w-full mb-3">
+                How it works
+              </p>
+              <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
+                <li className="text-lg p-5 leading-snug ml-10 pl-3">
+                  Create a request with an amount of ETH to incentivize minting{" "}
+                </li>
+                <hr />
+                <li className="text-lg p-5 leading-snug ml-10 pl-3">
+                  When a Noun with your trait is minted, the ETH will be sent to
+                  a non-profit of your choice
+                </li>
+              </ol>
+              <p className="text-lg leading-tight">
+                Nouns are minted once every 24 hours, so each day is another
+                opportunity to mint your trait
+              </p>
+            </div>
+          )}
+          {currentStep === 3 && (
+            <Confirm
+              requestSeed={requestSeed}
+              setRequestSeed={setRequestSeed}
+              setCurrentStep={setCurrentStep}
+              currentStep={currentStep}
+            />
+          )}
+        </div>
       </div>
       {/* Stepper */}
       <div
