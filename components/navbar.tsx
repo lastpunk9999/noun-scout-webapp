@@ -137,7 +137,7 @@ export default function NavBar() {
                     </a>
                   </Link>
                 </li>
-                <li className="mt-3 md:mt-0">
+                <li className="mt-3 md:mt-0 md:ml-4">
                   <ConnectButton showBalance={false} />
                 </li>
               </ul>
