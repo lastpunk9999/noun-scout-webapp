@@ -100,7 +100,9 @@ const Explainer = (props: ExplainerProps) => {
             <h2 className="text-2xl leading-none font-bold font-serif mb-1">
               {step.title}
             </h2>
-            <p className="text-md color-slate-400">{step.description}</p>
+            <p className="text-md color-slate-400 max-w-xs mx-auto">
+              {step.description}
+            </p>
           </div>
         );
       })}
