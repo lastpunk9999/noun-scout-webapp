@@ -7,9 +7,9 @@ import { useIsMounted } from "../hooks";
 import Modal from "../components/Modal";
 import { Request, TraitAndDonations } from "../types";
 import cx from "classnames";
-import Image from "next/image";
 
 import Explainer from "../components/Explainer";
+import CountdownClock from "../components/CountdownClock";
 
 const Home: NextPage = () => {
   const isMounted = useIsMounted();
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
         <h2 className="text-4xl font-bold">Open sponsorships</h2>
         {/* TODO: Add countdown clock */}
         <p className="">
-          Noun {nextAuctionId} available to mint in X hours, Y minutes
+          Noun {nextAuctionId} available to mint in <CountdownClock />
         </p>
       </div>
 
