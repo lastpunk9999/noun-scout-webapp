@@ -46,12 +46,16 @@ const Home: NextPage = () => {
       {/* Intro description */}
       <div className="text-center py-2 max-w-lg mx-auto my-10">
         <h1 className="text-5xl font-bold font-serif mb-2">
-          Sponsor Nouns. <br />
-          Send money to charity.
+          Influence minting a Noun.
         </h1>
         <p className="text-lg">
-          Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
-          Cum sociis natoque penatibus et magnis dis parturient.
+          Incentivize players of{" "}
+          <a href="https://fomonouns.wtf/" target="_blank">
+            FOMO Nouns
+          </a>{" "}
+          to mint your favorite trait
+          <br />
+          by sponsoring a non-profit.
         </p>
         <Link href="/add">
           <a className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">

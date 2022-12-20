@@ -41,19 +41,17 @@ const Explainer = (props: ExplainerProps) => {
 
   const explainerContent = [
     {
-      title: "Choose a trait",
-      description:
-        "Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+      title: "Request a trait",
+      description: "Allow others to see which trait you want.",
     },
     {
-      title: "Select a charity",
-      description:
-        "Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur.",
+      title: "Incentivize minting",
+      description: "Pledge an amount to a non-profit of your choice.",
     },
     {
-      title: "Send Eth to charity on mint",
+      title: "Your Noun is minted",
       description:
-        "When a Noun with your trait is minted, the ETH will be sent to a non-profit of your choice",
+        "When a Noun with your trait is minted, the non-profit is sent your pledged amount.",
     },
   ];
 
