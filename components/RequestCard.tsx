@@ -61,10 +61,10 @@ const RequestCard = (props: RequestCardProps) => {
         )}
       </div>
       <div className="flex gap-5 items-center p-3 text-left">
-        <div className="w-2/4">
+        <div className="w-1/2">
           {/* Trait image - use bg color from noun if available */}
           <div
-            className="aspect-square rounded-lg w-lg relative"
+            className="aspect-square rounded-lg w-lg md:basis-[120px] grow-0 shrink-0 relative"
             style={
               props.nounSeed
                 ? {
