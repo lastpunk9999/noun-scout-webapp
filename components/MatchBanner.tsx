@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 type MatchBannerProps = {};
 
 const MatchBanner = (props: MatchBannerProps) => {
-  const [, matchData] = useAppContext() ?? [];
+  const { donationsForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const totalReimbursement = useMemo(() => {
     if (!matchData) return BigNumber.from("0");

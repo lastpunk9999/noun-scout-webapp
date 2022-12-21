@@ -11,7 +11,7 @@ import {
 } from "wagmi";
 import { BigNumber } from "ethers";
 import Link from "next/link";
-import { useAppContext } from "../../context/state";
+
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import RequestInText from "../../components/RequestInText";
@@ -35,7 +35,7 @@ const Confirm = (props: ConfirmProps) => {
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
-  const doneesList = useAppContext();
+
   const nextNounsAuction = useContractRead({
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,

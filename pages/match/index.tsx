@@ -6,7 +6,7 @@ import { BigNumber, utils } from "ethers";
 import { useMemo } from "react";
 
 const Match: NextPage = () => {
-  const [, matchData] = useAppContext() ?? [];
+  const { donationsForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const isNonAuctionedNoun =
     matchData.nonAuctionedNounId === matchData.auctionedNounId - 1 &&

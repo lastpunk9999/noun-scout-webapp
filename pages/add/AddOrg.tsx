@@ -8,7 +8,7 @@ type AddOrgsProps = {
 };
 
 const AddOrgs = (props: AddOrgsProps) => {
-  const doneesList = useAppContext()[0];
+  const { donees = [] } = useAppContext() ?? {};
 
   return (
     <div className="flex flex-col gap-10 relative">
@@ -27,7 +27,7 @@ const AddOrgs = (props: AddOrgsProps) => {
         <div>
           <h3 className="text-xl font-bold mb-2">Select a charity</h3>
           <div className="grid gap-5 items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {doneesList.map((org, i) => {
+            {donees.map((org, i) => {
               if (org.active) {
                 return (
                   <Donee

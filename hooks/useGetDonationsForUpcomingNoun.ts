@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useContractRead } from "wagmi";
 import { nounSeekContract } from "../config";
 import { extractDonations } from "../utils";
 import { DonationsByTraitType } from "../types";
@@ -11,13 +10,7 @@ export interface DonationsForUpcomingNoun {
 }
 
 export default function useGetDonationsForUpcomingNoun(): DonationsForUpcomingNoun {
-  const [donees] = useAppContext() ?? [];
-
-  const donations = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: "donationsForUpcomingNoun",
-  }).data;
+  const { donees, donationsForUpcomingNoun: donations } = useAppContext() ?? {};
 
   return {
     nextAuctionDonations: useMemo(() => {

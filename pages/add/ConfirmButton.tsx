@@ -12,7 +12,7 @@ import {
 import { BigNumber, ethers, utils } from "ethers";
 import { ImageData } from "@nouns/assets";
 import Link from "next/link";
-import { useAppContext } from "../../context/state";
+
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import RequestInText from "../../components/RequestInText";
@@ -37,7 +37,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
-  const doneesList = useAppContext();
+
   const nextNounsAuction = useContractRead({
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,

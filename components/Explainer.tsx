@@ -55,8 +55,8 @@ const Explainer = (props: ExplainerProps) => {
     },
   ];
 
-  const doneesList = useAppContext()[0];
-  const eligibleDonees = doneesList
+  const { donees = [] } = useAppContext() ?? {};
+  const eligibleDonees = donees
     .map((org, i) => useGetDoneeDescription(i))
     .filter((org) => org.active && org.image);
 
