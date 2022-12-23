@@ -33,7 +33,7 @@ const DisabledSponsorshipsMessage = ({
   );
 };
 
-const Manage: NextPage = () => {
+const Manage = () => {
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
 
@@ -120,4 +120,9 @@ const Manage: NextPage = () => {
   );
 };
 
-export default Manage;
+const MountedPageGuard: NextPage = ({ isMounted }) => {
+  if (!isMounted) return null;
+  return <Manage />;
+};
+
+export default MountedPageGuard;
