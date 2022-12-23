@@ -39,13 +39,30 @@ const wagmiClient = createClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   const isMounted = useIsMounted();
-  if (!isMounted) return null;
+  if (!isMounted)
+    return (
+      <Layout isMounted={isMounted}>
+        <AppWrapper isMounted={isMounted}>
+          <Layout isMounted={isMounted}>
+            <Component
+              {...pageProps}
+              suppressHydrationWarning
+              isMounted={isMounted}
+            />
+          </Layout>
+        </AppWrapper>
+      </Layout>
+    );
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <AppWrapper>
-          <Layout>
-            <Component {...pageProps} suppressHydrationWarning />
+        <AppWrapper isMounted={isMounted}>
+          <Layout isMounted={isMounted}>
+            <Component
+              {...pageProps}
+              suppressHydrationWarning
+              isMounted={isMounted}
+            />
           </Layout>
         </AppWrapper>
       </RainbowKitProvider>

@@ -1,6 +1,7 @@
 import { Request } from "../../types";
 import { useAppContext } from "../../context/state";
 import Donee from "./Donee";
+import useGetDoneesDescription from "../../hooks/useGetDoneesDescription";
 
 type AddOrgsProps = {
   setRequestSeed: Function;
@@ -8,7 +9,7 @@ type AddOrgsProps = {
 };
 
 const AddOrgs = (props: AddOrgsProps) => {
-  const { donees = [] } = useAppContext() ?? {};
+  const donees = useGetDoneesDescription(true);
 
   return (
     <div className="flex flex-col gap-10 relative">
@@ -27,17 +28,15 @@ const AddOrgs = (props: AddOrgsProps) => {
         <div>
           <h3 className="text-xl font-bold mb-2">Select a charity</h3>
           <div className="grid gap-5 items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {donees.map((org, i) => {
-              if (org.active) {
-                return (
-                  <Donee
-                    doneeId={i}
-                    key={i}
-                    requestSeed={props.requestSeed}
-                    setRequestSeed={props.setRequestSeed}
-                  />
-                );
-              }
+            {donees.map((donee, i) => {
+              return (
+                <Donee
+                  donee={donee}
+                  key={i}
+                  requestSeed={props.requestSeed}
+                  setRequestSeed={props.setRequestSeed}
+                />
+              );
             })}
           </div>
         </div>

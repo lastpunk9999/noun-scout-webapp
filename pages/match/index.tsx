@@ -9,8 +9,8 @@ const Match: NextPage = () => {
   const { donationsForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const isNonAuctionedNoun =
-    matchData.nonAuctionedNounId === matchData.auctionedNounId - 1 &&
-    matchData.nonAuctionedNounDonations
+    matchData?.nonAuctionedNounId === matchData?.auctionedNounId - 1 &&
+    matchData?.nonAuctionedNounDonations
       ? true
       : false;
 

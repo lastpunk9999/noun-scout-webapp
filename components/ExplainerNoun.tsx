@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import Image from "next/image";
-import { DonationsByTraitType, NounSeed } from "../types";
-import { useAppContext } from "../context/state";
+import { DonationsByTraitType, NounSeed, Donee } from "../types";
 import { motion, AnimatePresence } from "framer-motion";
-import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
+
 import {
   ImageData,
   getNounSeedFromBlockHash,
@@ -16,7 +15,7 @@ type ExplainerNounProps = {
   nextAuctionDonations: DonationsByTraitType;
   nounSeed: NounSeed;
   amount: number;
-  doneeId: number;
+  donee: Donee;
 };
 
 const getNounImage = (nounSeed) => {
@@ -28,7 +27,6 @@ const getNounImage = (nounSeed) => {
 
 const ExplainerNoun = (props: ExplainerNounProps) => {
   const image = useMemo(() => getNounImage(props.nounSeed), [props.nounSeed]);
-  const doneeDescription = useGetDoneeDescription(props.doneeId);
 
   return (
     <div className="relative mx-auto flex w-full">
@@ -87,8 +85,8 @@ const ExplainerNoun = (props: ExplainerNounProps) => {
             className="opacity-50"
           />
           <Image
-            src={doneeDescription.image}
-            alt="example logo"
+            src={props.donee.image}
+            alt={`${props.donee.name} logo`}
             width={25}
             height={25}
           />

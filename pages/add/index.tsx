@@ -248,28 +248,19 @@ const Add: NextPage = () => {
           )}
 
           {currentStep === 0 && (
-            <>
-              <AddTrait
-                setRequestSeed={setRequestSeed}
-                requestSeed={requestSeed}
-              />
-            </>
+            <AddTrait
+              setRequestSeed={setRequestSeed}
+              requestSeed={requestSeed}
+            />
           )}
           {currentStep === 1 && (
-            <>
-              <AddAmount
-                setRequestSeed={setRequestSeed}
-                requestSeed={requestSeed}
-              />
-            </>
+            <AddAmount
+              setRequestSeed={setRequestSeed}
+              requestSeed={requestSeed}
+            />
           )}
           {currentStep === 2 && (
-            <>
-              <AddOrg
-                setRequestSeed={setRequestSeed}
-                requestSeed={requestSeed}
-              />
-            </>
+            <AddOrg setRequestSeed={setRequestSeed} requestSeed={requestSeed} />
           )}
           {currentStep === 3 && (
             <Confirm

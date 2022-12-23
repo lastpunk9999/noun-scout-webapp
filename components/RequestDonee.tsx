@@ -26,11 +26,7 @@ const RequestDonee = (props: RequestDoneeProps) => {
         )}
       >
         <Image
-          src={
-            doneeDescription.image
-              ? doneeDescription.image
-              : "/donees/placeholder.svg"
-          }
+          src={doneeDescription.image}
           width={320}
           height={320}
           alt={`${doneeDescription.title} logo`}

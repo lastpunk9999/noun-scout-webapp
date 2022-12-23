@@ -26,17 +26,17 @@ const contractReadConfig = [
   },
 ];
 
-export function AppWrapper({ children }) {
-  const [fetch, setFetch] = useState(false);
-  const [data, setData] = useState([]);
-
+function UseGetData({ setData, fetch }) {
   useContractReads({
     contracts: contractReadConfig,
     enabled: fetch,
-    onSuccess(data) {
-      setData(data);
-    },
+    onSuccess: setData,
   });
+}
+
+export function AppWrapper({ children, isMounted }) {
+  const [fetch, setFetch] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     if (!fetch) setFetch(true);
@@ -50,11 +50,17 @@ export function AppWrapper({ children }) {
       },
       {
         update: () => setFetch(false),
+        isMounted,
       }
     );
-  }, [data]);
+  }, [data, isMounted]);
 
-  return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={state}>
+      {isMounted && <UseGetData setData={setData} fetch={fetch} />}
+      {children}
+    </AppContext.Provider>
+  );
 }
 
 export function useAppContext() {

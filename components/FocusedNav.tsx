@@ -1,18 +1,7 @@
 import { useState } from "react";
-import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
 import Link from "next/link";
 
 export default function FocusedNav() {
-  const { isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
-
-  function addOrConnect(event) {
-    if (isConnected) return;
-    event.preventDefault();
-    openConnectModal();
-  }
-
   return (
     <header>
       <nav className="w-full md:fixed z-10">

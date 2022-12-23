@@ -5,8 +5,8 @@ import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingN
 import { DonationsByTraitType, NounSeed } from "../types";
 import { useEffect, useState } from "react";
 import { ImageData } from "@nouns/assets";
-import { useAppContext } from "../context/state";
-import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
+
+import useGetDoneesDescription from "../hooks/useGetDoneesDescription";
 type ExplainerProps = {
   nextAuctionDonations: DonationsByTraitType;
 };
@@ -37,7 +37,7 @@ const Explainer = (props: ExplainerProps) => {
   const [exampleDonationAmount, setExampleDonationAmount] = useState(
     getRandomNum(0, 10, 2)
   );
-  const [exampleDoneeId, setExampleDoneeId] = useState(1);
+  const [exampleDoneeId, setExampleDoneeId] = useState(0);
 
   const explainerContent = [
     {
@@ -55,21 +55,18 @@ const Explainer = (props: ExplainerProps) => {
     },
   ];
 
-  const { donees = [] } = useAppContext() ?? {};
-  const eligibleDonees = donees
-    .map((org, i) => useGetDoneeDescription(i))
-    .filter((org) => org.active && org.image);
-
+  const donees = useGetDoneesDescription(true);
+  console.log(donees);
   useEffect(() => {
     const timerId = setInterval(() => {
       setNounSeed(buildNounSeed());
       setExampleDonationAmount(getRandomNum(0, 10, 2));
-      setExampleDoneeId(Math.floor(Math.random() * eligibleDonees.length));
+      setExampleDoneeId(Math.floor(Math.random() * donees.length));
     }, 7500);
     return () => {
       clearInterval(timerId);
     };
-  }, []);
+  }, [donees]);
 
   return (
     <div className="mx-4 my-10 flex flex-col md:grid md:grid-cols-3 gap-10">
@@ -80,14 +77,14 @@ const Explainer = (props: ExplainerProps) => {
               {i === 0 && <ExplainerTrait nounSeed={nounSeed} />}
               {i === 1 && (
                 <ExplainerLogos
-                  doneeId={exampleDoneeId}
+                  donee={donees[exampleDoneeId]}
                   amount={exampleDonationAmount}
                 />
               )}
               {i === 2 && (
                 <ExplainerNoun
                   nounSeed={nounSeed}
-                  doneeId={exampleDoneeId}
+                  donee={donees[exampleDoneeId]}
                   amount={exampleDonationAmount}
                 />
               )}

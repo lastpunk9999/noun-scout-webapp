@@ -1,30 +1,28 @@
 import cx from "classnames";
-import { Request } from "../../types";
-import useGetDoneeDescription from "../../hooks/useGetDoneeDescription";
+import { Request, Donee } from "../../types";
 import Image from "next/image";
 
 type DoneeProps = {
-  doneeId: number;
+  donee: Donee;
   requestSeed: Request;
   setRequestSeed: Function;
 };
 
 const Donee = (props: DoneeProps) => {
-  const doneeDescription = useGetDoneeDescription(props.doneeId);
   return (
     <button
       className={cx(
         "group bg-white shadow-md flex flex-col gap-5 h-full text-left p-3 border border-transparent rounded-lg hover:shadow-lg transition-shadow relative",
         // " text-left border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
-        props.requestSeed?.donation?.to === props.doneeId &&
+        props.requestSeed?.donation?.to === props.donee.id &&
           "bg-white !shadow-lg !border-1 !border-blue-500 opacity-100",
         props.requestSeed?.donation?.to >= 0 &&
-          props.requestSeed?.donation?.to !== props.doneeId
+          props.requestSeed?.donation?.to !== props.donee.id
           ? "opacity-50 hover:opacity-80"
           : ""
       )}
       onClick={() =>
-        props.requestSeed?.donation?.to === props.doneeId
+        props.requestSeed?.donation?.to === props.donee.id
           ? props.setRequestSeed((request) => ({
               trait: request.trait,
               donation: {
@@ -35,7 +33,7 @@ const Donee = (props: DoneeProps) => {
           : props.setRequestSeed((request) => ({
               trait: request.trait,
               donation: {
-                to: props.doneeId,
+                to: props.donee.id,
                 amount: props.requestSeed?.donation?.amount,
               },
             }))
@@ -43,12 +41,8 @@ const Donee = (props: DoneeProps) => {
     >
       <div className="w-20 rounded">
         <Image
-          src={
-            doneeDescription.image
-              ? doneeDescription.image
-              : "/donees/placeholder.svg"
-          }
-          alt={`${doneeDescription.name} logo`}
+          src={props.donee.image}
+          alt={`${props.donee.name} logo`}
           layout="responsive"
           width={320}
           height={320}
@@ -57,23 +51,23 @@ const Donee = (props: DoneeProps) => {
       </div>
 
       <div>
-        {doneeDescription.name && (
-          <h4 className="text-lg font-bold">{doneeDescription.name}</h4>
+        {props.donee.name && (
+          <h4 className="text-lg font-bold">{props.donee.name}</h4>
         )}
-        {doneeDescription.description && <p>{doneeDescription.description}</p>}
+        {props.donee.description && <p>{props.donee.description}</p>}
       </div>
 
       <div
         className={cx(
           "absolute top-0 right-1 hidden group-hover:block",
-          props.requestSeed?.donation?.to === props.doneeId && "!block"
+          props.requestSeed?.donation?.to === props.donee.id && "!block"
         )}
       >
         <input
           type="checkbox"
           readOnly
           checked={
-            props.requestSeed?.donation?.to === props.doneeId ? true : false
+            props.requestSeed?.donation?.to === props.donee.id ? true : false
           }
         />
       </div>

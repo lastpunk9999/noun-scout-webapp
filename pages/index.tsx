@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
-import { useIsMounted } from "../hooks";
 import Modal from "../components/Modal";
 import { Request, TraitAndDonations } from "../types";
 import cx from "classnames";
@@ -11,8 +10,31 @@ import cx from "classnames";
 import Explainer from "../components/Explainer";
 import CountdownClock from "../components/CountdownClock";
 
-const Home: NextPage = () => {
-  const isMounted = useIsMounted();
+const Hero = () => {
+  return (
+    <div className="text-center py-2 max-w-lg mx-auto my-10">
+      <h1 className="text-5xl font-bold font-serif mb-2">
+        Influence minting a Noun.
+      </h1>
+      <p className="text-lg">
+        Incentivize players of{" "}
+        <a href="https://fomonouns.wtf/" target="_blank">
+          FOMO Nouns
+        </a>{" "}
+        to mint your favorite trait
+        <br />
+        by sponsoring a non-profit.
+      </p>
+      <Link href="/add">
+        <a className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
+          Create a Request
+        </a>
+      </Link>
+    </div>
+  );
+};
+
+const OpenSponsorships = () => {
   // Get donations pertaining to next noun
   const { nextAuctionDonations, nextAuctionId } =
     useGetDonationsForUpcomingNoun();
@@ -40,32 +62,8 @@ const Home: NextPage = () => {
     setShowModal(!showModal);
   };
 
-  if (!isMounted) return null;
   return (
-    <div className="container px-4 mx-auto pb-10">
-      {/* Intro description */}
-      <div className="text-center py-2 max-w-lg mx-auto my-10">
-        <h1 className="text-5xl font-bold font-serif mb-2">
-          Influence minting a Noun.
-        </h1>
-        <p className="text-lg">
-          Incentivize players of{" "}
-          <a href="https://fomonouns.wtf/" target="_blank">
-            FOMO Nouns
-          </a>{" "}
-          to mint your favorite trait
-          <br />
-          by sponsoring a non-profit.
-        </p>
-        <Link href="/add">
-          <a className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
-            Create a Request
-          </a>
-        </Link>
-      </div>
-
-      {/* Steps */}
-      <Explainer />
+    <>
       <div className="text-center mt-20">
         <h2 className="text-4xl font-bold">Open sponsorships</h2>
         {/* TODO: Add countdown clock */}
@@ -130,11 +128,9 @@ const Home: NextPage = () => {
                   />
                 );
                 return (
-                  <>
-                    <button key={i} onClick={() => handleModal(request)}>
-                      {requestCard}
-                    </button>
-                  </>
+                  <button key={i} onClick={() => handleModal(request)}>
+                    {requestCard}
+                  </button>
                 );
               });
             return grid;
@@ -143,6 +139,19 @@ const Home: NextPage = () => {
       {showModal && (
         <Modal setShowModal={setShowModal} modalContent={modalContent}></Modal>
       )}
+    </>
+  );
+};
+const Home: NextPage = ({ isMounted }) => {
+  return (
+    <div className="container px-4 mx-auto pb-10">
+      {/* Intro description */}
+      <Hero />
+
+      {/* Steps */}
+      {isMounted && <Explainer />}
+
+      {isMounted && <OpenSponsorships />}
     </div>
   );
 };

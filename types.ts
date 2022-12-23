@@ -89,3 +89,10 @@ export interface TraitNameAndImageData {
   type: SingularTraitName;
   imageData: ImageData | undefined;
 }
+
+export type Donee = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+};

@@ -1,15 +1,13 @@
-import { useAppContext } from "../context/state";
 import Image from "next/image";
-import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
 import { motion, AnimatePresence } from "framer-motion";
+import { Donee } from "../types";
 
 type ExplainerLogosProps = {
-  doneeId: number;
+  donee: Donee;
   amount: number;
 };
 
 const ExplainerLogos = (props: ExplainerLogosProps) => {
-  const doneeDescription = useGetDoneeDescription(props.doneeId);
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -42,12 +40,8 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
           <div className="flex flex-row text-left gap-2 items-center justify-center">
             <div className="rounded-md w-full aspect-square max-w-[2.5rem] overflow-hidden">
               <Image
-                src={
-                  doneeDescription.image
-                    ? doneeDescription.image
-                    : "/donees/placeholder.svg"
-                }
-                alt={`${doneeDescription.name} logo`}
+                src={props.donee?.image ?? "/donees/placeholder.svg"}
+                alt={`${props.donee?.name ?? "donee"} logo`}
                 layout="responsive"
                 width={320}
                 height={320}
@@ -55,7 +49,7 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
             </div>
 
             <p className="text-sm text-blue-500 font-bold leading-none">
-              {doneeDescription.name}
+              {props.donee?.name}
             </p>
           </div>
         </div>

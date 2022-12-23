@@ -7,8 +7,18 @@ import Head from "next/head";
 import { siteTitle, siteDescription, siteUrl } from "../config";
 import { NextSeo } from "next-seo";
 
-export default function Layout({ children }) {
+export default function Layout({ children, isMounted }) {
   const router = useRouter();
+  const Nav =
+    router.pathname === "/add" ? (
+      <FocusedNav />
+    ) : !isMounted ? null : (
+      <>
+        <MatchBanner />
+        <Navbar />
+      </>
+    );
+
   return (
     <>
       <Head>
@@ -31,16 +41,7 @@ export default function Layout({ children }) {
       />
 
       <div className="font-sans relative z-10">
-        {router.pathname === "/add" ? (
-          <>
-            <FocusedNav />
-          </>
-        ) : (
-          <>
-            <MatchBanner />
-            <Navbar />
-          </>
-        )}
+        {Nav}
         <main>{children}</main>
         <Footer />
       </div>
