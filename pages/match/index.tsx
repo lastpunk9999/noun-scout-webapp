@@ -44,13 +44,11 @@ const Match: NextPage = () => {
         />
 
         {isNonAuctionedNoun && (
-          <>
-            <NounWithMatches
-              nounId={matchData.nonAuctionedNounId}
-              donations={matchData.nonAuctionedNounDonations}
-              reimbursements={matchData.reimbursementPerTrait}
-            />
-          </>
+          <NounWithMatches
+            nounId={matchData.nonAuctionedNounId}
+            donations={matchData.nonAuctionedNounDonations}
+            reimbursements={matchData.reimbursementPerTrait}
+          />
         )}
       </div>
     </div>

@@ -56,7 +56,7 @@ const Explainer = (props: ExplainerProps) => {
   ];
 
   const donees = useGetDoneesDescription(true);
-  console.log(donees);
+
   useEffect(() => {
     const timerId = setInterval(() => {
       setNounSeed(buildNounSeed());
