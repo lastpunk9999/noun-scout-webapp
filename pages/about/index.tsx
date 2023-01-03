@@ -1,27 +1,67 @@
 import type { NextPage } from "next";
-
+import Donee from "./Donee";
+import useGetDoneesDescription from "../../hooks/useGetDoneesDescription";
+import { useAppContext } from "../../context/state";
 const About: NextPage = () => {
+  const donees = useGetDoneesDescription(true);
+  const baseReimbursementBPS = useAppContext()?.baseReimbursementBPS;
   return (
-    <div className="px-4 mx-auto max-w-lg">
-      <h1 className="text-5xl font-bold mb-2 font-serif">About Noun Seek</h1>
-      <p className="text-xl">
-        Noun Seek is a project that allows you to sponsor Nouns and send money
-        to charity.
-      </p>
-      <h2 className="text-xl font-bold mt-5 mb-2">Lorem Ipsum</h2>
-      <p>
-        Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis
-        ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod.
-        Curabitur blandit tempus porttitor.
-      </p>
-      <p>
-        Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-        vestibulum. Vestibulum id ligula porta felis euismod semper. Aenean
-        lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a
-        pharetra augue. Cras justo odio, dapibus ac facilisis in, egestas eget
-        quam. Vestibulum id ligula porta felis euismod semper. Aenean lacinia
-        bibendum nulla sed consectetur.
-      </p>
+    <div className="px-4 mx-auto max-w-lg mb-3">
+      <h1 className="mb-3 font-serif">About Noun Seek</h1>
+      <div className="text-lg mb-3">
+        <p className="mb-2">
+          NounSeek allows anyone to put up a reward for minting a Noun with a
+          specific trait and donates the funds to a non-profit.
+        </p>
+        <p className="mb-2">
+          If a Noun with a requested trait is minted, the pledged amount is
+          locked and the request cannot be removed.
+        </p>
+        <p className="mb-2">
+          For the duration of Noun auction, others can pledge additional amounts
+          to the same or different non-profits. This can be used as opportunity
+          to raise awareness for a cause or celebrate the mint.
+        </p>
+        <p className="mb-2">
+          When the auction is over and the next Noun is minted, the reward can
+          be sent to the non-profit via a 'settle' transaction to the NounSeek
+          contract. The user that initiates this settlement will receive up to{" "}
+          {baseReimbursementBPS
+            ? `${baseReimbursementBPS / 100}%`
+            : "a percentage"}{" "}
+          of the pledged amount in order to offset gas costs.
+        </p>
+      </div>
+      <div className="text-lg mb-2">
+        <h2 className="mt-5 mb-3">Protocol</h2>
+        <p>
+          The NounSeek contract is deployed at{" "}
+          <a
+            href={
+              process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
+                ? `https://etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}`
+                : `https://goerli.etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}`
+            }
+            target="_blank"
+          >
+            {process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}
+          </a>
+          .
+        </p>
+        <p>
+          In-depth protocol documenation can be found on{" "}
+          <a
+            href="https://github.com/lastpunk9999/noun-seek#nounseek"
+            target="_blank"
+          >
+            Github
+          </a>
+        </p>
+      </div>
+      <h2 className="mt-5 mb-3">Supported Non-profits</h2>
+      {donees.map((donee, i) => {
+        return <Donee donee={donee} key={i} />;
+      })}
     </div>
   );
 };
