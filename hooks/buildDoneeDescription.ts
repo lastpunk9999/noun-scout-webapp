@@ -6,6 +6,8 @@ export default function buildDoneeDescription(
 ): Donee {
   return {
     id: doneeId,
+    ...(onChainData ?? {}),
+    ...(doneeDescriptions[doneeId] ?? {}),
     name:
       doneeDescriptions[doneeId]?.name ??
       onChainData?.name ??
