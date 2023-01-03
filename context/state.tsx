@@ -25,6 +25,11 @@ const contractReadConfig = [
     functionName: "baseReimbursementBPS",
   },
   {
+    address: nounSeekContract.address,
+    abi: nounSeekContract.abi,
+    functionName: "minValue",
+  },
+  {
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,
     functionName: "auction",
