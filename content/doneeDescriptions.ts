@@ -29,7 +29,7 @@ const doneeDescriptions = {
   },
   5: {
     id: 5,
-    name: "No Logo Donee",
+    name: "Inactive Donee",
     description:
       "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla.",
     image: "/donees/donee-logo-ia.png",
