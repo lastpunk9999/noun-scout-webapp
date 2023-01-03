@@ -5,9 +5,9 @@ import useGetDoneeDescription from "./useGetDoneeDescription";
 import buildDoneeDescription from "./buildDoneeDescription";
 
 import { Donee } from "../types";
-export default function useGetDoneesDescription(): Donee[] {
+export default function useGetDoneesDescription(onlyActive = true): Donee[] {
   const donees = useAppContext()?.donees ?? Object.values(doneeDescriptions);
   return donees
     .map(buildDoneeDescription)
-    .filter((org) => org.active !== false);
+    .filter((donee) => !onlyActive || donee.active);
 }
