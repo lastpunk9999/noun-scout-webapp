@@ -11,27 +11,7 @@ import Link from "next/link";
 import cx from "classnames";
 import ManageTrait from "./ManageTrait";
 import { requestStatusToMessage } from "../../utils";
-
-const DisabledSponsorshipsMessage = ({
-  status,
-  requestsLength,
-}: {
-  status: RequestStatus;
-  requestsLength: number;
-}): JSX.Element | undefined => {
-  if (status == RequestStatus.CAN_REMOVE) return;
-  return (
-    <>
-      <h2 className="text-3xl font-bold mb-2 text-center">
-        {requestsLength > 1 ? "These sponsorships" : "This sponsorship"} can't
-        be removed right now.
-      </h2>
-      <p className="text-center">
-        {requestStatusToMessage(status, requestsLength)}
-      </p>
-    </>
-  );
-};
+import { useAppContext } from "../../context/state";
 
 const Manage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -45,6 +25,17 @@ const Manage = () => {
 
   const requests = useGetUserRequests();
 
+  const { donationsForMatchableNoun, auction } = useAppContext() ?? {};
+
+  const currentAuctionNounId = auction && auction.nounId.toNumber();
+  const {
+    auctionedNounId: prevAuctionedNounId,
+    nonAuctionedNounId: prevNonAuctionedNounId,
+  } = donationsForMatchableNoun ?? {};
+
+  const hasPrevNonAuctionedID =
+    prevNonAuctionedNounId && prevNonAuctionedNounId < prevAuctionedNounId;
+
   if (!isConnected || !requests) return null;
 
   const groupedRequests = groupby(requests, (r) => r.status);
@@ -56,7 +47,7 @@ const Manage = () => {
           You have no sponsorships yet.
         </h1>
         <p className="text-center">
-          <Link href="/add">Add a sponsorship</Link>
+          <Link href="/add">Add a request</Link>
         </p>
       </div>
     );
@@ -76,6 +67,20 @@ const Manage = () => {
     );
   };
 
+  const nounsWTFLink = (nounId: number, prefix = "#") => {
+    return (
+      <a
+        href={`https://nouns.wtf/noun/${nounId}`}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="text-red-700"
+      >
+        {prefix}
+        {nounId}
+      </a>
+    );
+  };
+
   return (
     <div className="px-4">
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
@@ -86,24 +91,50 @@ const Manage = () => {
 
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
         <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
-          <p className="font-bold text-lg max-w-lg mx-auto">
-            The current Noun or the previous Noun has traits which match the
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
+            Either the current Noun on auction{" "}
+            {currentAuctionNounId && (
+              <>({nounsWTFLink(currentAuctionNounId)})</>
+            )}{" "}
+            or the previous Noun
+            {hasPrevNonAuctionedID && "s"}{" "}
+            {prevNonAuctionedNounId && (
+              <>
+                (
+                {prevNonAuctionedNounId &&
+                  hasPrevNonAuctionedID &&
+                  nounsWTFLink(prevNonAuctionedNounId)}
+                {hasPrevNonAuctionedID && `, `}
+                {prevAuctionedNounId && nounsWTFLink(prevAuctionedNounId)})
+              </>
+            )}{" "}
+            ha
+            {hasPrevNonAuctionedID ? "ve" : "s"} traits which match the
             following{" "}
             {groupedRequests[RequestStatus.MATCH_FOUND].length > 1
-              ? "sponsorships. They "
-              : "sponsorship. It "}
+              ? "sponsorships. These sponsorships "
+              : "sponsorship. This sponsorhip "}
             cannot be removed yet.
-          </p>
+          </div>
           {group(RequestStatus.MATCH_FOUND)}
         </div>
       )}
 
       {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
         <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
-          <p className="font-bold text-lg max-w-lg mx-auto">
-            The Noun auction is ending soon. These sponsorships cannot be
-            removed until the auction is settled.
-          </p>
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
+            The auction for{" "}
+            {currentAuctionNounId &&
+              nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
+            is ending soon. Your sponsorships cannot be removed until the
+            auction is settled.
+          </div>
           {group(RequestStatus.AUCTION_ENDING_SOON)}
         </div>
       )}
