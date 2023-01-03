@@ -20,6 +20,11 @@ const contractReadConfig = [
     functionName: "donationsForUpcomingNoun",
   },
   {
+    address: nounSeekContract.address,
+    abi: nounSeekContract.abi,
+    functionName: "baseReimbursementBPS",
+  },
+  {
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,
     functionName: "auction",
