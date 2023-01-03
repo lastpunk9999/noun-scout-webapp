@@ -13,10 +13,8 @@ import CountdownClock from "../components/CountdownClock";
 const Hero = () => {
   return (
     <div className="text-center py-2 max-w-lg mx-auto my-10">
-      <h1 className="text-5xl font-bold font-serif mb-2">
-        Influence minting a Noun.
-      </h1>
-      <p className="text-lg">
+      <h1>Influence minting a Noun.</h1>
+      <h3 className="text-lg">
         Incentivize players of{" "}
         <a href="https://fomonouns.wtf/" target="_blank">
           FOMO Nouns
@@ -24,7 +22,7 @@ const Hero = () => {
         to mint your favorite trait
         <br />
         by sponsoring a non-profit.
-      </p>
+      </h3>
       <Link href="/add">
         <a className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
           Create a Request

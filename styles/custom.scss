@@ -1,5 +1,5 @@
 html, body {
-    
+
     background-color: #F4F4FF;
     background-repeat: no-repeat;
 
@@ -30,7 +30,20 @@ a {
 h1, h2, h3, h4, h5, h6 {
     color: $darkBlue;
 }
+
+h1 {
+  @apply text-5xl mb-4 font-bold font-serif
+
+}
+h2 {
+    @apply text-2xl mb-3 font-bold
+
+}
+
+h3 {
+    @apply text-xl mb-2
+}
+
 p, li {
     color: #444;
-    line-height: 1.4;
 }
