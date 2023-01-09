@@ -1,4 +1,5 @@
 import { ImageData } from "@nouns/assets";
+import { BigNumber } from "ethers";
 
 import {
   SingularTraitName,
@@ -101,11 +102,16 @@ export function extractDonations(donations, donees): DonationsByTraitType {
               amount,
             } as Donation;
           })
-          .filter((n) => n);
+          .filter((n) => n)
+          .sort((a, b) => (a.amount.lt(b.amount) ? 1 : -1));
         if (donations.length > 0) {
           traitsObj[traitId] = {
             trait: getTraitTraitNameAndImageData(trait, traitId),
             donations,
+            total: donations.reduce(
+              (sum, d) => sum.add(d.amount),
+              BigNumber.from("0")
+            ),
           } as TraitAndDonations;
         }
         return traitsObj;

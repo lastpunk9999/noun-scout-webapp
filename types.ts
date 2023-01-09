@@ -71,6 +71,7 @@ export interface Donation {
 export interface TraitAndDonations {
   trait: TraitNameAndImageData;
   donations: Donation[];
+  total: BigNumber;
 }
 
 export type DonationsByTrait = Record<number, TraitAndDonations>;
