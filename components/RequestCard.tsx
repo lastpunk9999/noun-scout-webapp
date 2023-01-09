@@ -1,4 +1,4 @@
-import { BigNumber, utils } from "ethers";
+import { BigNumber, utils, constants } from "ethers";
 import { Donation, NounSeed, TraitNameAndImageData } from "../types";
 import Image from "next/image";
 import { ImageData, getPartData } from "@nouns/assets";
@@ -42,19 +42,18 @@ const getPart = (
 const RequestCard = (props: RequestCardProps) => {
   const part = getPart(props.trait?.traitTypeId, props.trait?.traitId);
 
-  const totalDonationAmount = useMemo(() => {
-    if (!props.donations) return 0;
-    return props.donations.reduce(function (acc, obj) {
-      const amount = obj?.amount ? Number(utils.formatEther(obj.amount)) : 0;
-      return acc + amount;
-    }, 0);
+  const total = useMemo(() => {
+    if (!props.donations) return constants.Zero;
+    return props.donations.reduce(function (sum, donation) {
+      return sum.add(donation?.amount ?? constants.Zero);
+    }, constants.Zero);
   }, [props.donations]);
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
       <div className="absolute top-3 right-3">
-        {totalDonationAmount && props.cardStyle !== "matching" ? (
+        {!total?.isZero() && props.cardStyle !== "matching" ? (
           <p className="text-sm leading-none px-2 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
-            Ξ {totalDonationAmount}
+            Ξ {utils.formatEther(total)}
           </p>
         ) : (
           <></>
@@ -102,9 +101,9 @@ const RequestCard = (props: RequestCardProps) => {
           </h3>
         </div>
       </div>
-      {props.cardStyle === "matching" && totalDonationAmount && (
+      {props.cardStyle === "matching" && total && (
         <p className="bg-blue-500 text-sm text-white font-bold p-2 pl-4">
-          {totalDonationAmount} Ξ will be sent to
+          {total} Ξ will be sent to
         </p>
       )}
       <footer
