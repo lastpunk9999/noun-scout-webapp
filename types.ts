@@ -9,7 +9,7 @@ export type SingularTraitName =
 
 export type PluralTraitName =
   | "backgrounds"
-  | "bodoes"
+  | "bodies"
   | "accessories"
   | "heads"
   | "glasses";
