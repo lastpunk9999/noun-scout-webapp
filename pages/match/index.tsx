@@ -2,7 +2,8 @@ import type { NextPage } from "next";
 import NounWithMatches from "./NounWithMatches";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
-import { BigNumber, utils } from "ethers";
+import { constants, utils } from "ethers";
+import { BigNumber } from "../../types";
 import { useMemo } from "react";
 
 const Match: NextPage = () => {
@@ -15,7 +16,7 @@ const Match: NextPage = () => {
       : false;
 
   const totalReimbursement = useMemo(() => {
-    if (!matchData) return BigNumber.from("0");
+    if (!matchData) return constants.Zero;
     return matchData.reimbursementPerTrait.reduce(
       (reimbursement: BigNumber, total: BigNumber) => {
         return total.add(reimbursement);

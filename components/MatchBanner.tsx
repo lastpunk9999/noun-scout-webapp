@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, utils, constants } from "ethers";
 import { useAppContext } from "../context/state";
 import { useEffect, useMemo } from "react";
 
@@ -9,7 +9,7 @@ const MatchBanner = (props: MatchBannerProps) => {
   const { donationsForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const totalReimbursement = useMemo(() => {
-    if (!matchData) return BigNumber.from("0");
+    if (!matchData) return constants.Zero;
     return matchData.reimbursementPerTrait.reduce(
       (reimbursement: BigNumber, total: BigNumber) => {
         return total.add(reimbursement);

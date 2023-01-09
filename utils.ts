@@ -1,5 +1,5 @@
 import { ImageData } from "@nouns/assets";
-import { BigNumber } from "ethers";
+import { constants } from "ethers";
 
 import {
   SingularTraitName,
@@ -110,7 +110,7 @@ export function extractDonations(donations, donees): DonationsByTraitType {
             donations,
             total: donations.reduce(
               (sum, d) => sum.add(d.amount),
-              BigNumber.from("0")
+              constants.Zero
             ),
           } as TraitAndDonations;
         }
