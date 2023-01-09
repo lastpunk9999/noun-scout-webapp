@@ -109,6 +109,16 @@ export default function NavBar() {
             >
               <ul className="flex flex-col mt-4 font-medium md:flex-row md:mt-0 items-center">
                 <li>
+                  <Link href="/all">
+                    <a
+                      className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
+                      aria-current="page"
+                    >
+                      All Sponsorships
+                    </a>
+                  </Link>
+                </li>
+                <li>
                   <Link href="/add">
                     <a
                       className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
