@@ -16,8 +16,10 @@ export default function NavBar() {
         <div className="flex flex-wrap md:flex-nowrap justify-between items-center mx-auto max-w-screen-xl gap-10">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <Link href="/" className="flex items-center">
-              {/* Noun Seek ⌐◨-◨ */}
-              <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
+              <a>
+                {/* Noun Seek ⌐◨-◨ */}
+                <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
+              </a>
             </Link>
           </h1>
 
