@@ -87,17 +87,20 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
         })}
       </div>
       {traitsWithDonation.length === 0 && (
-        <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-row gap-10">
-          <div className="max-w-[8rem]">
+        <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center  w-full">
+          <div className="">
             <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
-            <Image
-              src={`data:image/svg+xml;base64,${svgBase64}`}
-              width={320}
-              height={320}
-              className="w-full rounded-lg"
-            />
+            {/* <div className="max-w-[5rem] md:max-w-[12rem]"> */}
+            <div className="max-w-[5rem] md:max-w-none md:w-[120px]">
+              <Image
+                src={`data:image/svg+xml;base64,${svgBase64}`}
+                width={320}
+                height={320}
+                className="w-full rounded-lg"
+              />
+            </div>
           </div>
-          <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col justify-center">
+          <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col md:mt-[35px] max-w-sm">
             <p className="text-lg font-bold">No matches</p>
           </div>
         </div>
