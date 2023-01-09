@@ -55,8 +55,13 @@ const Explainer = (props: ExplainerProps) => {
     },
   ];
 
-  const donees = useGetDoneesDescription(true);
-
+  let donees = useGetDoneesDescription(false);
+  // If donees haven't loaded yet, none will be active, make sure at least 1 is in the array
+  if (donees.every((d) => !d.active)) {
+    donees = [donees[0]];
+  } else {
+    donees = donees.filter((d) => d.active);
+  }
   useEffect(() => {
     const timerId = setInterval(() => {
       setNounSeed(buildNounSeed());
