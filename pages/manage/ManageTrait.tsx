@@ -10,12 +10,14 @@ import {
 } from "wagmi";
 import { BigNumber } from "ethers";
 import cx from "classnames";
+import { useAppContext } from "../../context/state";
 
 type ManageTraitProps = {
   request: Request;
 };
 
 const ManageTrait = (props: ManageTraitProps) => {
+  const { updateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [transactionData, setTransactionData] = useState<string>();
   const [isTransactionLoading, setIsTransactionLoading] =
@@ -61,6 +63,7 @@ const ManageTrait = (props: ManageTraitProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      updateState();
     },
     onError(error) {
       setErrorMessage(error.message);
