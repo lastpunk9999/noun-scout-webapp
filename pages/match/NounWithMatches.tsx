@@ -76,6 +76,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
               </div>
 
               <MatchItem
+                nounId={props.nounId}
                 traitTypeId={traitTypeId}
                 traitId={nounSeed[traitTypeId]}
                 donations={props.donations[traitTypeId]}

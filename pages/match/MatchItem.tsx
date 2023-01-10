@@ -13,6 +13,7 @@ import Link from "next/link";
 import { getTraitTraitNameAndImageData } from "../../utils";
 
 type MatchItemProps = {
+  nounId: number;
   donations: readonly BigNumber[];
   reimbursement: BigNumber;
   traitTypeId: BigNumber;
@@ -28,13 +29,24 @@ const MatchItem = (props: MatchItemProps) => {
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
 
+  // turn list of BigNumbers into Donation records, filter out donations with zero amount
+  const donations = props.donations
+    .map((donation, index) => {
+      return {
+        to: index,
+        amount: donation,
+      };
+    })
+    .filter((data) => !data.amount.isZero());
+
   const { config } = usePrepareContractWrite({
     address: nounSeekContract.address,
     abi: nounSeekContract.abi,
-    functionName: "matchAndDonate",
-    args: [
-      props.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
-    ],
+    functionName: "settle",
+    args: [props.traitTypeId, props.nounId, donations.map((d) => d.to)], // trait type ID, Noun ID, Donee IDs
+    onSuccess() {
+      setErrorMessage(undefined);
+    },
     onError(error) {
       console.log("Error", error);
       setErrorMessage(error.error.message);
@@ -64,14 +76,6 @@ const MatchItem = (props: MatchItemProps) => {
       setErrorMessage(error.message);
     },
   });
-  const donationData = props.donations
-    .map((donation, index) => {
-      return {
-        to: index,
-        amount: donation,
-      };
-    })
-    .filter((data) => !data.amount.isZero());
 
   const trait = useMemo(() => {
     const trait = getTraitTraitNameAndImageData(
@@ -112,7 +116,7 @@ const MatchItem = (props: MatchItemProps) => {
             </span>
             <RequestCard
               trait={trait}
-              donations={donationData}
+              donations={donations}
               nounSeed={props.nounSeed}
               cardStyle="detailed"
             />
