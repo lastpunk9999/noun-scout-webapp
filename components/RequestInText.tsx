@@ -17,19 +17,18 @@ const RequestInText = (props: RequestInTextProps) => {
   return (
     <p className="text-center text-lg">
       If a Noun with the{" "}
-      <span className="bg-slate-200 font-bold">
+      <span className="bg-slate-200 font-bold whitespace-nowrap">
         {capitalizeFirstLetter(parseTraitName(props.requestSeed.trait.name))}
       </span>{" "}
       {props.requestSeed.trait.type} is minted,{" "}
-      <span className="bg-slate-200 font-bold">
+      <span className="bg-slate-200 font-bold whitespace-nowrap">
         {props.requestSeed?.donation?.amount
           ? utils.formatEther(props.requestSeed.donation.amount)
           : "_______"}{" "}
         ETH
-      </span>
-      <br />
+      </span>{" "}
       will be sent to{" "}
-      <span className="bg-slate-200 font-bold">
+      <span className="bg-slate-200 font-bold whitespace-nowrap">
         {props.requestSeed.donation.to !== undefined
           ? doneeDescription.name
           : "_______"}
