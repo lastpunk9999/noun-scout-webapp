@@ -11,6 +11,7 @@ import { useMemo, useState } from "react";
 import cx from "classnames";
 import Link from "next/link";
 import { getTraitTraitNameAndImageData } from "../../utils";
+import { useAppContext } from "../../context/state";
 
 type MatchItemProps = {
   nounId: number;
@@ -22,6 +23,7 @@ type MatchItemProps = {
 };
 
 const MatchItem = (props: MatchItemProps) => {
+  const { updateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [transactionData, setTransactionData] = useState<string>();
   const [isTransactionLoading, setIsTransactionLoading] =
@@ -71,6 +73,7 @@ const MatchItem = (props: MatchItemProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      updateState();
     },
     onError(error) {
       setErrorMessage(error.message);
