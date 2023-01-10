@@ -41,6 +41,11 @@ const abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "IneligibleNounId",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "uint16",
@@ -151,12 +156,6 @@ const abi = [
         name: "traitsHash",
         type: "bytes32",
       },
-      {
-        indexed: false,
-        internalType: "uint16",
-        name: "newNonce",
-        type: "uint16",
-      },
     ],
     name: "Matched",
     type: "event",
@@ -172,6 +171,19 @@ const abi = [
       },
     ],
     name: "MaxReimbursementChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newMessageValue",
+        type: "uint256",
+      },
+    ],
+    name: "MessageValueChanged",
     type: "event",
   },
   {
@@ -333,12 +345,6 @@ const abi = [
         internalType: "uint256",
         name: "amount",
         type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint16",
-        name: "nonce",
-        type: "uint16",
       },
       {
         indexed: false,
@@ -902,32 +908,21 @@ const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "enum NounSeek.Traits",
-        name: "trait",
-        type: "uint8",
-      },
-    ],
-    name: "matchAndDonate",
+    inputs: [],
+    name: "maxReimbursement",
     outputs: [
       {
         internalType: "uint256",
-        name: "total",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "reimbursement",
+        name: "",
         type: "uint256",
       },
     ],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "maxReimbursement",
+    name: "messageValue",
     outputs: [
       {
         internalType: "uint256",
@@ -959,25 +954,6 @@ const abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    name: "nonces",
-    outputs: [
-      {
-        internalType: "uint16",
-        name: "",
-        type: "uint16",
       },
     ],
     stateMutability: "view",
@@ -1060,11 +1036,6 @@ const abi = [
       {
         components: [
           {
-            internalType: "uint16",
-            name: "nonce",
-            type: "uint16",
-          },
-          {
             internalType: "enum NounSeek.Traits",
             name: "trait",
             type: "uint8",
@@ -1110,11 +1081,6 @@ const abi = [
     outputs: [
       {
         components: [
-          {
-            internalType: "uint16",
-            name: "nonce",
-            type: "uint16",
-          },
           {
             internalType: "enum NounSeek.Traits",
             name: "trait",
@@ -1180,11 +1146,6 @@ const abi = [
       {
         components: [
           {
-            internalType: "uint16",
-            name: "nonce",
-            type: "uint16",
-          },
-          {
             internalType: "enum NounSeek.Traits",
             name: "trait",
             type: "uint8",
@@ -1247,11 +1208,6 @@ const abi = [
             internalType: "uint256",
             name: "id",
             type: "uint256",
-          },
-          {
-            internalType: "uint16",
-            name: "nonce",
-            type: "uint16",
           },
           {
             internalType: "enum NounSeek.Traits",
@@ -1327,6 +1283,19 @@ const abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "newMessageValue",
+        type: "uint256",
+      },
+    ],
+    name: "setMessageValue",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "newMinReimbursement",
         type: "uint256",
       },
@@ -1359,6 +1328,40 @@ const abi = [
     ],
     name: "setReimbursementBPS",
     outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum NounSeek.Traits",
+        name: "trait",
+        type: "uint8",
+      },
+      {
+        internalType: "uint16",
+        name: "nounId",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16[]",
+        name: "doneeIds",
+        type: "uint16[]",
+      },
+    ],
+    name: "settle",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "total",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reimbursement",
+        type: "uint256",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },
