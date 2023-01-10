@@ -16,6 +16,8 @@ import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import RequestInText from "../../components/RequestInText";
 
+import { useAppContext } from "../../context/state";
+
 type ConfirmProps = {
   requestSeed: Request;
   setRequestSeed: Function;
@@ -25,6 +27,8 @@ type ConfirmProps = {
 
 const Confirm = (props: ConfirmProps) => {
   const { isConnected } = useAccount();
+  const { updateState } = useAppContext();
+
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(
     undefined
@@ -114,6 +118,7 @@ const Confirm = (props: ConfirmProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      updateState();
     },
     onError(error) {
       setErrorMessage(error.message);
