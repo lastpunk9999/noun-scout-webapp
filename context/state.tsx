@@ -59,7 +59,7 @@ export function AppWrapper({ children, isMounted }) {
         return state;
       },
       {
-        update: () => setFetch(false),
+        updateState: () => setFetch(false),
         isMounted,
       }
     );
