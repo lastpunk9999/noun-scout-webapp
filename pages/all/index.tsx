@@ -28,6 +28,7 @@ const OpenSponsorships = () => {
     "glasses",
     "accessories",
     "bodies",
+    "backgrounds",
   ];
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
