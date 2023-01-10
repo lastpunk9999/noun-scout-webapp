@@ -62,6 +62,7 @@ const OpenSponsorships = () => {
             const traitCount = Object.values(
               nextAuctionDonations[traitType]
             ).length;
+            const disabled = traitCount === 0;
             const singularTraitType = pluralTraitToSingular(traitType);
             return (
               <button
@@ -72,8 +73,9 @@ const OpenSponsorships = () => {
                     "border-blue-500 text-white",
                   filteredTraitType &&
                     filteredTraitType !== singularTraitType &&
-                    "opacity-50",
-                  "bg-white border-2 border-blue-500 text-blue-500 py-1 px-2 sm:py-2 sm:px-4 rounded-md sm:rounded-full mx-1 cursor-pointer font-sans font-semibold text-sm mr-2 hover:bg-slate-200 disabled:opacity-75 disabled:cursor-auto"
+                    "opacity-75",
+                  "bg-white border-2 border-blue-500 text-blue-500 py-1 px-2 sm:py-2 sm:px-4 rounded-md sm:rounded-full mx-1 cursor-pointer font-sans font-semibold text-sm mr-2 disabled:opacity-50 disabled:cursor-auto",
+                  !disabled && "hover:bg-slate-200"
                 )}
                 onClick={() => {
                   setFilteredTraitType((prev) => {
@@ -81,7 +83,7 @@ const OpenSponsorships = () => {
                     return singularTraitType;
                   });
                 }}
-                disabled={traitCount === 0 || false}
+                disabled={disabled}
               >
                 {traitCount} {traitType}
               </button>
