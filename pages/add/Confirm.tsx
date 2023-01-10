@@ -93,7 +93,7 @@ const Confirm = (props: ConfirmProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
     onSuccess() {
       setErrorMessage(undefined);
@@ -118,10 +118,11 @@ const Confirm = (props: ConfirmProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      setErrorMessage(undefined);
       updateState();
     },
     onError(error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 

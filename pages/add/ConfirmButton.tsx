@@ -93,13 +93,14 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     },
     onSuccess(data) {
       console.log("Success", data);
+      setErrorMessage(undefined);
     },
     onSettled(data, error) {
       console.log("Settled", { data, error });
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 
@@ -121,10 +122,11 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      setErrorMessage(undefined);
       props.setCurrentStep(props.currentStep + 1);
     },
     onError(error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 

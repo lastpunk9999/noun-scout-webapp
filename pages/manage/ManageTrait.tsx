@@ -39,9 +39,12 @@ const ManageTrait = (props: ManageTraitProps) => {
     functionName: "remove",
     args: [BigNumber.from(props.request.id)],
     enabled: canRemove,
+    onSuccess() {
+      setErrorMessage(undefined);
+    },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error.error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 
@@ -63,10 +66,11 @@ const ManageTrait = (props: ManageTraitProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      setErrorMessage(undefined);
       updateState();
     },
     onError(error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 

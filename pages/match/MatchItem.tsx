@@ -51,7 +51,7 @@ const MatchItem = (props: MatchItemProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error.error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 
@@ -59,6 +59,7 @@ const MatchItem = (props: MatchItemProps) => {
     ...config,
     onSuccess() {
       setIsTransactionLoading(true);
+      setErrorMessage(undefined);
     },
     onSettled(settledData) {
       if (settledData) {
@@ -73,10 +74,11 @@ const MatchItem = (props: MatchItemProps) => {
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
+      setErrorMessage(undefined);
       updateState();
     },
     onError(error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
 
