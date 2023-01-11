@@ -90,9 +90,9 @@ const Manage = () => {
         group(RequestStatus.CAN_REMOVE)}
 
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
-        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
             Either the current Noun on auction{" "}
@@ -124,9 +124,9 @@ const Manage = () => {
       )}
 
       {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
-        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300">
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
             The auction for{" "}
@@ -140,12 +140,12 @@ const Manage = () => {
       )}
 
       {groupedRequests[RequestStatus.DONATION_SENT]?.length > 0 && (
-        <>
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
           <h1 className="text-3xl font-bold mt-10 mb-2 text-center">
             Past Sponsorships
           </h1>
           {group(RequestStatus.DONATION_SENT)}
-        </>
+        </div>
       )}
     </div>
   );
