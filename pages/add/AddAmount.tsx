@@ -17,8 +17,9 @@ const AddAmount = (props: AddAmountProps) => {
       : "none",
   });
   const [amount, setAmount] = useState<string | undefined>(
-    props.requestSeed?.donation?.amount &&
-      utils.formatEther(props.requestSeed?.donation?.amount)
+    props.requestSeed?.donation?.amount
+      ? utils.formatEther(props.requestSeed?.donation?.amount)
+      : utils.formatEther(minValueBN)
   );
 
   useEffect(() => {
