@@ -86,6 +86,22 @@ const Manage = () => {
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
         Your Sponsorships
       </h1>
+      {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
+        <div className="text-center mt-10 pt-10 items-center flex-col flex justify-center align-center">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
+            role="alert"
+          >
+            The auction for{" "}
+            {currentAuctionNounId &&
+              nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
+            is ending soon. Your sponsorships cannot be removed until the
+            auction is settled.
+          </div>
+          {group(RequestStatus.AUCTION_ENDING_SOON)}
+        </div>
+      )}
+
       {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 &&
         group(RequestStatus.CAN_REMOVE)}
 
@@ -120,22 +136,6 @@ const Manage = () => {
             cannot be removed yet.
           </div>
           {group(RequestStatus.MATCH_FOUND)}
-        </div>
-      )}
-
-      {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
-        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
-          <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
-            role="alert"
-          >
-            The auction for{" "}
-            {currentAuctionNounId &&
-              nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
-            is ending soon. Your sponsorships cannot be removed until the
-            auction is settled.
-          </div>
-          {group(RequestStatus.AUCTION_ENDING_SOON)}
         </div>
       )}
 
