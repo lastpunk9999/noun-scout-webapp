@@ -38,9 +38,10 @@ const TopSponsorships = () => {
   let topDonations = Object.values(nextAuctionDonations ?? {})
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
     .sort((a, b) => (a.total.lt(b.total) ? 1 : -1));
+
   const donationsLength = topDonations.length;
+
   const topLength = 8;
-  topDonations = topDonations.slice(0, topLength);
 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
@@ -69,7 +70,7 @@ const TopSponsorships = () => {
       {/* Grid of sponsorships */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-4">
         {nextAuctionDonations &&
-          topDonations.map((request, i) => {
+          topDonations.slice(0, topLength).map((request, i) => {
             return (
               <button key={i} onClick={() => handleModal(request)}>
                 <RequestCard
