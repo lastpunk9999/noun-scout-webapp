@@ -123,7 +123,7 @@ const MatchItem = (props: MatchItemProps) => {
               trait={trait}
               donations={donations}
               nounSeed={props.nounSeed}
-              cardStyle="detailed"
+              cardStyle="matching"
             />
           </div>
           <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">

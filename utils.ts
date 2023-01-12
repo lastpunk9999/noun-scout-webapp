@@ -162,3 +162,7 @@ export function shuffle(array) {
   }
   return array;
 }
+
+export const traitPreposition = (trait: TraitNameAndImageData) =>
+  !/glasses/.test(trait.type) &&
+  (/^[a,e,i,o,u]/i.test(trait.name) ? "an " : "a ");

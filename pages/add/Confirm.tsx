@@ -186,9 +186,7 @@ const Confirm = (props: ConfirmProps) => {
                 cardStyle="detailed"
               />
             </div>
-            <div className="max-w-md mx-auto">
-              <RequestInText requestSeed={props.requestSeed} />
-            </div>
+
             <div className="flex flex-row gap-3 justify-center items-center">
               {isIdFieldVisible && (
                 <>

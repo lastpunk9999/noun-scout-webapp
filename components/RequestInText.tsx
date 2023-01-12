@@ -4,7 +4,11 @@ import { useAppContext } from "../context/state";
 import { useEffect, useMemo } from "react";
 import { Request } from "../types";
 import useGetDoneeDescription from "../hooks/useGetDoneeDescription";
-import { capitalizeFirstLetter, parseTraitName } from "../utils";
+import {
+  capitalizeFirstLetter,
+  parseTraitName,
+  traitPreposition,
+} from "../utils";
 
 type RequestInTextProps = {
   requestSeed: Request;
@@ -14,12 +18,9 @@ const RequestInText = (props: RequestInTextProps) => {
   const doneeDescription = useGetDoneeDescription(
     props.requestSeed?.donation?.to || 0
   );
-  const preposition =
-    !/glasses/.test(props.requestSeed.trait.type) &&
-    (/^[a,e,i,o,u]/i.test(props.requestSeed.trait.name) ? "an " : "a ");
   return (
     <p className="text-center text-lg">
-      If a Noun with {preposition}
+      If a Noun with {traitPreposition(props.requestSeed.trait)}
       <span className="bg-slate-200 font-bold whitespace-nowrap">
         {capitalizeFirstLetter(parseTraitName(props.requestSeed.trait.name))}
       </span>{" "}

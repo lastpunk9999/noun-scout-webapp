@@ -131,9 +131,6 @@ const Add: NextPage = () => {
                   donations={requestSeed && [requestSeed.donation]}
                 />
               </div>
-              <div className="min-h-[4rem] transition-all">
-                <RequestInText requestSeed={requestSeed} />
-              </div>
             </div>
           )}
           {currentStep === 0 && !requestSeed && (
