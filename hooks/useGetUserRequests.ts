@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAccount, useContractRead } from "wagmi";
 import { Request, RequestStatus } from "../types";
-import { nounSeekContract } from "../config";
+import { nounScoutContract } from "../config";
 import { getTraitTraitNameAndImageData } from "../utils";
 import { utils, constants } from "ethers";
 export default function useGetUserRequests(): Request[] {
@@ -9,8 +9,8 @@ export default function useGetUserRequests(): Request[] {
   const addr = address ? utils.getAddress(address) : constants.AddressZero;
 
   const requests = useContractRead({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "requestsByAddress",
     args: [addr],
     enabled: address != undefined,
@@ -24,8 +24,8 @@ export default function useGetUserRequests(): Request[] {
         nounId: request.nounId,
         status: request.status,
         trait: getTraitTraitNameAndImageData(request.trait, request.traitId),
-        donation: {
-          to: request.doneeId,
+        pledge: {
+          to: request.recipientId,
           amount: request.amount,
         },
       };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { Request } from "../../types";
-import { nounSeekContract, nounsAuctionHouseContract } from "../../config";
+import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -51,7 +51,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     if (minNounId && futureNounId && futureNounId >= minNounId) {
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: futureNounId,
       }));
     }
@@ -62,7 +62,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
       setFutureNounId(undefined);
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: undefined,
       }));
     }
@@ -70,7 +70,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
       setFutureNounId(minNounId);
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: minNounId,
       }));
     }
@@ -78,18 +78,18 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
 
   // prepare data to write to contract
   const { config } = usePrepareContractWrite({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "add",
     args: [
       props.requestSeed.trait.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
       props.requestSeed.trait.traitId, // traitId - index of trait type array
       //   props.requestSeed.id || 0, // nounId - set to 0 for open id, or specify an id
       0,
-      props.requestSeed.donation.to, // doneeId - index of donee array
+      props.requestSeed.pledge.to, // recipientId - index of recipient array
     ],
     overrides: {
-      value: props.requestSeed.donation.amount,
+      value: props.requestSeed.pledge.amount,
     },
     onSuccess(data) {
       console.log("Success", data);

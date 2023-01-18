@@ -1,32 +1,32 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useContractRead, useContractReads } from "wagmi";
-import { nounSeekContract, nounsAuctionHouseContract } from "../config";
+import { nounScoutContract, nounsAuctionHouseContract } from "../config";
 
 const AppContext = createContext<readonly {}[]>({});
 const contractReadConfig = [
   {
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: "donees",
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "recipients",
   },
   {
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: "donationsForMatchableNoun",
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "pledgesForMatchableNoun",
   },
   {
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
-    functionName: "donationsForUpcomingNoun",
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "pledgesForUpcomingNoun",
   },
   {
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "baseReimbursementBPS",
   },
   {
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "minValue",
   },
   {

@@ -114,7 +114,7 @@ export default function NavBar() {
                       className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                       aria-current="page"
                     >
-                      All Sponsorships
+                      All Requests
                     </a>
                   </Link>
                 </li>
@@ -124,7 +124,7 @@ export default function NavBar() {
                       className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                       aria-current="page"
                     >
-                      Add Sponsorship
+                      Add Request
                     </a>
                   </Link>
                 </li>
@@ -136,7 +136,7 @@ export default function NavBar() {
                           className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                           aria-current="page"
                         >
-                          Your Sponsorships
+                          Your Requests
                         </a>
                       </Link>
                     </li>

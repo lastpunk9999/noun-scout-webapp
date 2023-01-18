@@ -1,10 +1,10 @@
-import nounSeekABI from "./abi/nounSeekABI";
+import nounScoutABI from "./abi/nounScoutABI";
 import nounsAuctionHouseABI from "./abi/nounsAuctionHouseABI";
 import nounsTokenABI from "./abi/nounsTokenABI";
 
-export const nounSeekContract = {
+export const nounScoutContract = {
   address: process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS,
-  abi: nounSeekABI,
+  abi: nounScoutABI,
 };
 
 export const nounsAuctionHouseContract = {

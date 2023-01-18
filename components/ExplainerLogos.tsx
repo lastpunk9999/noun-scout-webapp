@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Donee } from "../types";
+import { Recipient } from "../types";
 
 type ExplainerLogosProps = {
-  donee: Donee;
+  recipient: Recipient;
   amount: number;
 };
 
@@ -40,8 +40,8 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
           <div className="flex flex-row text-left gap-2 items-center justify-center">
             <div className="rounded-md w-full aspect-square max-w-[2.5rem] overflow-hidden">
               <Image
-                src={props.donee?.image ?? "/donees/placeholder.svg"}
-                alt={`${props.donee?.name ?? "donee"} logo`}
+                src={props.recipient?.image ?? "/recipients/placeholder.svg"}
+                alt={`${props.recipient?.name ?? "recipient"} logo`}
                 layout="responsive"
                 width={320}
                 height={320}
@@ -49,7 +49,7 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
             </div>
 
             <p className="text-sm text-blue-500 font-bold leading-none">
-              {props.donee?.name}
+              {props.recipient?.name}
             </p>
           </div>
         </div>

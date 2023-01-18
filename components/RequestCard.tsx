@@ -1,10 +1,15 @@
 import { BigNumber, utils, constants } from "ethers";
-import { Donation, NounSeed, TraitNameAndImageData } from "../types";
+import {
+  Pledge,
+  NounSeed,
+  TraitNameAndImageData,
+  BigNumberType,
+} from "../types";
 import Image from "next/image";
 import { ImageData, getPartData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
 import { traitTypeNamesById, traitNamesById, traitPreposition } from "../utils";
-import RequestDonee from "./RequestDonee";
+import RequestRecipient from "./RequestRecipient";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useMemo } from "react";
@@ -13,9 +18,10 @@ import cx from "classnames";
 type RequestCardProps = {
   cardStyle: "detailed" | "compact" | "matching" | undefined;
   trait: TraitNameAndImageData | undefined;
-  donations: Donation[] | undefined;
+  pledges: Pledge[] | undefined;
   id?: number;
   nounSeed?: NounSeed;
+  reimbursementBPS?: BigNumberType;
 };
 
 const getPart = (
@@ -43,11 +49,11 @@ const RequestCard = (props: RequestCardProps) => {
   const part = getPart(props.trait?.traitTypeId, props.trait?.traitId);
 
   const total = useMemo(() => {
-    if (!props.donations) return constants.Zero;
-    return props.donations.reduce(function (sum, donation) {
-      return sum.add(donation?.amount ?? constants.Zero);
+    if (!props.pledges) return constants.Zero;
+    return props.pledges.reduce(function (sum, pledge) {
+      return sum.add(pledge?.amount ?? constants.Zero);
     }, constants.Zero);
-  }, [props.donations]);
+  }, [props.pledges]);
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
       <div className="absolute top-3 right-3">
@@ -138,13 +144,14 @@ const RequestCard = (props: RequestCardProps) => {
               props.cardStyle === "compact" && "!flex-row"
             )}
           >
-            {props.donations
-              ? props.donations.map((donation, i) => (
-                  <RequestDonee
+            {props.pledges
+              ? props.pledges.map((pledge, i) => (
+                  <RequestRecipient
                     cardStyle={props.cardStyle || "detailed"}
                     key={i}
-                    donation={donation}
-                    lineBreak={props.donations.length > 1}
+                    pledge={pledge}
+                    reimbursementBPS={props.reimbursementBPS}
+                    lineBreak={props.pledges.length > 1}
                   />
                 ))
               : "Supporting the charity of your choice"}

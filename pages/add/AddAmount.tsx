@@ -12,13 +12,13 @@ const AddAmount = (props: AddAmountProps) => {
   const { baseReimbursementBPS, minValue: minValueBN } = useAppContext() ?? {};
   const minValue = minValueBN ? utils.formatEther(minValueBN) : "0.1";
   console.log({
-    amount: props.requestSeed?.donation?.amount
-      ? utils.formatEther(props.requestSeed?.donation?.amount)
+    amount: props.requestSeed?.pledge?.amount
+      ? utils.formatEther(props.requestSeed?.pledge?.amount)
       : "none",
   });
   const [amount, setAmount] = useState<string | undefined>(
-    props.requestSeed?.donation?.amount
-      ? utils.formatEther(props.requestSeed?.donation?.amount)
+    props.requestSeed?.pledge?.amount
+      ? utils.formatEther(props.requestSeed?.pledge?.amount)
       : utils.formatEther(minValueBN)
   );
 
@@ -28,8 +28,8 @@ const AddAmount = (props: AddAmountProps) => {
         amount >= minValue ? ethers.utils.parseEther(amount) : undefined;
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: {
-          to: props.requestSeed?.donation?.to || undefined,
+        pledge: {
+          to: props.requestSeed?.pledge?.to || undefined,
           amount: amountInWei,
         },
       }));
@@ -53,8 +53,8 @@ const AddAmount = (props: AddAmountProps) => {
             onChange={(event) => setAmount(event.target.value)}
             // onLoad={() =>
             //   setAmount(
-            //     props.requestSeed?.donation?.amount
-            //       ? utils.formatEther(props.requestSeed?.donation?.amount)
+            //     props.requestSeed?.pledge?.amount
+            //       ? utils.formatEther(props.requestSeed?.pledge?.amount)
             //       : minValue
             //   )
             // }

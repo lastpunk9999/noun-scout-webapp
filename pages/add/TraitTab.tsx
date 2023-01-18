@@ -88,9 +88,9 @@ const TraitTab = (props: TraitTabProps) => {
                           props.traitIndex,
                           f.id
                         ),
-                        donation: {
-                          to: props.requestSeed?.donation?.to,
-                          amount: props.requestSeed?.donation?.amount,
+                        pledge: {
+                          to: props.requestSeed?.pledge?.to,
+                          amount: props.requestSeed?.pledge?.amount,
                         },
                       })
                 }

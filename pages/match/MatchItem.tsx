@@ -1,4 +1,4 @@
-import { Donation, NounSeed, TraitNameAndImageData } from "../../types";
+import { Pledge, NounSeed, TraitNameAndImageData } from "../../types";
 import RequestCard from "../../components/RequestCard";
 import { BigNumber, utils } from "ethers";
 import {
@@ -6,7 +6,7 @@ import {
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { nounSeekContract } from "../../config";
+import { nounScoutContract } from "../../config";
 import { useMemo, useState } from "react";
 import cx from "classnames";
 import Link from "next/link";
@@ -15,7 +15,7 @@ import { useAppContext } from "../../context/state";
 
 type MatchItemProps = {
   nounId: number;
-  donations: readonly BigNumber[];
+  pledges: readonly BigNumber[];
   reimbursement: BigNumber;
   traitTypeId: BigNumber;
   traitId: number;
@@ -31,21 +31,30 @@ const MatchItem = (props: MatchItemProps) => {
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
 
-  // turn list of BigNumbers into Donation records, filter out donations with zero amount
-  const donations = props.donations
-    .map((donation, index) => {
-      return {
-        to: index,
-        amount: donation,
-      };
-    })
-    .filter((data) => !data.amount.isZero());
+  const reimbursementBPS = useMemo(() => {
+    const total = props.pledges.reduce((sum, pledge) => sum.add(pledge));
+    return props.reimbursement.mul("10000").div(total);
+  }, [props.pledges, props.reimbursement]);
+
+  // turn list of BigNumbers into Pledge records, filter out pledges with zero amount
+  const pledges = useMemo(
+    () =>
+      props.pledges
+        .map((pledge, index) => {
+          return {
+            to: index,
+            amount: pledge,
+          };
+        })
+        .filter((data) => !data.amount.isZero()),
+    [props.pledges]
+  );
 
   const { config } = usePrepareContractWrite({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "settle",
-    args: [props.traitTypeId, props.nounId, donations.map((d) => d.to)], // trait type ID, Noun ID, Donee IDs
+    args: [props.traitTypeId, props.nounId, pledges.map((d) => d.to)], // trait type ID, Noun ID, Recipient IDs
     onSuccess() {
       setErrorMessage(undefined);
     },
@@ -75,7 +84,7 @@ const MatchItem = (props: MatchItemProps) => {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
       setErrorMessage(undefined);
-      updateState();
+      // updateState();
     },
     onError(error) {
       setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
@@ -121,12 +130,19 @@ const MatchItem = (props: MatchItemProps) => {
             </span>
             <RequestCard
               trait={trait}
-              donations={donations}
+              pledges={pledges}
               nounSeed={props.nounSeed}
               cardStyle="matching"
+              reimbursementBPS={reimbursementBPS}
             />
           </div>
           <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">
+            <p className="inline-block leading-5 grow">
+              <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
+                {utils.formatEther(props.reimbursement)} ETH
+              </span>{" "}
+              will be sent to you
+            </p>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
               disabled={!write || isLoading || isTransactionLoading}
@@ -144,12 +160,6 @@ const MatchItem = (props: MatchItemProps) => {
               </div>
             )}
             {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
-            <p className="text-xs text-center whitespace-nowrap">
-              Reward:{" "}
-              <span className="whitespace-nowrap">
-                Ξ {utils.formatEther(props.reimbursement)}
-              </span>
-            </p>
           </div>
         </div>
       )}

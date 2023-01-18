@@ -4,9 +4,9 @@ import { constants } from "ethers";
 import {
   SingularTraitName,
   PluralTraitName,
-  DonationsByTraitType,
-  Donation,
-  TraitAndDonations,
+  PledgesByTraitType,
+  Pledge,
+  TraitAndPledges,
   TraitNameAndImageData,
   RequestStatus,
 } from "./types";
@@ -89,30 +89,30 @@ export function getTraitTraitNameAndImageData(
   };
 }
 
-export function extractDonations(donations, donees): DonationsByTraitType {
-  return donations.reduce((obj, traitsArray, trait) => {
+export function extractPledges(pledges, recipients): PledgesByTraitType {
+  return pledges.reduce((obj, traitsArray, trait) => {
     const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
     const traitsObj = traitsArray.reduce(
       (traitsObj, donateesArray, traitId) => {
-        const donations = donateesArray
-          .map((amount, doneeId) => {
+        const pledges = donateesArray
+          .map((amount, recipientId) => {
             if (amount.isZero()) return;
             return {
-              to: doneeId,
+              to: recipientId,
               amount,
-            } as Donation;
+            } as Pledge;
           })
           .filter((n) => n)
           .sort((a, b) => (a.amount.lt(b.amount) ? 1 : -1));
-        if (donations.length > 0) {
+        if (pledges.length > 0) {
           traitsObj[traitId] = {
             trait: getTraitTraitNameAndImageData(trait, traitId),
-            donations,
-            total: donations.reduce(
+            pledges,
+            total: pledges.reduce(
               (sum, d) => sum.add(d.amount),
               constants.Zero
             ),
-          } as TraitAndDonations;
+          } as TraitAndPledges;
         }
         return traitsObj;
       },

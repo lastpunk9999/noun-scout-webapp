@@ -7,22 +7,32 @@ import { BigNumber } from "../../types";
 import { useMemo } from "react";
 
 const Match: NextPage = () => {
-  const { donationsForMatchableNoun: matchData } = useAppContext() ?? {};
+  const { pledgesForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const isNonAuctionedNoun =
     matchData?.nonAuctionedNounId < matchData?.auctionedNounId &&
-    matchData?.nonAuctionedNounDonations
+    matchData?.nonAuctionedNounPledges
       ? true
       : false;
 
-  const totalReimbursement = useMemo(() => {
+  const auctionedTotalReimbursement = useMemo(() => {
     if (!matchData) return constants.Zero;
-    return matchData.reimbursementPerTrait.reduce(
-      (reimbursement: BigNumber, total: BigNumber) => {
+    return matchData.auctionNounTotalReimbursement.reduce(
+      (reimbursement: BigNumber, total: BigNumber, i: number) => {
         return total.add(reimbursement);
       }
     );
   }, [matchData]);
+
+  const nonAuctionedTotalReimbursement = useMemo(() => {
+    if (!matchData) return constants.Zero;
+    return matchData.nonAuctionNounTotalReimbursement.reduce(
+      (reimbursement: BigNumber, total: BigNumber, i: number) => {
+        return total.add(reimbursement);
+      }
+    );
+  }, [matchData]);
+
   if (!matchData) return null;
 
   return (
@@ -30,27 +40,31 @@ const Match: NextPage = () => {
       <h1 className="text-5xl font-bold font-serif mb-2 text-center">
         Open Matches
       </h1>
-      {!totalReimbursement?.isZero() && (
-        <p className="text-xl text-center">
-          Earn{" "}
-          <span className="whitespace-nowrap">
-            Ξ {utils.formatEther(totalReimbursement)}
-          </span>{" "}
-          by matching
-        </p>
-      )}
+      {!auctionedTotalReimbursement?.isZero() &&
+        !nonAuctionedTotalReimbursement.isZero() && (
+          <p className="text-xl text-center">
+            Earn{" "}
+            <span className="whitespace-nowrap">
+              Ξ{" "}
+              {utils.formatEther(
+                auctionedTotalReimbursement.add(nonAuctionedTotalReimbursement)
+              )}
+            </span>{" "}
+            by matching
+          </p>
+        )}
       <div className={cx("mx-auto max-w-3xl flex flex-col gap-5 my-10")}>
         <NounWithMatches
           nounId={matchData.auctionedNounId}
-          donations={matchData.auctionedNounDonations}
-          reimbursements={matchData.reimbursementPerTrait}
+          pledges={matchData.auctionedNounPledges}
+          reimbursements={matchData.auctionNounTotalReimbursement}
         />
 
         {isNonAuctionedNoun && (
           <NounWithMatches
             nounId={matchData.nonAuctionedNounId}
-            donations={matchData.nonAuctionedNounDonations}
-            reimbursements={matchData.reimbursementPerTrait}
+            pledges={matchData.nonAuctionedNounPledges}
+            reimbursements={matchData.nonAuctionNounTotalReimbursement}
           />
         )}
       </div>

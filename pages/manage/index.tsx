@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { utils } from "ethers";
 import groupby from "lodash.groupby";
-import { nounSeekContract } from "../../config";
+import { nounScoutContract } from "../../config";
 import { Request, RequestStatus } from "../../types";
 import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
@@ -25,13 +25,13 @@ const Manage = () => {
 
   const requests = useGetUserRequests();
 
-  const { donationsForMatchableNoun, auction } = useAppContext() ?? {};
+  const { pledgesForMatchableNoun, auction } = useAppContext() ?? {};
 
   const currentAuctionNounId = auction && auction.nounId.toNumber();
   const {
     auctionedNounId: prevAuctionedNounId,
     nonAuctionedNounId: prevNonAuctionedNounId,
-  } = donationsForMatchableNoun ?? {};
+  } = pledgesForMatchableNoun ?? {};
 
   const hasPrevNonAuctionedID =
     prevNonAuctionedNounId && prevNonAuctionedNounId < prevAuctionedNounId;

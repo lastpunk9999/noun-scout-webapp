@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { NextPage } from "next";
-import useGetDonationsForUpcomingNoun from "../../hooks/useGetDonationsForUpcomingNoun";
+import useGetPledgesForUpcomingNoun from "../../hooks/useGetPledgesForUpcomingNoun";
 import RequestCard from "../../components/RequestCard";
 import Link from "next/link";
 import Modal from "../../components/Modal";
 import {
   Request,
-  TraitAndDonations,
+  TraitAndPledges,
   PluralTraitName,
   SingularTraitName,
 } from "../../types";
@@ -15,10 +15,9 @@ import { pluralTraitToSingular } from "../../utils";
 import CountdownClock from "../../components/CountdownClock";
 
 const OpenSponsorships = () => {
-  // Get donations pertaining to next noun
-  const { nextAuctionDonations, nextAuctionId } =
-    useGetDonationsForUpcomingNoun();
-  const requests = Object.values(nextAuctionDonations ?? {})
+  // Get pledges pertaining to next noun
+  const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
+  const requests = Object.values(nextAuctionPledges ?? {})
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
     .sort((a, b) => (a.total.lt(b.total) ? 1 : -1));
   const [filteredTraitType, setFilteredTraitType] =
@@ -33,12 +32,12 @@ const OpenSponsorships = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
 
-  const handleModal = (request: TraitAndDonations) => {
+  const handleModal = (request: TraitAndPledges) => {
     setModalContent(
       <RequestCard
         trait={request.trait}
-        donations={request.donations}
-        key={`${request.donations}${request.trait.name}}`}
+        pledges={request.pledges}
+        key={`${request.pledges}${request.trait.name}}`}
         cardStyle="detailed"
       />
     );
@@ -57,10 +56,10 @@ const OpenSponsorships = () => {
 
       {/* Filters */}
       <div className="justify-center mt-5 mb-10 select-none grid grid-cols-2 sm:flex gap-2">
-        {nextAuctionDonations &&
+        {nextAuctionPledges &&
           traitTypes.map((traitType) => {
             const traitCount = Object.values(
-              nextAuctionDonations[traitType]
+              nextAuctionPledges[traitType]
             ).length;
             const disabled = traitCount === 0;
             const singularTraitType = pluralTraitToSingular(traitType);
@@ -107,7 +106,7 @@ const OpenSponsorships = () => {
               <button key={i} onClick={() => handleModal(request)}>
                 <RequestCard
                   trait={request.trait}
-                  donations={request.donations}
+                  pledges={request.pledges}
                   cardStyle="compact"
                 />
               </button>

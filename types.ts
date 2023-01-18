@@ -1,5 +1,6 @@
 import { BigNumber as BN } from "@ethersproject/bignumber";
 export type BigNumber = BN;
+export type BigNumberType = BN;
 export type SingularTraitName =
   | "background"
   | "body"
@@ -27,20 +28,20 @@ export interface Request {
   nounId: number;
   status: RequestStatus;
   trait: TraitNameAndImageData;
-  donation: Donation;
+  pledge: Pledge;
 }
 
-export interface DonationsForUpcomingNoun {
+export interface PledgesForUpcomingNoun {
   nextAuctionedId: number;
   nextNonAuctionedId: number;
-  nextAuctionDonations: [
+  nextAuctionPledges: [
     BigNumber[],
     BigNumber[],
     BigNumber[],
     BigNumber[],
     BigNumber[]
   ];
-  nextNonAuctionDonations: [
+  nextNonAuctionPledges: [
     BigNumber[],
     BigNumber[],
     BigNumber[],
@@ -63,20 +64,20 @@ export interface NounSeedAndImageData {
   isNounLoading: boolean;
 }
 
-export interface Donation {
+export interface Pledge {
   to: number;
   amount: BigNumber;
 }
 
-export interface TraitAndDonations {
+export interface TraitAndPledges {
   trait: TraitNameAndImageData;
-  donations: Donation[];
+  pledges: Pledge[];
   total: BigNumber;
 }
 
-export type DonationsByTrait = Record<number, TraitAndDonations>;
+export type PledgesByTrait = Record<number, TraitAndPledges>;
 
-export type DonationsByTraitType = Record<PluralTraitName, DonationsByTrait>;
+export type PledgesByTraitType = Record<PluralTraitName, PledgesByTrait>;
 
 export interface ImageData {
   filename: string;
@@ -91,7 +92,7 @@ export interface TraitNameAndImageData {
   imageData: ImageData | undefined;
 }
 
-export type Donee = {
+export type Recipient = {
   id: number;
   name: string;
   description: string;

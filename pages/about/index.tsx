@@ -1,16 +1,16 @@
 import type { NextPage } from "next";
-import Donee from "./Donee";
-import useGetDoneesDescription from "../../hooks/useGetDoneesDescription";
+import Recipient from "./Recipient";
+import useGetRecipientsDescription from "../../hooks/useGetRecipientDescription";
 import { useAppContext } from "../../context/state";
 const About: NextPage = () => {
-  const donees = useGetDoneesDescription(true);
+  const recipients = useGetRecipientsDescription(true);
   const baseReimbursementBPS = useAppContext()?.baseReimbursementBPS;
   return (
     <div className="px-4 mx-auto max-w-lg mb-3">
       <h1 className="mb-3 font-serif">About Noun Seek</h1>
       <div className="text-lg mb-3">
         <p className="mb-2">
-          NounSeek allows anyone to put up a reward for minting a Noun with a
+          NounScout allows anyone to put up a reward for minting a Noun with a
           specific trait and donates the funds to a non-profit.
         </p>
         <p className="mb-2">
@@ -24,7 +24,7 @@ const About: NextPage = () => {
         </p>
         <p className="mb-2">
           When the auction is over and the next Noun is minted, the reward can
-          be sent to the non-profit via a 'settle' transaction to the NounSeek
+          be sent to the non-profit via a 'settle' transaction to the NounScout
           contract. The user that initiates this settlement will receive up to{" "}
           {baseReimbursementBPS
             ? `${baseReimbursementBPS / 100}%`
@@ -35,7 +35,7 @@ const About: NextPage = () => {
       <div className="text-lg mb-2">
         <h2 className="mt-5 mb-3">Protocol</h2>
         <p>
-          The NounSeek contract is deployed at{" "}
+          The NounScout contract is deployed at{" "}
           <a
             href={
               process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
@@ -59,8 +59,8 @@ const About: NextPage = () => {
         </p>
       </div>
       <h2 className="mt-5 mb-3">Supported Non-profits</h2>
-      {donees.map((donee, i) => {
-        return <Donee donee={donee} key={i} />;
+      {recipients.map((recipient, i) => {
+        return <Recipient recipient={recipient} key={i} />;
       })}
     </div>
   );

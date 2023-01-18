@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { Request, RequestStatus } from "../../types";
-import { nounSeekContract } from "../../config";
+import { nounScoutContract } from "../../config";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -29,13 +29,13 @@ const ManageTrait = (props: ManageTraitProps) => {
     !isTransactionComplete && props.request.status == RequestStatus.CAN_REMOVE;
   const removed =
     isTransactionComplete || props.request.status == RequestStatus.REMOVED;
-  const donationSent = props.request.status == RequestStatus.DONATION_SENT;
+  const pledgeSent = props.request.status == RequestStatus.DONATION_SENT;
   const matchFound = props.request.status == RequestStatus.MATCH_FOUND;
   const endingSoon = props.request.status == RequestStatus.AUCTION_ENDING_SOON;
 
   const { config } = usePrepareContractWrite({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "remove",
     args: [BigNumber.from(props.request.id)],
     enabled: canRemove,
@@ -88,7 +88,7 @@ const ManageTrait = (props: ManageTraitProps) => {
           <RequestCard
             id={props.request.nounId}
             trait={props.request.trait}
-            donations={[props.request.donation]}
+            pledges={[props.request.pledge]}
             cardStyle="detailed"
           />
         </div>
@@ -123,10 +123,10 @@ const ManageTrait = (props: ManageTraitProps) => {
             <div className="text-center rounded-lg">
               <p className="text-lg font-bold">
                 {removed && `Removed`}
-                {donationSent && `Donation Sent`}
+                {pledgeSent && `Pledge Sent`}
               </p>
               <p>
-                {donationSent && `Thanks for sponsoring!`}
+                {pledgeSent && `Thanks for sponsoring!`}
                 {transactionData && (
                   <a
                     href={

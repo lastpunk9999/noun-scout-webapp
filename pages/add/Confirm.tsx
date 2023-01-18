@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import RequestCard from "../../components/RequestCard";
 import { Request } from "../../types";
-import { nounSeekContract, nounsAuctionHouseContract } from "../../config";
+import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -53,7 +53,7 @@ const Confirm = (props: ConfirmProps) => {
     if (minNounId && futureNounId && futureNounId >= minNounId) {
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: futureNounId,
       }));
     }
@@ -64,7 +64,7 @@ const Confirm = (props: ConfirmProps) => {
       setFutureNounId(undefined);
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: undefined,
       }));
     }
@@ -72,24 +72,24 @@ const Confirm = (props: ConfirmProps) => {
       setFutureNounId(minNounId);
       props.setRequestSeed((request) => ({
         trait: request.trait,
-        donation: request.donation,
+        pledge: request.pledge,
         id: minNounId,
       }));
     }
   }, [isIdFieldVisible]);
 
   const { config } = usePrepareContractWrite({
-    address: nounSeekContract.address,
-    abi: nounSeekContract.abi,
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
     functionName: "add",
     args: [
       props.requestSeed.trait.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
       props.requestSeed.trait.traitId, // traitId - index of trait type array
       0,
-      props.requestSeed.donation.to, // doneeId - index of donee array
+      props.requestSeed.pledge.to, // recipientId - index of recipient array
     ],
     overrides: {
-      value: props.requestSeed.donation.amount,
+      value: props.requestSeed.pledge.amount,
     },
     onError(error) {
       console.log("Error", error);
@@ -182,7 +182,7 @@ const Confirm = (props: ConfirmProps) => {
               <RequestCard
                 id={props.requestSeed.id}
                 trait={props.requestSeed?.trait}
-                donations={[props.requestSeed.donation]}
+                pledges={[props.requestSeed.pledge]}
                 cardStyle="detailed"
               />
             </div>

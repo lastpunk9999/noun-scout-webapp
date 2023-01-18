@@ -1,12 +1,12 @@
 import cx from "classnames";
-import { Request, Donee } from "../../types";
+import { Request, Recipient } from "../../types";
 import Image from "next/image";
 
-type DoneeProps = {
-  donee: Donee;
+type RecipientProps = {
+  recipient: Recipient;
 };
 
-const Donee = (props: DoneeProps) => {
+const Recipient = (props: RecipientProps) => {
   return (
     <div
       className={cx(
@@ -15,8 +15,8 @@ const Donee = (props: DoneeProps) => {
     >
       <div className="w-20 rounded">
         <Image
-          src={props.donee.image}
-          alt={`${props.donee.name} logo`}
+          src={props.recipient.image}
+          alt={`${props.recipient.name} logo`}
           layout="responsive"
           width={320}
           height={320}
@@ -25,13 +25,13 @@ const Donee = (props: DoneeProps) => {
       </div>
 
       <div>
-        {props.donee.name && (
-          <h4 className="text-lg font-bold">{props.donee.name}</h4>
+        {props.recipient.name && (
+          <h4 className="text-lg font-bold">{props.recipient.name}</h4>
         )}
-        {props.donee.description && <p>{props.donee.description}</p>}
+        {props.recipient.description && <p>{props.recipient.description}</p>}
       </div>
     </div>
   );
 };
 
-export default Donee;
+export default Recipient;

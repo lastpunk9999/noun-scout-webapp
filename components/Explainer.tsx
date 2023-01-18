@@ -1,14 +1,14 @@
 import ExplainerNoun from "../components/ExplainerNoun";
 import ExplainerLogos from "../components/ExplainerLogos";
 import ExplainerTrait from "../components/ExplainerTrait";
-import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
-import { DonationsByTraitType, NounSeed } from "../types";
+import useGetPledgesForUpcomingNoun from "../hooks/useGetPledgesForUpcomingNoun";
+import { PledgesByTraitType, NounSeed } from "../types";
 import { useEffect, useState } from "react";
 import { ImageData } from "@nouns/assets";
 
-import useGetDoneesDescription from "../hooks/useGetDoneesDescription";
+import useGetRecipientsDescription from "../hooks/useGetRecipientsDescription";
 type ExplainerProps = {
-  nextAuctionDonations: DonationsByTraitType;
+  nextAuctionPledges: PledgesByTraitType;
 };
 
 function getRandomNum(min, max, decimalPlaces) {
@@ -34,10 +34,10 @@ const Explainer = (props: ExplainerProps) => {
     buildNounSeed()
   );
 
-  const [exampleDonationAmount, setExampleDonationAmount] = useState(
+  const [examplePledgeAmount, setExamplePledgeAmount] = useState(
     getRandomNum(0, 10, 2)
   );
-  const [exampleDoneeId, setExampleDoneeId] = useState(0);
+  const [exampleRecipientId, setExampleRecipientId] = useState(0);
 
   const explainerContent = [
     {
@@ -51,27 +51,28 @@ const Explainer = (props: ExplainerProps) => {
     {
       title: "Your Noun is minted",
       description:
-        "When a Noun with your trait is minted, the non-profit is sent your pledged amount.",
+        "When a Noun with your trait is minted, your pledge is donated to the non-profit.",
     },
   ];
 
-  let donees = useGetDoneesDescription(false);
-  // If donees haven't loaded yet, none will be active, make sure at least 1 is in the array
-  if (donees.every((d) => !d.active)) {
-    donees = [donees[0]];
+  let recipients = useGetRecipientsDescription(false);
+  console.log(recipients);
+  // If recipients haven't loaded yet, none will be active, make sure at least 1 is in the array
+  if (recipients?.every((d) => !d.active)) {
+    recipients = [recipients[0]];
   } else {
-    donees = donees.filter((d) => d.active);
+    recipients = recipients.filter((d) => d.active);
   }
   useEffect(() => {
     const timerId = setInterval(() => {
       setNounSeed(buildNounSeed());
-      setExampleDonationAmount(getRandomNum(0, 10, 2));
-      setExampleDoneeId(Math.floor(Math.random() * donees.length));
+      setExamplePledgeAmount(getRandomNum(0, 10, 2));
+      setExampleRecipientId(Math.floor(Math.random() * recipients.length));
     }, 7500);
     return () => {
       clearInterval(timerId);
     };
-  }, [donees]);
+  }, [recipients]);
 
   return (
     <div className="mx-4 my-10 flex flex-col md:grid md:grid-cols-3 gap-10">
@@ -82,15 +83,15 @@ const Explainer = (props: ExplainerProps) => {
               {i === 0 && <ExplainerTrait nounSeed={nounSeed} />}
               {i === 1 && (
                 <ExplainerLogos
-                  donee={donees[exampleDoneeId]}
-                  amount={exampleDonationAmount}
+                  recipient={recipients[exampleRecipientId]}
+                  amount={examplePledgeAmount}
                 />
               )}
               {i === 2 && (
                 <ExplainerNoun
                   nounSeed={nounSeed}
-                  donee={donees[exampleDoneeId]}
-                  amount={exampleDonationAmount}
+                  recipient={recipients[exampleRecipientId]}
+                  amount={examplePledgeAmount}
                 />
               )}
             </div>

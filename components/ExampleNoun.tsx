@@ -5,9 +5,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../config";
 
-import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
+import useGetPledgesForUpcomingNoun from "../hooks/useGetPledgesForUpcomingNoun";
 import MatchItem from "../pages/match/MatchItem";
-import { Donation, DonationsByTraitType, NounSeed, TraitAndDonations, TraitNameAndImageData } from "../types";
+import {
+  Pledge,
+  PledgesByTraitType,
+  NounSeed,
+  TraitAndPledges,
+  TraitNameAndImageData,
+} from "../types";
 import { traitTypeNamesById } from "../utils";
 import RequestCard from "./RequestCard";
 
@@ -20,7 +26,7 @@ import { buildSVG } from "@nouns/sdk";
 const { palette } = ImageData;
 
 type ExampleNounProps = {
-  nextAuctionDonations: DonationsByTraitType;
+  nextAuctionPledges: PledgesByTraitType;
 };
 
 const ExampleNoun = (props: ExampleNounProps) => {
@@ -31,9 +37,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
     head: Math.floor(Math.random() * 4),
     glasses: Math.floor(Math.random() * 4),
   });
-  const [donationsForFOMOHead, setDonationsForFOMOHead] =
-    useState<TraitAndDonations>(props.nextAuctionDonations.heads[0]);
-  const [traitsWithDonations, setTraitsWithDonations] = useState<number[]>([3]);
+  const [pledgesForFOMOHead, setPledgesForFOMOHead] = useState<TraitAndPledges>(
+    props.nextAuctionPledges.heads[0]
+  );
+  const [traitsWithPledges, setTraitsWithPledges] = useState<number[]>([3]);
 
   const buildNounSeed = () => {
     const newSeed = {} as NounSeed;
@@ -50,17 +57,17 @@ const ExampleNoun = (props: ExampleNounProps) => {
     return newSeed;
   };
 
-  const buildDonationsForFOMOHead = () => {
-    const donations = Object.values(props.nextAuctionDonations.heads);
-    const length = donations.length;
-    setDonationsForFOMOHead(donations[Math.floor(Math.random() * length)]);
+  const buildPledgesForFOMOHead = () => {
+    const pledges = Object.values(props.nextAuctionPledges.heads);
+    const length = pledges.length;
+    setPledgesForFOMOHead(pledges[Math.floor(Math.random() * length)]);
   };
   const additionalExampleTraits = [1, 2, 4];
 
   useEffect(() => {
     const timerId = setInterval(() => {
       setNounSeed(buildNounSeed());
-      buildDonationsForFOMOHead();
+      buildPledgesForFOMOHead();
       // on occasion, add additional traits to the example
       const additionalTrait = [
         3,
@@ -68,12 +75,12 @@ const ExampleNoun = (props: ExampleNounProps) => {
           Math.floor(Math.random() * additionalExampleTraits.length)
         ],
       ];
-      setTraitsWithDonations(nounSeed.head > 150 ? additionalTrait : [3]);
+      setTraitsWithPledges(nounSeed.head > 150 ? additionalTrait : [3]);
     }, 5000);
     return () => {
       clearInterval(timerId);
     };
-  }, [props.nextAuctionDonations]);
+  }, [props.nextAuctionPledges]);
 
   // Get image data for next auctioned Noun
   const { parts, background } = getNounData(nounSeed);
@@ -81,10 +88,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
     buildSVG(parts, palette, background)
   )}`;
 
-  // Find donations that match the FOMO Noun head
-  // const donationsForFOMOHead = props.nextAuctionDonations.heads[0];
+  // Find pledges that match the FOMO Noun head
+  // const pledgesForFOMOHead = props.nextAuctionPledges.heads[0];
 
-  const totalDonationsForFOMOHead = donationsForFOMOHead?.donations
+  const totalPledgesForFOMOHead = pledgesForFOMOHead?.pledges
     .map((d) => d.amount)
     .reduce((m, d) => m.add(d));
 
@@ -94,10 +101,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
         <h2 className="text-2xl font-serif">How it works</h2>
         <p>
           If this Noun were minted,{" "}
-          {!totalDonationsForFOMOHead
+          {!totalPledgesForFOMOHead
             ? "no funds would be sent to non-profits."
             : `${utils.formatEther(
-                totalDonationsForFOMOHead
+                totalPledgesForFOMOHead
               )} ETH would be sent to non-profits.`}
         </p>
       </div>
@@ -110,10 +117,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
             <div className="mx-auto my-4 w-full">
               <div className="flex flex-col gap-5 w-full">
                 <p className="text-md font-bold text-center mb-1">
-                  {traitsWithDonations.length} sponsored trait
-                  {traitsWithDonations.length > 1 && "s"}
+                  {traitsWithPledges.length} sponsored trait
+                  {traitsWithPledges.length > 1 && "s"}
                 </p>
-                {traitsWithDonations.map((traitTypeId) => {
+                {traitsWithPledges.map((traitTypeId) => {
                   const exampleTrait: TraitNameAndImageData = {
                     name: "",
                     traitId: nounSeed[traitTypeNamesById(traitTypeId)[0]],
@@ -127,7 +134,7 @@ const ExampleNoun = (props: ExampleNounProps) => {
                   return (
                     <RequestCard
                       trait={exampleTrait}
-                      donations={donationsForFOMOHead?.donations}
+                      pledges={pledgesForFOMOHead?.pledges}
                     />
                   );
                 })}

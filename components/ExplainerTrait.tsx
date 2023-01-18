@@ -3,7 +3,7 @@ import { getPartData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { DonationsByTraitType, NounSeed } from "../types";
+import { PledgesByTraitType, NounSeed } from "../types";
 import { traitTypeNamesById } from "../utils";
 
 type ExplainerTraitProps = {

@@ -1,48 +1,48 @@
 import cx from "classnames";
-import { Request, Donee } from "../../types";
+import { Request, Recipient } from "../../types";
 import Image from "next/image";
 
-type DoneeProps = {
-  donee: Donee;
+type RecipientProps = {
+  recipient: Recipient;
   requestSeed: Request;
   setRequestSeed: Function;
 };
 
-const Donee = (props: DoneeProps) => {
+const Recipient = (props: RecipientProps) => {
   return (
     <button
       className={cx(
         "group bg-white shadow-md flex flex-col gap-5 h-full text-left p-3 border border-transparent rounded-lg hover:shadow-lg transition-shadow relative",
         // " text-left border border-transparent rounded-lg hover:shadow-md transition-shadow relative",
-        props.requestSeed?.donation?.to === props.donee.id &&
+        props.requestSeed?.pledge?.to === props.recipient.id &&
           "bg-white !shadow-lg !border-1 !border-blue-500 opacity-100",
-        props.requestSeed?.donation?.to >= 0 &&
-          props.requestSeed?.donation?.to !== props.donee.id
+        props.requestSeed?.pledge?.to >= 0 &&
+          props.requestSeed?.pledge?.to !== props.recipient.id
           ? "opacity-50 hover:opacity-80"
           : ""
       )}
       onClick={() =>
-        props.requestSeed?.donation?.to === props.donee.id
+        props.requestSeed?.pledge?.to === props.recipient.id
           ? props.setRequestSeed((request) => ({
               trait: request.trait,
-              donation: {
+              pledge: {
                 to: undefined,
-                amount: props.requestSeed?.donation?.amount,
+                amount: props.requestSeed?.pledge?.amount,
               },
             }))
           : props.setRequestSeed((request) => ({
               trait: request.trait,
-              donation: {
-                to: props.donee.id,
-                amount: props.requestSeed?.donation?.amount,
+              pledge: {
+                to: props.recipient.id,
+                amount: props.requestSeed?.pledge?.amount,
               },
             }))
       }
     >
       <div className="w-20 rounded">
         <Image
-          src={props.donee.image}
-          alt={`${props.donee.name} logo`}
+          src={props.recipient.image}
+          alt={`${props.recipient.name} logo`}
           layout="responsive"
           width={320}
           height={320}
@@ -51,23 +51,23 @@ const Donee = (props: DoneeProps) => {
       </div>
 
       <div>
-        {props.donee.name && (
-          <h4 className="text-lg font-bold">{props.donee.name}</h4>
+        {props.recipient.name && (
+          <h4 className="text-lg font-bold">{props.recipient.name}</h4>
         )}
-        {props.donee.description && <p>{props.donee.description}</p>}
+        {props.recipient.description && <p>{props.recipient.description}</p>}
       </div>
 
       <div
         className={cx(
           "absolute top-0 right-1 hidden group-hover:block",
-          props.requestSeed?.donation?.to === props.donee.id && "!block"
+          props.requestSeed?.pledge?.to === props.recipient.id && "!block"
         )}
       >
         <input
           type="checkbox"
           readOnly
           checked={
-            props.requestSeed?.donation?.to === props.donee.id ? true : false
+            props.requestSeed?.pledge?.to === props.recipient.id ? true : false
           }
         />
       </div>
@@ -75,4 +75,4 @@ const Donee = (props: DoneeProps) => {
   );
 };
 
-export default Donee;
+export default Recipient;

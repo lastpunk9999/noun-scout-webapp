@@ -55,12 +55,12 @@ const Add: NextPage = () => {
     setRequestSeed(undefined);
   };
 
-  const amount = requestSeed?.donation?.amount || 0;
+  const amount = requestSeed?.pledge?.amount || 0;
   const amountInEth = parseFloat(utils.formatEther(amount));
   const stepRequirements = [
     requestSeed?.trait?.name ? true : false,
     amountInEth > 0,
-    requestSeed?.donation?.to >= 0,
+    requestSeed?.pledge?.to >= 0,
   ];
 
   const isStepReady = (step: number) => {
@@ -128,7 +128,7 @@ const Add: NextPage = () => {
                 <RequestCard
                   cardStyle="detailed"
                   trait={requestSeed && requestSeed.trait}
-                  donations={requestSeed && [requestSeed.donation]}
+                  pledges={requestSeed && [requestSeed.pledge]}
                 />
               </div>
             </div>
@@ -192,7 +192,7 @@ const Add: NextPage = () => {
                   )}
                   key={i}
                   onClick={() =>
-                    (requestSeed?.donation || i < currentStep) &&
+                    (requestSeed?.pledge || i < currentStep) &&
                     setCurrentStep(i)
                   }
                   disabled={!isStepReady(i)}

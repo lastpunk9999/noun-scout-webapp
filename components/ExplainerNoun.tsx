@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import Image from "next/image";
-import { DonationsByTraitType, NounSeed, Donee } from "../types";
+import { PledgesByTraitType, NounSeed, Recipient } from "../types";
 import { motion, AnimatePresence } from "framer-motion";
 
 import {
@@ -12,10 +12,10 @@ import { buildSVG } from "@nouns/sdk";
 const { palette } = ImageData;
 
 type ExplainerNounProps = {
-  nextAuctionDonations: DonationsByTraitType;
+  nextAuctionPledges: PledgesByTraitType;
   nounSeed: NounSeed;
   amount: number;
-  donee: Donee;
+  recipient: Recipient;
 };
 
 const getNounImage = (nounSeed) => {
@@ -85,8 +85,8 @@ const ExplainerNoun = (props: ExplainerNounProps) => {
             className="opacity-50"
           />
           <Image
-            src={props.donee.image}
-            alt={`${props.donee.name} logo`}
+            src={props.recipient.image}
+            alt={`${props.recipient.name} logo`}
             width={25}
             height={25}
           />

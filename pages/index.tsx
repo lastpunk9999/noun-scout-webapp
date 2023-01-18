@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { NextPage } from "next";
-import useGetDonationsForUpcomingNoun from "../hooks/useGetDonationsForUpcomingNoun";
+import useGetPledgesForUpcomingNoun from "../hooks/useGetPledgesForUpcomingNoun";
 import RequestCard from "../components/RequestCard";
 import Link from "next/link";
 import Modal from "../components/Modal";
-import { Request, TraitAndDonations } from "../types";
+import { Request, TraitAndPledges } from "../types";
 import cx from "classnames";
 import { utils } from "ethers";
 import Explainer from "../components/Explainer";
@@ -31,27 +31,26 @@ const Hero = () => {
 };
 
 const TopSponsorships = () => {
-  // Get donations pertaining to next noun
-  const { nextAuctionDonations, nextAuctionId } =
-    useGetDonationsForUpcomingNoun();
+  // Get pledges pertaining to next noun
+  const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
 
-  let topDonations = Object.values(nextAuctionDonations ?? {})
+  let topPledges = Object.values(nextAuctionPledges ?? {})
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
     .sort((a, b) => (a.total.lt(b.total) ? 1 : -1));
 
-  const donationsLength = topDonations.length;
+  const pledgesLength = topPledges.length;
 
   const topLength = 8;
 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
 
-  const handleModal = (request: TraitAndDonations) => {
+  const handleModal = (request: TraitAndPledges) => {
     setModalContent(
       <RequestCard
         trait={request.trait}
-        donations={request.donations}
-        key={`${request.donations}${request.trait.name}}`}
+        pledges={request.pledges}
+        key={`${request.pledges}${request.trait.name}}`}
         cardStyle="detailed"
       />
     );
@@ -69,20 +68,20 @@ const TopSponsorships = () => {
       </div>
       {/* Grid of sponsorships */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-4">
-        {nextAuctionDonations &&
-          topDonations.slice(0, topLength).map((request, i) => {
+        {nextAuctionPledges &&
+          topPledges.slice(0, topLength).map((request, i) => {
             return (
               <button key={i} onClick={() => handleModal(request)}>
                 <RequestCard
                   trait={request.trait}
-                  donations={request.donations}
+                  pledges={request.pledges}
                   cardStyle="compact"
                 />
               </button>
             );
           })}
       </div>
-      {donationsLength > topLength && (
+      {pledgesLength > topLength && (
         <div className="text-center py-2">
           <Link href="/all">
             <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">

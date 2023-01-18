@@ -9,7 +9,7 @@ import Image from "next/image";
 
 type NounWithMatchesProps = {
   nounId: number;
-  donations: readonly [
+  pledges: readonly [
     readonly BigNumber[],
     readonly BigNumber[],
     readonly BigNumber[],
@@ -41,22 +41,22 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
     return btoa(svgBinary);
   }, [nounSeed]);
 
-  const traitsWithDonation = useMemo(() => {
-    return props.donations.reduce((arr, amounts, traitTypeId) => {
-      // if any donee amount is non-zero
+  const traitsWithPledge = useMemo(() => {
+    return props.pledges.reduce((arr, amounts, traitTypeId) => {
+      // if any recipient amount is non-zero
       if (amounts.find((amount) => !amount.isZero())) {
         // add the ID to the traits array
         arr.push(traitTypeId);
       }
       return arr;
     }, []);
-  }, [props.donations]);
+  }, [props.pledges]);
 
   if (!nounSeed) return;
   return (
     <>
       <div className="flex flex-col gap-5">
-        {traitsWithDonation.map((traitTypeId, i) => {
+        {traitsWithPledge.map((traitTypeId, i) => {
           return (
             <div
               key={i}
@@ -79,7 +79,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
                 nounId={props.nounId}
                 traitTypeId={traitTypeId}
                 traitId={nounSeed[traitTypeId]}
-                donations={props.donations[traitTypeId]}
+                pledges={props.pledges[traitTypeId]}
                 nounSeed={nounSeed}
                 reimbursement={props.reimbursements[traitTypeId]}
               />
@@ -87,7 +87,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
           );
         })}
       </div>
-      {traitsWithDonation.length === 0 && (
+      {traitsWithPledge.length === 0 && (
         <div className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center  w-full">
           <div className="">
             <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
