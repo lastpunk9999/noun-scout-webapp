@@ -38,19 +38,18 @@ const Match: NextPage = () => {
   return (
     <div className="px-4">
       <h1 className="text-5xl font-bold font-serif mb-2 text-center">
-        Open Matches
+        Requests to be settled
       </h1>
       {!auctionedTotalReimbursement?.isZero() &&
         !nonAuctionedTotalReimbursement.isZero() && (
           <p className="text-xl text-center">
-            Earn{" "}
+            Settle the requests below to earn{" "}
             <span className="whitespace-nowrap">
-              Ξ{" "}
               {utils.formatEther(
                 auctionedTotalReimbursement.add(nonAuctionedTotalReimbursement)
-              )}
-            </span>{" "}
-            by matching
+              )}{" "}
+              ETH
+            </span>
           </p>
         )}
       <div className={cx("mx-auto max-w-3xl flex flex-col gap-5 my-10")}>

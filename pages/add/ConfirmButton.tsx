@@ -159,7 +159,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
             </button>
             <Link href="/manage">
               <a className="inline-block !no-underline bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
-                Manage your sponsorships
+                Manage your requests
               </a>
             </Link>
           </div>
@@ -167,7 +167,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
       ) : (
         <>
           {/* <h3 className="text-3xl font-bold font-serif mb-0 text-center">
-            Confirm Sponsorship
+            Confirm Request
           </h3> */}
           <div
             className={cx(

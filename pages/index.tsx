@@ -12,8 +12,8 @@ import CountdownClock from "../components/CountdownClock";
 
 const Hero = () => {
   return (
-    <div className="text-center py-2 max-w-lg mx-auto my-10">
-      <h1>Influence minting a Noun.</h1>
+    <div className="text-center py-2 mx-auto my-20">
+      <h1 className="text-xlg">Want a Noun Trait minted?</h1>
       <h3 className="text-lg">
         Incentivize players of{" "}
         <a href="https://fomonouns.wtf/" target="_blank">
@@ -21,16 +21,16 @@ const Hero = () => {
         </a>{" "}
         to mint your favorite trait.
       </h3>
-      <Link href="/add">
+      {/* <Link href="/add">
         <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
           Show me ⌐◨-◨
         </button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
 
-const TopSponsorships = () => {
+const TopRequests = () => {
   // Get pledges pertaining to next noun
   const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
 
@@ -60,14 +60,14 @@ const TopSponsorships = () => {
   return (
     <>
       <div className="text-center mt-20 mb-10">
-        <h2 className="text-4xl font-bold">Top sponsorships</h2>
+        <h2 className="text-4xl font-bold">Top requests</h2>
         {/* TODO: Add countdown clock */}
         {/* <p className="mb-10">
           Highest requests for the next Noun (minting in <CountdownClock />)
         </p> */}
       </div>
-      {/* Grid of sponsorships */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-4">
+      {/* Grid of requests */}
         {nextAuctionPledges &&
           topPledges.slice(0, topLength).map((request, i) => {
             return (
@@ -106,7 +106,7 @@ const Home: NextPage = ({ isMounted }) => {
       {/* Steps */}
       {isMounted && <Explainer />}
 
-      {isMounted && <TopSponsorships />}
+      {isMounted && <TopRequests />}
     </div>
   );
 };

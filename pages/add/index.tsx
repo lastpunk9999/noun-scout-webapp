@@ -99,7 +99,7 @@ const Add: NextPage = () => {
           {currentStep === steps.length && (
             <div className="text-center">
               <h1 className="text-3xl font-bold font-serif mb-2 text-center">
-                Your sponsorship has been submitted!
+                Your request has been submitted!
               </h1>
               <RequestInText requestSeed={requestSeed} />
               <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
@@ -113,7 +113,7 @@ const Add: NextPage = () => {
                 </button>
                 <Link href="/manage">
                   <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
-                    Manage your sponsorships
+                    Manage your requests
                   </a>
                 </Link>
               </div>
@@ -153,7 +153,7 @@ const Add: NextPage = () => {
               </ol>
               <p className="text-lg leading-tight">
                 Nouns are minted once every 24 hours, so each day is another
-                opportunity to mint your trait
+                opportunity to mint your trait and make a donation.
               </p>
             </div>
           )}

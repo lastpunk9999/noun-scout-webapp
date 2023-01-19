@@ -145,7 +145,7 @@ const Confirm = (props: ConfirmProps) => {
       {isTransactionComplete ? (
         <div className="text-center">
           <h1 className="text-3xl font-bold font-serif mb-2 text-center">
-            Your sponsorship has been submitted!
+            Your request has been submitted!
           </h1>
           <RequestInText requestSeed={props.requestSeed} />
           <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
@@ -159,7 +159,7 @@ const Confirm = (props: ConfirmProps) => {
             </button>
             <Link href="/manage">
               <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
-                Manage your sponsorships
+                Manage your requests
               </a>
             </Link>
           </div>
@@ -170,7 +170,7 @@ const Confirm = (props: ConfirmProps) => {
             <span className="text-sm uppercase color-blue-500 opacity-70">
               step {props.currentStep + 1}
             </span>
-            <h1 className="text-5xl font-bold">Confirm Sponsorship</h1>
+            <h1 className="text-5xl font-bold">Confirm Request</h1>
           </div>
           <div
             className={cx(

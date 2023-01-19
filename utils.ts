@@ -138,7 +138,7 @@ export function requestStatusToMessage(
       break;
     case RequestStatus.MATCH_FOUND:
       message = `The current or previous Noun matches ${
-        requestsLength > 1 ? "these sponsorships" : "this sponsorship"
+        requestsLength > 1 ? "these requests" : "this request"
       }.`;
       break;
     case RequestStatus.REMOVED:

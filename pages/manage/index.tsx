@@ -44,7 +44,7 @@ const Manage = () => {
     return (
       <div>
         <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
-          You have no sponsorships yet.
+          You have no requests yet.
         </h1>
         <p className="text-center">
           <Link href="/add">Add a request</Link>
@@ -84,7 +84,7 @@ const Manage = () => {
   return (
     <div className="px-4">
       <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
-        Your Sponsorships
+        Your Requests
       </h1>
       {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
         <div className="text-center mt-10 pt-10 items-center flex-col flex justify-center align-center">
@@ -95,8 +95,8 @@ const Manage = () => {
             The auction for{" "}
             {currentAuctionNounId &&
               nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
-            is ending soon. Your sponsorships cannot be removed until the
-            auction is settled.
+            is ending soon. Your requests cannot be removed until the auction is
+            settled.
           </div>
           {group(RequestStatus.AUCTION_ENDING_SOON)}
         </div>
@@ -131,8 +131,8 @@ const Manage = () => {
             {hasPrevNonAuctionedID ? "ve" : "s"} traits which match the
             following{" "}
             {groupedRequests[RequestStatus.MATCH_FOUND].length > 1
-              ? "sponsorships. These sponsorships "
-              : "sponsorship. This sponsorhip "}
+              ? "requests. These requests "
+              : "request. This sponsorhip "}
             cannot be removed yet.
           </div>
           {group(RequestStatus.MATCH_FOUND)}
@@ -142,7 +142,7 @@ const Manage = () => {
       {groupedRequests[RequestStatus.DONATION_SENT]?.length > 0 && (
         <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
           <h1 className="text-3xl font-bold mt-10 mb-2 text-center">
-            Past Sponsorships
+            Past Requests
           </h1>
           {group(RequestStatus.DONATION_SENT)}
         </div>

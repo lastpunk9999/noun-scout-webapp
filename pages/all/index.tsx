@@ -14,7 +14,7 @@ import cx from "classnames";
 import { pluralTraitToSingular } from "../../utils";
 import CountdownClock from "../../components/CountdownClock";
 
-const OpenSponsorships = () => {
+const OpenRequests = () => {
   // Get pledges pertaining to next noun
   const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
   const requests = Object.values(nextAuctionPledges ?? {})
@@ -47,10 +47,10 @@ const OpenSponsorships = () => {
   return (
     <>
       <div className="text-center mt-20">
-        <h2 className="text-4xl font-bold">All sponsorships</h2>
+        <h2 className="text-4xl font-bold">All requests</h2>
         {/* TODO: Add countdown clock */}
         <p className="">
-          All sponsorships for the next Noun (minting in <CountdownClock />)
+          All requests for the next Noun (minting in <CountdownClock />)
         </p>
       </div>
 
@@ -98,7 +98,7 @@ const OpenSponsorships = () => {
         )} */}
       </div>
 
-      {/* Grid of sponsorships */}
+      {/* Grid of requests */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-4">
         {requests.map(
           (request, i) =>
@@ -122,7 +122,7 @@ const OpenSponsorships = () => {
 const Home: NextPage = ({ isMounted }) => {
   return (
     <div className="container px-4 mx-auto pb-10">
-      {isMounted && <OpenSponsorships />}
+      {isMounted && <OpenRequests />}
     </div>
   );
 };
