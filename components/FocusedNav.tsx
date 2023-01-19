@@ -10,7 +10,7 @@ export default function FocusedNav() {
             <Link href="/" className="flex items-center">
               <a>
                 {/* Noun Seek ⌐◨-◨ */}
-                <img src="/noun-seek-logo.svg" alt="Noun Seek logo" />
+                <img src="/noun-scout-logo.svg" alt="Noun Scout logo" />
               </a>
             </Link>
           </h1>
