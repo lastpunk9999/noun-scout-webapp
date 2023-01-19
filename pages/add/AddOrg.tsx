@@ -1,7 +1,7 @@
 import { Request } from "../../types";
 import { useAppContext } from "../../context/state";
 import Recipient from "./Recipient";
-import useGetRecipientsDescription from "../../hooks/useGetRecipientDescription";
+import useGetRecipientsDescription from "../../hooks/useGetRecipientsDescription";
 
 type AddOrgsProps = {
   setRequestSeed: Function;
