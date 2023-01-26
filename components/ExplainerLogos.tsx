@@ -38,7 +38,7 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
         </div>
         <div className="bg-slate-100 border-t border-t-slate-200 px-3 py-6">
           <div className="flex flex-row text-left gap-2 items-center justify-center">
-            <div className="rounded-md w-full aspect-square max-w-[2.5rem] overflow-hidden">
+            <div className="rounded-md w-full aspect-square max-w-[3rem] overflow-hidden">
               <Image
                 src={props.recipient?.image ?? "/recipients/placeholder.svg"}
                 alt={`${props.recipient?.name ?? "recipient"} logo`}

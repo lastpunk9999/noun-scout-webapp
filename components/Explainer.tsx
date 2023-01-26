@@ -41,17 +41,19 @@ const Explainer = (props: ExplainerProps) => {
 
   const explainerContent = [
     {
-      title: "Request a trait",
-      description: "Allow others to see which trait you want.",
-    },
-    {
-      title: "Incentivize minting",
-      description: "Pledge an amount to a non-profit of your choice.",
-    },
-    {
-      title: "Your Noun is minted",
+      title: "1. Pick any trait",
       description:
-        "When a Noun with your trait is minted, your pledge is donated to the non-profit.",
+        "Your request will be listed on NounScout so others can see it.",
+    },
+    {
+      title: <span>2. Lock ETH for charity</span>,
+      description: "Pledge any amount to a non-profit of your choice.",
+    },
+    {
+      title: <span>3. Your trait is minted</span>,
+      description: (
+        <>If a Noun with your requested trait is minted, your ETH is donated.</>
+      ),
     },
   ];
 
@@ -75,11 +77,16 @@ const Explainer = (props: ExplainerProps) => {
   }, [recipients]);
 
   return (
-    <div className="mx-4 my-10 flex flex-col md:grid md:grid-cols-3 gap-10">
+    <div className="mx-4 mb-20 flex flex-col md:grid md:grid-cols-3 sm:gap-10">
+      {/* <div className="sm:mx-[5%] md:mx-[10%] xlg:mx-[20%] my-10 flex flex-col md:grid md:grid-cols-3 gap-24 justify-center"> */}
       {explainerContent.map((step, i) => {
         return (
-          <div className="text-center mb-5 md:mb-0" key={i}>
-            <div className="w-full max-w-[12rem] md:aspect-square mx-auto md:mb-3 flex items-center">
+          <div className="text-center mb-10 md:mb-0" key={i}>
+            {/* <span className="text-sm uppercase color-blue-500 opacity-70 mb-3 block">
+              step {i + 1}
+            </span> */}
+            <div className="w-48 xs:w-full md:aspect-square mx-auto mb-3 flex items-center">
+              {/* <div className="md:aspect-square mx-auto md:mb-6 flex items-center"> */}
               {i === 0 && <ExplainerTrait nounSeed={nounSeed} />}
               {i === 1 && (
                 <ExplainerLogos
@@ -95,10 +102,7 @@ const Explainer = (props: ExplainerProps) => {
                 />
               )}
             </div>
-            <span className="text-sm uppercase color-blue-500 opacity-70 mt-3 block">
-              step {i + 1}
-            </span>
-            <h2 className="text-2xl leading-none font-bold font-serif mb-1">
+            <h2 className="text-xl sm:text-2xl leading-none font-bold font-serif mb-2">
               {step.title}
             </h2>
             <p className="text-md color-slate-400 max-w-xs mx-auto">

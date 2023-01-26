@@ -76,7 +76,7 @@ const ExplainerNoun = (props: ExplainerNounProps) => {
             opacity: 0,
           }}
         >
-          <span>Ξ {props.amount}</span>
+          <span>{props.amount} ETH</span>
           <Image
             src={`/example-arrow.svg`}
             alt="arrow"
