@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Recipient from "./Recipient";
-import useGetRecipientsDescription from "../../hooks/useGetRecipientDescription";
+import useGetRecipientsDescription from "../../hooks/useGetRecipientsDescription";
 import { useAppContext } from "../../context/state";
 const About: NextPage = () => {
   const recipients = useGetRecipientsDescription(true);
