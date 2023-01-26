@@ -124,30 +124,6 @@ export function extractPledges(pledges, recipients): PledgesByTraitType {
   }, {});
 }
 
-export function requestStatusToMessage(
-  status: RequestStatus,
-  requestsLength: number
-): string {
-  let message = "Can remove";
-  switch (status) {
-    case RequestStatus.AUCTION_ENDING_SOON:
-      message = "Auction is ending soon.";
-      break;
-    case RequestStatus.DONATION_SENT:
-      message = "Already matched.";
-      break;
-    case RequestStatus.MATCH_FOUND:
-      message = `The current or previous Noun matches ${
-        requestsLength > 1 ? "these requests" : "this request"
-      }.`;
-      break;
-    case RequestStatus.REMOVED:
-      message = "Already removed.";
-      break;
-  }
-  return message;
-}
-
 export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
