@@ -102,15 +102,15 @@ const Manage = () => {
               your pledged funds and return the full amount to you.
               <br />
               <h4 className="text-blue-700 font-bold underline mt-1 text-center">
-                Locking
+                Can I remove anytime?
               </h4>
-              Request removal is locked 5 minutes before the current Noun
-              auction ends. This allows players of{" "}
+              Almost! Request removal is locked 5 minutes before the current
+              Noun auction ends. This allows players of{" "}
               <a href="https://fomonouns.wtf/" target="_blank">
                 FOMO Nouns
               </a>{" "}
               to see a consistent list of requests during the minting time
-              window.
+              window. It is also locked if a Noun with your trait is minted.
             </p>
           </div>
           {group(RequestStatus.CAN_REMOVE)}
@@ -126,7 +126,9 @@ const Manage = () => {
             className="text-blue-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
-            <h4 className="text-blue-700 font-bold underline mt-1">Why?</h4>
+            <h4 className="text-blue-700 font-bold underline mt-1">
+              Why are requests locked?
+            </h4>
             <p className="text-left text-blue-700">
               The auction for{" "}
               {currentAuctionNounId &&
@@ -139,6 +141,14 @@ const Manage = () => {
               to see a consistent list of requests during the minting time
               window.
             </p>
+            <h4 className="text-blue-700 font-bold underline mt-1">
+              The good news
+            </h4>
+            <p className="text-left text-blue-700">
+              Your request will influence minting the next Noun. If that
+              happens, your pledged ETH gets donated to a good cause. And if
+              that doesn't happen, you can remove your request in a few minutes.
+            </p>
           </div>
           {group(RequestStatus.AUCTION_ENDING_SOON)}
         </div>
@@ -147,15 +157,15 @@ const Manage = () => {
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
         <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
           <h1 className="text-3xl font-bold mb-2 text-center">
-            Locked Requests
+            Matched Requests
           </h1>
           <div
             className="text-blue-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
-            <h4 className="text-blue-700 font-bold underline mt-1">Why?</h4>
+            {/* <h4 className="text-blue-700 font-bold underline mt-1">Why?</h4> */}
             <p className="text-left text-blue-700">
-              Either the current Noun on auction{" "}
+              Nice work! Either the current Noun on auction{" "}
               {currentAuctionNounId && (
                 <>({nounsWTFLink(currentAuctionNounId)})</>
               )}{" "}
@@ -177,14 +187,22 @@ const Manage = () => {
               {manyMatchesFound
                 ? "requests. These requests "
                 : "request. This request "}
-              are locked so they can be settled and the funds can be sent to
-              your chosen non-profits.{" "}
+              waiting to be settled and cannot be removed yet.{" "}
             </p>
             <h4 className="text-blue-700 font-bold underline mt-1">
-              Unlock timeline
+              Can matched requests ever be removed?
             </h4>
             <p className="text-left  text-blue-700">
-              If your requests matches the previous Noun
+              Yes, but remember these are requests you made for a specific Noun
+              trait. Now that a Noun with that trait is minted, we have to allow
+              time for someone to settle the request (it can be you) and send
+              those funds to your chosen non-profit. So:
+            </p>
+            <h4 className="text-blue-700 font-bold underline mt-1">
+              When can this happen?
+            </h4>
+            <p className="text-left  text-blue-700">
+              Case 1: If your requests matches the previous Noun
               {hasPrevNonAuctionedID && "s"}{" "}
               {prevNonAuctionedNounId && (
                 <>
@@ -202,12 +220,12 @@ const Manage = () => {
               </Link>{" "}
               in 24 hours, it can be removed.
               <br />
-              If your request matches the current Noun on auction{" "}
+              Case 2: If your request matches the current Noun on auction{" "}
               {currentAuctionNounId && (
                 <>({nounsWTFLink(currentAuctionNounId)})</>
               )}
-              , the auction must end before the settlement timeline above can
-              begin.
+              , the auction must end, the next Noun must be minted, and then
+              Case 1 applies.
             </p>
           </div>
           {group(RequestStatus.MATCH_FOUND)}
