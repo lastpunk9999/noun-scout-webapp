@@ -58,8 +58,8 @@ const RequestCard = (props: RequestCardProps) => {
     <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
       <div className="absolute top-3 right-3">
         {!total?.isZero() && props.cardStyle === "compact" ? (
-          <p className="text-sm leading-none px-2 py-2 font-bold bg-slate-200 text-blue-500 rounded-md">
-            Ξ {utils.formatEther(total)}
+          <p className="text-sm md:text-md leading-none p-1 md:p-2 font-bold bg-slate-200 text-blue-500 rounded-md">
+            {utils.formatEther(total)} ETH
           </p>
         ) : (
           <></>
@@ -69,7 +69,7 @@ const RequestCard = (props: RequestCardProps) => {
         <div className={cx(props.cardStyle === "compact" && "w-1/2")}>
           {/* Trait image - use bg color from noun if available */}
           <div
-            className="aspect-square rounded-lg w-full md:w-[120px] smd:basis-[120px] grow-0 shrink-0 relative"
+            className="aspect-square rounded-lg w-[4rem] md:w-[120px] smd:basis-[120px] grow-0 shrink-0 relative"
             style={
               props.nounSeed
                 ? {
@@ -100,10 +100,10 @@ const RequestCard = (props: RequestCardProps) => {
         </div>
         {props.cardStyle !== "detailed" && (
           <div className="w-3/4 relative top-[15px] mb-[25px]">
-            <p className="text-slate-400 text-sm leading-none capitalize">
+            <p className="text-slate-400 text-xs md:text-sm leading-none capitalize">
               {props.trait?.type ?? "Trait type"}
             </p>
-            <h3 className="text-2xl font-bold leading-none capitalize">
+            <h3 className="text-sm md:text-xl font-bold leading-none capitalize">
               {props.trait?.name ?? "Select a Noun trait"}
             </h3>
           </div>
@@ -114,10 +114,10 @@ const RequestCard = (props: RequestCardProps) => {
               If a Noun with {traitPreposition(props.trait)} <br />
               <span className="whitespace-nowrap">
                 <span className="bg-slate-200 font-bold text-xl capitalize px-2">
-                  {props.trait?.name ?? "Select a Noun trait"}
+                  {props.trait?.name ?? "______"}
                 </span>
               </span>
-              <span className=""> {props.trait?.type ?? "Trait type"} </span>
+              <span className=""> {props.trait?.type ?? " type"} </span>
               is minted
             </p>
           </div>
@@ -134,9 +134,11 @@ const RequestCard = (props: RequestCardProps) => {
           props.cardStyle === "compact" && "flex flex-row justify-between gap-4"
         )}
       >
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-3 items-center">
           {props.cardStyle === "compact" && (
-            <p className="text-slate-400 text-xs">Supporting</p>
+            <p className="whitespace-nowrap text-slate-400 text-xs">
+              Pledged to
+            </p>
           )}
           <ul
             className={cx(

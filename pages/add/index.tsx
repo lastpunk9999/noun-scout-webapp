@@ -150,6 +150,12 @@ const Add: NextPage = () => {
                   When a Noun with your trait is minted, the ETH will be sent to
                   a non-profit of your choice
                 </li>
+                <hr />
+                <li className="text-lg p-5 leading-snug ml-10 pl-3">
+                  If a Noun is not minted with your trait, you can choose to
+                  leave the request open for the next Noun, or withdraw the
+                  request.
+                </li>
               </ol>
               <p className="text-lg leading-tight">
                 Nouns are minted once every 24 hours, so each day is another

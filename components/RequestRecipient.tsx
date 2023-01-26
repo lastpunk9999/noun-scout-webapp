@@ -13,6 +13,7 @@ type RequestRecipientProps = {
 const RequestRecipient = (props: RequestRecipientProps) => {
   const isDetailed =
     props.cardStyle === "detailed" || props.cardStyle === "matching";
+  const isRow = props.cardStyle === "row";
   const recipientDescription =
     props.pledge?.to !== undefined
       ? useGetRecipientDescription(props.pledge.to)
@@ -38,7 +39,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
     >
       <div
         className={cx(
-          isDetailed ? "w-[40px]" : "w-[30px]",
+          isDetailed ? "w-[40px]" : isRow ? "w-12" : "w-[30px]",
           !recipientDescription?.image && "bg-slate-200 rounded-md",
           !recipientDescription?.image &&
             (isDetailed ? "pb-[40px]" : "pb-[30px]")
@@ -65,6 +66,11 @@ const RequestRecipient = (props: RequestRecipientProps) => {
           <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
             {recipientDescription.name ?? "_______"}
           </span>
+        </p>
+      )}
+      {isRow && (
+        <p className="inline-block leading-5 grow">
+          <span className="whitespace-nowrap">{recipientDescription.name}</span>
         </p>
       )}
     </li>
