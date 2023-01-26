@@ -103,7 +103,11 @@ const MatchItem = (props: MatchItemProps) => {
     <>
       {isTransactionComplete ? (
         <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col justify-center">
-          <p className="text-lg font-bold">Match confirmed!</p>
+          <p className="text-lg font-bold">Settled!</p>
+          <p>
+            Donations were sent to non-profits and you were rewarded for
+            helping!
+          </p>
           <p className="underline">
             <a
               href={

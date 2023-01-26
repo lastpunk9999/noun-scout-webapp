@@ -38,19 +38,26 @@ const Match: NextPage = () => {
   return (
     <div className="px-4">
       <h1 className="text-5xl font-bold font-serif mb-2 text-center">
-        Requests to be settled
+        Unsent Donations
       </h1>
       {!auctionedTotalReimbursement?.isZero() &&
         !nonAuctionedTotalReimbursement.isZero() && (
-          <p className="text-xl text-center">
-            Settle the requests below to earn{" "}
-            <span className="whitespace-nowrap">
-              {utils.formatEther(
-                auctionedTotalReimbursement.add(nonAuctionedTotalReimbursement)
-              )}{" "}
-              ETH
-            </span>
-          </p>
+          <>
+            <p className="text-xl text-center">
+              ETH has been pledged to non-profits and you can help it get to
+              them.
+              <br />
+              Settle these requests and get reimbursed{" "}
+              <span className="whitespace-nowrap">
+                {utils.formatEther(
+                  auctionedTotalReimbursement.add(
+                    nonAuctionedTotalReimbursement
+                  )
+                )}{" "}
+                ETH
+              </span>
+            </p>
+          </>
         )}
       <div className={cx("mx-auto max-w-3xl flex flex-col gap-5 my-10")}>
         <NounWithMatches
