@@ -33,28 +33,22 @@ const MatchBanner = (props: MatchBannerProps) => {
   if (!hasAuctionedReimbursement && !hasNoneAuctionedReimbursement) return;
 
   return (
-    <Link href="/match">
-      <a className="bg-blue-500 p-2 text-center hover:cursor-pointer block">
+    <Link href="/settle">
+      <a className="bg-blue-500 p-2 text-center hover:cursor-pointer block font-normal">
         <p className="text-white">
-          {hasAuctionedReimbursement && <>Noun {matchData.auctionedNounId} </>}
+          {/* {hasAuctionedReimbursement && <>Noun {matchData.auctionedNounId} </>}
           {hasAuctionedReimbursement && hasNoneAuctionedReimbursement && (
             <>and </>
           )}
           {hasNoneAuctionedReimbursement && (
             <>Noun {matchData.nonAuctionedNounId} </>
           )}
-          has{" "}
-          {hasAuctionedReimbursement && hasNoneAuctionedReimbursement
-            ? "requests"
-            : "a request"}{" "}
-          to be matched! earn{" "}
-          <span className="whitespace-nowrap">
-            Ξ {utils.formatEther(auctionedTotalReimbursement)}
+          have requested traits! */}
+          Donations are waiting to be sent to non-profits. You can earn{" "}
+          <span className="whitespace-nowrap font-bold">
+            {utils.formatEther(auctionedTotalReimbursement)} ETH
           </span>{" "}
-          by matching it.{" "}
-          <span className="underline uppercase font-bold text-white">
-            Match
-          </span>
+          by <span className="underline text-white">helping out</span>
         </p>
       </a>
     </Link>
