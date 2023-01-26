@@ -73,6 +73,14 @@ const ManageTrait = (props: ManageTraitProps) => {
       setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
     },
   });
+  let buttonText = "Remove";
+  if (isLoading || isTransactionLoading) {
+    buttonText = "Removing...";
+  } else if (matchFound) {
+    buttonText = "Matched";
+  } else if (endingSoon) {
+    buttonText = "Waiting...";
+  }
 
   return (
     <li className="w-full flex justify-between gap-5 items-center border border-slate-200 pb-4 bg-white p-5 rounded-lg max-w-xl text-left">
@@ -106,7 +114,7 @@ const ManageTrait = (props: ManageTraitProps) => {
                 }
                 onClick={() => write?.()}
               >
-                {isLoading || isTransactionLoading ? "Removing..." : "Remove"}
+                {buttonText}
               </button>
               {errorMessage && (
                 <div
@@ -123,7 +131,7 @@ const ManageTrait = (props: ManageTraitProps) => {
             <div className="text-center rounded-lg">
               <p className="text-lg font-bold">
                 {removed && `Removed`}
-                {pledgeSent && `Pledge Sent`}
+                {pledgeSent && `Donation Sent`}
               </p>
               <p>
                 {pledgeSent && `Thanks for sponsoring!`}

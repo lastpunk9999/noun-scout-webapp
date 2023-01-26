@@ -10,7 +10,6 @@ import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
 import cx from "classnames";
 import ManageTrait from "./ManageTrait";
-import { requestStatusToMessage } from "../../utils";
 import { useAppContext } from "../../context/state";
 
 const Manage = () => {
@@ -39,6 +38,9 @@ const Manage = () => {
   if (!isConnected || !requests) return null;
 
   const groupedRequests = groupby(requests, (r) => r.status);
+
+  const manyMatchesFound =
+    groupedRequests[RequestStatus.MATCH_FOUND]?.length > 1;
 
   if (requests.length == 0) {
     return (
@@ -73,7 +75,7 @@ const Manage = () => {
         href={`https://nouns.wtf/noun/${nounId}`}
         target="_blank"
         rel="noreferrer noopener"
-        className="text-red-700"
+        className="text-blue-700"
       >
         {prefix}
         {nounId}
@@ -83,57 +85,130 @@ const Manage = () => {
 
   return (
     <div className="px-4">
-      <h1 className="text-3xl lg:text-5xl font-bold font-serif mb-2 text-center">
-        Your Requests
-      </h1>
-      {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
-        <div className="text-center mt-10 pt-10 items-center flex-col flex justify-center align-center">
+      {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 && (
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            Your Open Requests
+          </h1>
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
+            className="text-blue-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
-            The auction for{" "}
-            {currentAuctionNounId &&
-              nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
-            is ending soon. Your requests cannot be removed until the auction is
-            settled.
+            <p className="text-left text-blue-700">
+              {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 1
+                ? "These requested traits have"
+                : "This requested trait has"}{" "}
+              not yet been matched to a Noun. Removing a request will withdraw
+              your pledged funds and return the full amount to you.
+              <br />
+              <h4 className="text-blue-700 font-bold underline mt-1 text-center">
+                Locking
+              </h4>
+              Request removal is locked 5 minutes before the current Noun
+              auction ends. This allows players of{" "}
+              <a href="https://fomonouns.wtf/" target="_blank">
+                FOMO Nouns
+              </a>{" "}
+              to see a consistent list of requests during the minting time
+              window.
+            </p>
+          </div>
+          {group(RequestStatus.CAN_REMOVE)}
+        </div>
+      )}
+
+      {groupedRequests[RequestStatus.AUCTION_ENDING_SOON]?.length > 0 && (
+        <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            Locked Requests
+          </h1>
+          <div
+            className="text-blue-700 px-4 py-3 rounded relative max-w-2xl"
+            role="alert"
+          >
+            <h4 className="text-blue-700 font-bold underline mt-1">Why?</h4>
+            <p className="text-left text-blue-700">
+              The auction for{" "}
+              {currentAuctionNounId &&
+                nounsWTFLink(currentAuctionNounId, "Noun ")}{" "}
+              is ending soon. Your requests cannot be removed until the auction
+              is over and the next Noun is minted. This allows players of{" "}
+              <a href="https://fomonouns.wtf/" target="_blank">
+                FOMO Nouns
+              </a>{" "}
+              to see a consistent list of requests during the minting time
+              window.
+            </p>
           </div>
           {group(RequestStatus.AUCTION_ENDING_SOON)}
         </div>
       )}
 
-      {groupedRequests[RequestStatus.CAN_REMOVE]?.length > 0 &&
-        group(RequestStatus.CAN_REMOVE)}
-
       {groupedRequests[RequestStatus.MATCH_FOUND]?.length > 0 && (
         <div className="text-center mt-10 pt-10 border-t-2 border-slate-300 items-center flex-col flex justify-center align-center">
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            Locked Requests
+          </h1>
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-2xl"
+            className="text-blue-700 px-4 py-3 rounded relative max-w-2xl"
             role="alert"
           >
-            Either the current Noun on auction{" "}
-            {currentAuctionNounId && (
-              <>({nounsWTFLink(currentAuctionNounId)})</>
-            )}{" "}
-            or the previous Noun
-            {hasPrevNonAuctionedID && "s"}{" "}
-            {prevNonAuctionedNounId && (
-              <>
-                (
-                {prevNonAuctionedNounId &&
-                  hasPrevNonAuctionedID &&
-                  nounsWTFLink(prevNonAuctionedNounId)}
-                {hasPrevNonAuctionedID && `, `}
-                {prevAuctionedNounId && nounsWTFLink(prevAuctionedNounId)})
-              </>
-            )}{" "}
-            ha
-            {hasPrevNonAuctionedID ? "ve" : "s"} traits which match the
-            following{" "}
-            {groupedRequests[RequestStatus.MATCH_FOUND].length > 1
-              ? "requests. These requests "
-              : "request. This sponsorhip "}
-            cannot be removed yet.
+            <h4 className="text-blue-700 font-bold underline mt-1">Why?</h4>
+            <p className="text-left text-blue-700">
+              Either the current Noun on auction{" "}
+              {currentAuctionNounId && (
+                <>({nounsWTFLink(currentAuctionNounId)})</>
+              )}{" "}
+              or the previous Noun
+              {hasPrevNonAuctionedID && "s"}{" "}
+              {prevNonAuctionedNounId && (
+                <>
+                  (
+                  {prevNonAuctionedNounId &&
+                    hasPrevNonAuctionedID &&
+                    nounsWTFLink(prevNonAuctionedNounId)}
+                  {hasPrevNonAuctionedID && `, `}
+                  {prevAuctionedNounId && nounsWTFLink(prevAuctionedNounId)})
+                </>
+              )}{" "}
+              ha
+              {hasPrevNonAuctionedID ? "ve" : "s"} traits which match some of
+              your{" "}
+              {manyMatchesFound
+                ? "requests. These requests "
+                : "request. This request "}
+              are locked so they can be settled and the funds can be sent to
+              your chosen non-profits.{" "}
+            </p>
+            <h4 className="text-blue-700 font-bold underline mt-1">
+              Unlock timeline
+            </h4>
+            <p className="text-left  text-blue-700">
+              If your requests matches the previous Noun
+              {hasPrevNonAuctionedID && "s"}{" "}
+              {prevNonAuctionedNounId && (
+                <>
+                  (
+                  {prevNonAuctionedNounId &&
+                    hasPrevNonAuctionedID &&
+                    nounsWTFLink(prevNonAuctionedNounId)}
+                  {hasPrevNonAuctionedID && `, `}
+                  {prevAuctionedNounId && nounsWTFLink(prevAuctionedNounId)})
+                </>
+              )}{" "}
+              and the request has not been{" "}
+              <Link href="/settle">
+                <a className="text-blue-700">settled</a>
+              </Link>{" "}
+              in 24 hours, it can be removed.
+              <br />
+              If your request matches the current Noun on auction{" "}
+              {currentAuctionNounId && (
+                <>({nounsWTFLink(currentAuctionNounId)})</>
+              )}
+              , the auction must end before the settlement timeline above can
+              begin.
+            </p>
           </div>
           {group(RequestStatus.MATCH_FOUND)}
         </div>
