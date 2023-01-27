@@ -122,8 +122,11 @@ const Add: NextPage = () => {
           {currentStep >= 0 && currentStep < 3 && requestSeed && (
             <div className="flex flex-col w-full mb-2 md:mb-0">
               <h1 className="text-3xl text-center font-bold font-serif mb-0">
-                Build your request
+                Almost there...
               </h1>
+              <p className="text-center">
+                This is how your request will appear on NounScout
+              </p>
               <div className="hidden md:block my-2">
                 <RequestCard
                   cardStyle="detailed"
