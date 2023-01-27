@@ -30,14 +30,14 @@ const AddTrait = (props: AddTraitProps) => {
 
   return (
     <div className="">
-      <div className="bg-white flex flex-col md:flex-row justify-between items-center my-5">
-        <nav className="flex flex-row">
+      <div className="bg-white flex flex-col md:flex-row gap-2 my-5 flex-wrap">
+        <nav className="flex flex-row grow-0">
           {orderedTraitTitles.map((traitTitleIndex, i) => {
             return (
               <button
                 key={i}
                 className={cx(
-                  `text-gray-600 py-2 md:py-4 px-2 block border-b-2 border-transparent hover:text-blue-500 focus:outline-none`,
+                  `text-gray-600 px-2 py-2 block border-b-2 border-transparent hover:text-blue-500 focus:outline-none`,
                   currentTraitType === traitTitleIndex &&
                     `text-blue-500 font-medium !border-blue-500`
                 )}
@@ -48,7 +48,7 @@ const AddTrait = (props: AddTraitProps) => {
             );
           })}
         </nav>
-        <div className="w-full pt-3 md:p-0">
+        <div className="">
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"

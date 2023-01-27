@@ -244,10 +244,25 @@ const Add: NextPage = () => {
         <div className="px-4 md:p-10 md:mt-[5rem]">
           {currentStep < steps.length - 1 && (
             <div className="mt-5 md:mt-10 mb-5">
-              <span className="text-sm uppercase color-blue-500 opacity-70">
+              <p className="text-sm uppercase color-blue-500 opacity-70 block">
                 step {currentStep + 1}
-              </span>
-              <h1 className="text-5xl font-bold">{steps[currentStep].title}</h1>
+              </p>
+              <div className="sm:flex gap-5 items-start flex-wrap">
+                <h1 className="text-5xl font-bold inline-block mb-0">
+                  {steps[currentStep].title}
+                </h1>
+                {currentStep < 3 && (
+                  <div className="hidden sm:block">
+                    {isStepReady(currentStep) && (
+                      <NextButton
+                        isActive={isStepReady(currentStep)}
+                        handleNextStep={handleNextStep}
+                        text="Continue →"
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
