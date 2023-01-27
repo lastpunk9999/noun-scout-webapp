@@ -97,7 +97,8 @@ const ManageTrait = (props: ManageTraitProps) => {
             id={props.request.nounId}
             trait={props.request.trait}
             pledges={[props.request.pledge]}
-            cardStyle="detailed"
+            cardStyle={pledgeSent ? "compact" : "detailed"}
+            donationSent={pledgeSent}
           />
         </div>
         <div className="text-center md:text-left">

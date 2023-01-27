@@ -7,6 +7,7 @@ type RequestRecipientProps = {
   cardStyle: "detailed" | "compact" | "matching" | undefined;
   pledge: Pledge;
   reimbursementBPS?: BigNumberType;
+  donationSent?: boolean;
 };
 // .mul(BigNumber.from("10000").sub(effectiveBPS))
 //               .div("10000"), //(amount * (1_000_000 - effectiveBPS)) /1_000_000
@@ -61,12 +62,17 @@ const RequestRecipient = (props: RequestRecipientProps) => {
           <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
             {amount} ETH
           </span>{" "}
-          will be sent to
+          {!props.donationSent ? "will be" : "was"} sent to
           {recipientDescription.name && props.lineBreak ? <br /> : " "}
           <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
             {recipientDescription.name ?? "_______"}
           </span>
         </p>
+      )}
+      {!isDetailed && !isRow && props.donationSent && (
+        <span className="bg-slate-200 font-bold whitespace-nowrap">
+          {recipientDescription.name}
+        </span>
       )}
       {isRow && (
         <p className="inline-block leading-5 grow">

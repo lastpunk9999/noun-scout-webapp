@@ -22,6 +22,7 @@ type RequestCardProps = {
   id?: number;
   nounSeed?: NounSeed;
   reimbursementBPS?: BigNumberType;
+  donationSent?: boolean;
 };
 
 const getPart = (
@@ -111,14 +112,15 @@ const RequestCard = (props: RequestCardProps) => {
         {props.cardStyle === "detailed" && (
           <div className="w-3/4 pl-4">
             <p className="text-xl">
-              If a Noun with {traitPreposition(props.trait)} <br />
+              {!props.donationSent ? "If a" : "A"} Noun with{" "}
+              {traitPreposition(props.trait)} <br />
               <span className="whitespace-nowrap">
                 <span className="bg-slate-200 font-bold text-xl capitalize px-2">
                   {props.trait?.name ?? "______"}
                 </span>
               </span>
               <span className=""> {props.trait?.type ?? " type"} </span>
-              is minted
+              {!props.donationSent ? "is" : "was"} minted
             </p>
           </div>
         )}
@@ -137,7 +139,7 @@ const RequestCard = (props: RequestCardProps) => {
         <div className="flex flex-row gap-3 items-center">
           {props.cardStyle === "compact" && (
             <p className="whitespace-nowrap text-slate-400 text-xs">
-              Pledged to
+              {!props.donationSent ? "Pledged" : "Sent"} to
             </p>
           )}
           <ul
@@ -154,12 +156,13 @@ const RequestCard = (props: RequestCardProps) => {
                     pledge={pledge}
                     reimbursementBPS={props.reimbursementBPS}
                     lineBreak={props.pledges.length > 1}
+                    donationSent={props.donationSent}
                   />
                 ))
               : "Supporting the charity of your choice"}
           </ul>
         </div>
-        {props.cardStyle === "compact" && (
+        {props.cardStyle === "compact" && !props.donationSent && (
           <p className="text-sm underline opacity-70 self-center">details</p>
         )}
       </footer>

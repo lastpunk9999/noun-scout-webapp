@@ -143,18 +143,19 @@ const Add: NextPage = () => {
               </p>
               <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
                 <li className="text-lg p-5 leading-snug ml-10 pl-3">
-                  Create a request with an amount of ETH to incentivize minting{" "}
+                  Create a request and pledge ETH to a non-profit of your
+                  choice.
                 </li>
                 <hr />
                 <li className="text-lg p-5 leading-snug ml-10 pl-3">
                   When a Noun with your trait is minted, the ETH will be sent to
-                  a non-profit of your choice
+                  your non-profit.
                 </li>
                 <hr />
                 <li className="text-lg p-5 leading-snug ml-10 pl-3">
                   If a Noun is not minted with your trait, you can choose to
-                  leave the request open for the next Noun, or withdraw the
-                  request.
+                  leave the request open for the next Noun or remove it.
+                  Removing your request withdraws your funds.
                 </li>
               </ol>
               <p className="text-lg leading-tight">
