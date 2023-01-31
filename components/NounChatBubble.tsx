@@ -7,6 +7,7 @@ type Props = {
   error?: boolean;
   head?: number;
   glasses?: number;
+  size?: string;
 };
 
 const getNoun = (partData = []) => {
@@ -41,8 +42,9 @@ export default function NounChatBubble(props: Props) {
           <div
             className={cx(
               props.error && "bg-red-100 text-red font-bold",
-              props.info ? "bg-slate-100" : " bg-slate-200",
-              "rounded-full w-12 h-12 relative"
+              props.info ? "bg-slate-100" : "bg-slate-200",
+              "rounded-full relative",
+              "w-12 h-12"
             )}
           >
             <Image
@@ -60,16 +62,23 @@ export default function NounChatBubble(props: Props) {
         <div
           className={cx(
             props.error ? "bg-red-100 text-red font-bold" : "text-black",
-            props.info ? "bg-white" : " bg-slate-200",
+            props.info ? "bg-white" : "bg-slate-200",
             "text-white p-2 rounded-lg mb-2 relative inline  grow-0 "
           )}
         >
-          <span className="text-lg">{props.children}</span>
+          <span
+            className={cx(
+              !props.size && "text-lg",
+              props.size === "small" && "text-sm"
+            )}
+          >
+            {props.children}
+          </span>
           {/* <!-- arrow --> */}
           <div
             className={cx(
               props.error && "bg-red-100",
-              props.info ? "bg-white" : " bg-slate-200",
+              props.info ? "bg-white" : "bg-slate-200",
               "absolute left-0 top-1/2 transform -translate-x-1/2 rotate-45 w-2 h-2"
             )}
           ></div>
