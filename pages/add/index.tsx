@@ -13,6 +13,7 @@ import RequestCard from "../../components/RequestCard";
 import RequestInText from "../../components/RequestInText";
 import AddAmount from "./AddAmount";
 import Link from "next/link";
+import NounChatBubble from "../../components/NounChatBubble";
 
 const Add: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -32,11 +33,11 @@ const Add: NextPage = () => {
       description: "Aenean eu leo quam. Pellentesque ornare sem lacinia quam.",
     },
     {
-      title: "Add amount",
+      title: "Pledge ETH",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
-      title: "Select charity",
+      title: "Choose a charity",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
@@ -54,7 +55,7 @@ const Add: NextPage = () => {
     setCurrentStep(0);
     setRequestSeed(undefined);
   };
-
+  console.log("requestSeed?.pledge", requestSeed?.pledge);
   const amount = requestSeed?.pledge?.amount || 0;
   const amountInEth = parseFloat(utils.formatEther(amount));
   const stepRequirements = [
@@ -121,19 +122,39 @@ const Add: NextPage = () => {
           )}
           {currentStep >= 0 && currentStep < 3 && requestSeed && (
             <div className="flex flex-col w-full mb-2 md:mb-0">
-              <h1 className="text-3xl text-center font-bold font-serif mb-0">
-                Almost there...
-              </h1>
-              <p className="text-center">
-                This is how your request will appear on NounScout
-              </p>
-              <div className="hidden md:block my-2">
+              {/* <h1 className="text-3xl text-center font-bold font-serif mb-0">
+                Your request
+              </h1> */}
+              {/* <p className="text-lg text-center">
+                This is how your request card will appear.{" "}
+                {(requestSeed.pledge?.to === undefined ||
+                  !requestSeed.pledge?.amount) && (
+                  <p className="text-sm">
+                    Just a few more details before you can submit
+                  </p>
+                )}
+              </p> */}
+              <div className="hidden md:block my-8">
                 <RequestCard
                   cardStyle="detailed"
                   trait={requestSeed && requestSeed.trait}
                   pledges={requestSeed && [requestSeed.pledge]}
                 />
               </div>
+              <NounChatBubble>
+                <span className="text-lg">
+                  {requestSeed.pledge?.to === undefined ||
+                  !requestSeed.pledge?.amount ? (
+                    <>Just a few more details...</>
+                  ) : (
+                    <>
+                      You're Done!
+                      <br />
+                      This is how your request will appear
+                    </>
+                  )}
+                </span>
+              </NounChatBubble>
             </div>
           )}
           {currentStep === 0 && !requestSeed && (
@@ -141,9 +162,36 @@ const Add: NextPage = () => {
               <h1 className="text-center md:text-left text-5xl font-bold font-serif mb-5">
                 Want a Noun Trait minted?
               </h1>
-              <p className="text-md font-bold uppercase text-left w-full mb-3">
+              {/* <p className="text-md font-bold uppercase text-left w-full mb-3">
                 How it works
-              </p>
+              </p> */}
+              {/* <div className="bg-white flex flex-col list-decimal mb-5 p-5 rounded-lg border border-slate-200">
+                <NounChatBubble>
+                  <span className="text-lg">
+                    Create a request and pledge ETH to a non-profit of your
+                    choice.
+                  </span>
+                </NounChatBubble>
+                <NounChatBubble>
+                  <span className="text-lg">
+                    When a Noun with your trait is minted, the ETH will be sent
+                    to your non-profit.
+                  </span>
+                </NounChatBubble>
+                <NounChatBubble>
+                  <span className="text-lg">
+                    If a Noun is not minted with your trait, you can choose to
+                    leave the request open for the next Noun or remove it.
+                    Removing your request withdraws your funds.
+                  </span>
+                </NounChatBubble>
+                <NounChatBubble>
+                  <span className="text-lg">
+                    Nouns are minted once every 24 hours, so each day is another
+                    opportunity to mint your trait and make a donation.
+                  </span>
+                </NounChatBubble>
+              </div> */}
               <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
                 <li className="text-lg p-5 leading-snug ml-10 pl-3">
                   Create a request and pledge ETH to a non-profit of your
@@ -161,10 +209,16 @@ const Add: NextPage = () => {
                   Removing your request withdraws your funds.
                 </li>
               </ol>
-              <p className="text-lg leading-tight">
+              <NounChatBubble>
+                <span className="text-lg">
+                  Nouns are minted once every 24 hours, so each day is another
+                  opportunity to mint your trait and make a donation.
+                </span>
+              </NounChatBubble>
+              {/* <p className="text-lg leading-tight">
                 Nouns are minted once every 24 hours, so each day is another
                 opportunity to mint your trait and make a donation.
-              </p>
+              </p> */}
             </div>
           )}
           {currentStep === 3 && (

@@ -27,8 +27,6 @@ const RequestRecipient = (props: RequestRecipientProps) => {
         .div("10000");
     }
     amount = utils.formatEther(amount);
-  } else {
-    amount = "_______";
   }
   return (
     <li
@@ -59,14 +57,20 @@ const RequestRecipient = (props: RequestRecipientProps) => {
 
       {isDetailed && (
         <p className="inline-block leading-5 grow">
-          <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
-            {amount} ETH
-          </span>{" "}
-          {!props.donationSent ? "will be" : "was"} sent to
-          {recipientDescription.name && props.lineBreak ? <br /> : " "}
-          <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
-            {recipientDescription.name ?? "_______"}
-          </span>
+          {amount !== undefined && (
+            <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
+              {amount} ETH
+            </span>
+          )}
+          {recipientDescription.name && (
+            <>
+              {!props.donationSent ? "will be" : "was"} sent to
+              {recipientDescription.name && props.lineBreak ? <br /> : " "}
+              <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
+                {recipientDescription.name ?? "_______"}
+              </span>
+            </>
+          )}
         </p>
       )}
       {!isDetailed && !isRow && props.donationSent && (

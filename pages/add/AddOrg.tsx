@@ -14,7 +14,7 @@ const AddOrgs = (props: AddOrgsProps) => {
   return (
     <div className="flex flex-col gap-10 relative">
       <div className="prose">
-        <h3 className="text-lg font-bold mb-2 text-slate-500">
+        {/*  <h3 className="text-lg font-bold mb-2 text-slate-500">
           About these charities
         </h3>
         <p>
@@ -22,11 +22,11 @@ const AddOrgs = (props: AddOrgsProps) => {
           lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit
           sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem
           lacinia quam venenatis vestibulum.
-        </p>
+        </p> */}
       </div>
       <div className="">
         <div>
-          <h3 className="text-xl font-bold mb-2">Select a charity</h3>
+          {/* <h3 className="text-xl font-bold mb-2">Select a charity</h3> */}
           <div className="grid gap-5 items-start grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {recipients.map((recipient, i) => {
               return (

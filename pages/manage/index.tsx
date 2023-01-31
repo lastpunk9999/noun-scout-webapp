@@ -11,6 +11,7 @@ import Link from "next/link";
 import cx from "classnames";
 import ManageTrait from "./ManageTrait";
 import { useAppContext } from "../../context/state";
+import NounChatBubble from "../../components/NounChatBubble";
 const Summary = (props) => {
   /* code via https://play.tailwindcss.com/bvwqlf7mwO by Surjith S M (@surjithctly) */
   return (
@@ -77,10 +78,13 @@ const Manage = () => {
         <h1 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">
           You have no requests yet.
         </h1>
-        <p className="text-center">
-          Want to get a specific Noun trait minted at the same time?{" "}
-          <Link href="/add">Add a request!</Link>
-        </p>
+        <div class="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+          <NounChatBubble info={true}>
+            Want to get a specific Noun trait minted do good at the same time?
+            <br />
+            <Link href="/add">Make a request!</Link>
+          </NounChatBubble>
+        </div>
       </div>
     );
   }
