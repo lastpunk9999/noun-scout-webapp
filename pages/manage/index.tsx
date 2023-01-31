@@ -15,11 +15,11 @@ import NounChatBubble from "../../components/NounChatBubble";
 const Summary = (props) => {
   /* code via https://play.tailwindcss.com/bvwqlf7mwO by Surjith S M (@surjithctly) */
   return (
-    <div class="py-5">
-      <details class="group">
-        <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+    <div className="py-5">
+      <details className="group ">
+        <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
           <span>{props.children[0]}</span>
-          <span class="transition group-open:rotate-180">
+          <span className="transition group-open:rotate-180">
             <svg
               fill="none"
               height="24"
@@ -35,8 +35,17 @@ const Summary = (props) => {
             </svg>
           </span>
         </summary>
-        <p class="group-open:animate-fadeIn mt-3 text-neutral-600">
-          {props.children[1]}
+        <p className="group-open:animate-fadeIn mt-3 text-neutral-600">
+          <NounChatBubble size="small">{props.children[1]}</NounChatBubble>
+          {props.children[2] && (
+            <NounChatBubble size="small">{props.children[2]}</NounChatBubble>
+          )}
+          {props.children[3] && (
+            <NounChatBubble size="small">{props.children[3]}</NounChatBubble>
+          )}
+          {props.children[4] && (
+            <NounChatBubble size="small">{props.children[4]}</NounChatBubble>
+          )}
         </p>
       </details>
     </div>
@@ -78,7 +87,7 @@ const Manage = () => {
         <h1 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">
           You have no requests yet.
         </h1>
-        <div class="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+        <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
           <NounChatBubble info={true}>
             Want to get a specific Noun trait minted do good at the same time?
             <br />
@@ -124,7 +133,7 @@ const Manage = () => {
           <h1 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">
             Open Requests
           </h1>
-          <div class="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+          <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200 border-b">
             <Summary>
               {[
                 <>What's this?</>,
@@ -149,15 +158,17 @@ const Manage = () => {
             <Summary>
               {[
                 <>Can I remove anytime?</>,
+                <>Almost!</>,
                 <>
-                  Almost! <br />
                   Request removal is locked 5 minutes before the current Noun
                   auction ends. This allows players of{" "}
                   <a href="https://fomonouns.wtf/" target="_blank">
                     FOMO Nouns
                   </a>{" "}
                   to see a consistent list of requests during the minting time
-                  window. <br />
+                  window.
+                </>,
+                <>
                   Removal is also locked if a Noun with your requested trait is
                   minted. This allows your pledged funds to be donated to your
                   chosen non-profit.
@@ -174,7 +185,7 @@ const Manage = () => {
           <h1 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">
             Locked Requests
           </h1>
-          <div class="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+          <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200  border-b">
             <Summary>
               {[
                 <>Why are requests locked?</>,
@@ -215,7 +226,7 @@ const Manage = () => {
             <h1 className="mt-5 text-center text-3xl font-bold tracking-tight md:text-5xl">
               Matched Requests
             </h1>
-            <div class="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+            <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200  border-b">
               <Summary>
                 {[
                   <>What's this?</>,
@@ -264,7 +275,7 @@ const Manage = () => {
                 {[
                   <>When can this happen?</>,
                   <>
-                    Case 1: If your requests matches the previous Noun
+                    If your requests matches the previous Noun
                     {hasPrevNonAuctionedID && "s"}{" "}
                     {prevNonAuctionedNounId && (
                       <>
@@ -283,8 +294,9 @@ const Manage = () => {
                       <a className="text-blue-700">settled</a>
                     </Link>{" "}
                     in 24 hours, it can be removed.
-                    <br />
-                    Case 2: If your request matches the current Noun on auction{" "}
+                  </>,
+                  <>
+                    But... if your request matches the current Noun on auction{" "}
                     {currentAuctionNounId && (
                       <>({nounsWTFLink(currentAuctionNounId)})</>
                     )}
