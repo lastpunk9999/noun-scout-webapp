@@ -10,6 +10,19 @@ export default function NavBar() {
   const { isConnected } = useAccount();
   const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  let buttons = [
+    <li>
+      <Link href="/add">
+        <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
+          Make a Request
+        </button>
+      </Link>
+    </li>,
+    <li className={cx("mt-3 md:mt-0", isConnected ? "md:ml-4" : "md:mr-4")}>
+      <ConnectButton showBalance={false} />
+    </li>,
+  ];
+  if (!isConnected) buttons = buttons.reverse();
   return (
     <header>
       <nav className="px-4 md:px-6 py-3 md:py-5 mb-10">
@@ -118,16 +131,7 @@ export default function NavBar() {
                     </a>
                   </Link>
                 </li>
-                <li>
-                  <Link href="/add">
-                    <a
-                      className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
-                      aria-current="page"
-                    >
-                      Add Request
-                    </a>
-                  </Link>
-                </li>
+
                 {isConnected && (
                   <>
                     <li>
@@ -136,7 +140,7 @@ export default function NavBar() {
                           className="text-lg block py-2 pr-4 pl-3 bg-transparent text-blue-500 p-0 no-underline hover:underline leading-none"
                           aria-current="page"
                         >
-                          Your Requests
+                          My Requests
                         </a>
                       </Link>
                     </li>
@@ -149,9 +153,7 @@ export default function NavBar() {
                     </a>
                   </Link>
                 </li>
-                <li className="mt-3 md:mt-0 md:ml-4">
-                  <ConnectButton showBalance={false} />
-                </li>
+                {buttons}
               </ul>
             </motion.div>
           </AnimatePresence>

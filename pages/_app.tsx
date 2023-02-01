@@ -3,7 +3,11 @@ import type { AppProps } from "next/app";
 import "@rainbow-me/rainbowkit/styles.css";
 import "../styles/custom.scss";
 
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  lightTheme,
+} from "@rainbow-me/rainbowkit";
 import {
   chain as chainList,
   configureChains,
@@ -55,7 +59,14 @@ export default function App({ Component, pageProps }: AppProps) {
     );
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={lightTheme({
+          accentColor: "white",
+          accentColorForeground: "#3E4B5F",
+          borderRadius: "small",
+        })}
+      >
         <AppWrapper isMounted={isMounted}>
           <Layout isMounted={isMounted}>
             <Component
