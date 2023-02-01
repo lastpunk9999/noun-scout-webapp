@@ -23,11 +23,11 @@ const Hero = () => {
         to mint your favorite trait <br />
         (and do some good at the same time)
       </h3>
-      {/* <Link href="/add">
+      <Link href="/add">
         <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
-          Show me ⌐◨-◨
+          Show me how
         </button>
-      </Link> */}
+      </Link>
     </div>
   );
 };
