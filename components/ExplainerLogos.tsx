@@ -34,7 +34,7 @@ const ExplainerLogos = (props: ExplainerLogosProps) => {
           <h2 className="text-2xl font-bold leading-none">
             {props.amount} ETH
           </h2>
-          <p className="text-md text-slate-400">Pledged to</p>
+          <p className="text-md text-slate-400">pledged to</p>
         </div>
         <div className="bg-slate-100 border-t border-t-slate-200 px-3 py-6">
           <div className="flex flex-row text-left gap-2 items-center justify-center">
