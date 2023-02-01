@@ -9,7 +9,9 @@ import { AnimatePresence, motion } from "framer-motion";
 export default function NavBar() {
   const { isConnected } = useAccount();
   const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 768px)" }) && isMobile;
+  console.log({ isTablet });
   let buttons = [
     <li>
       <Link href="/add">
@@ -25,7 +27,7 @@ export default function NavBar() {
   if (!isConnected) buttons = buttons.reverse();
   return (
     <header>
-      <nav className="px-4 md:px-6 py-3 md:py-5 mb-10">
+      <nav className="px-4 lg:px-6 py-3 lg:py-5 mb-10">
         <div className="flex flex-wrap md:flex-nowrap justify-between items-center mx-auto max-w-screen-xl gap-10">
           <h1 className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px]">
             <Link href="/" className="flex items-center">
@@ -36,7 +38,7 @@ export default function NavBar() {
             </Link>
           </h1>
 
-          <div className="flex items-center md:order-2 md:hidden">
+          <div className={cx(!isMobile && "hidden", isTablet && "order-last")}>
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
@@ -63,7 +65,9 @@ export default function NavBar() {
               </svg>
               <svg
                 className={cx(
-                  isMobile && isMobileNavExpanded ? "flex" : "hidden",
+                  isMobile && isMobileNavExpanded && !isTablet
+                    ? "flex"
+                    : "hidden",
                   "w-6 h-6"
                 )}
                 fill="currentColor"
@@ -120,7 +124,40 @@ export default function NavBar() {
                 }
               }
             >
-              <ul className="flex flex-col mt-4 font-medium md:flex-row md:mt-0 items-center">
+              <ul
+                className={cx(
+                  "flex mt-4 font-medium  items-center",
+                  isMobile ? "flex-col" : "flex-row mt-0",
+                  isTablet && "bg-slate-100 pb-5"
+                )}
+              >
+                {isTablet && isMobileNavExpanded && isMobile && (
+                  <li className="w-full relative">
+                    <button
+                      data-collapse-toggle="mobile-menu-2"
+                      type="button"
+                      className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 absolute right-0"
+                      aria-controls="mobile-menu-2"
+                      aria-expanded="false"
+                      onClick={() =>
+                        setIsMobileNavExpanded(!isMobileNavExpanded)
+                      }
+                    >
+                      <svg
+                        className={cx("w-6 h-6")}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </li>
+                )}
                 <li>
                   <Link href="/all">
                     <a
