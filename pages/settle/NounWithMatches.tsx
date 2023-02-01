@@ -1,11 +1,12 @@
 import { getNounData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
 import { BigNumber, utils } from "ethers";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../../config";
 import MatchItem from "./MatchItem";
 import Image from "next/image";
+import cx from "classnames";
 
 type NounWithMatchesProps = {
   nounId: number;
@@ -26,6 +27,7 @@ type NounWithMatchesProps = {
 };
 
 const NounWithMatches = (props: NounWithMatchesProps) => {
+  const [settledTraits, setSettledTraits] = useState({});
   const nounSeed = useContractRead({
     address: nounsTokenContract.address,
     abi: nounsTokenContract.abi,
@@ -52,17 +54,33 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
     }, []);
   }, [props.pledges]);
 
+  function onSettle(traitTypeId: number) {
+    setSettledTraits((settledTraits) => {
+      return {
+        ...settledTraits,
+        [traitTypeId]: true,
+      };
+    });
+  }
+
   if (!nounSeed) return;
   return (
     <>
       <div className="flex flex-col gap-5">
-        {traitsWithPledge.map((traitTypeId, i) => {
+        {traitsWithPledge.map((traitTypeId) => {
           return (
             <div
-              key={i}
-              className="p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start justify-center w-full"
+              key={traitTypeId}
+              className={cx(
+                "p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start justify-center w-full"
+              )}
             >
-              <div className="">
+              <div
+                className={cx(
+                  settledTraits[traitTypeId] && "hidden",
+                  traitTypeId
+                )}
+              >
                 <h3 className="text-xl font-bold mb-2">Noun {props.nounId}</h3>
                 {/* <div className="max-w-[5rem] md:max-w-[12rem]"> */}
                 <div className="max-w-[5rem] md:max-w-none md:w-[120px]">
@@ -82,6 +100,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
                 pledges={props.pledges[traitTypeId]}
                 nounSeed={nounSeed}
                 reimbursement={props.reimbursements[traitTypeId]}
+                onComplete={onSettle}
               />
             </div>
           );

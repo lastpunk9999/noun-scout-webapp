@@ -12,6 +12,7 @@ import cx from "classnames";
 import Link from "next/link";
 import { getTraitTraitNameAndImageData } from "../../utils";
 import { useAppContext } from "../../context/state";
+import NounChatBubble from "../../components/NounChatBubble";
 
 type MatchItemProps = {
   nounId: number;
@@ -20,10 +21,11 @@ type MatchItemProps = {
   traitTypeId: BigNumber;
   traitId: number;
   nounSeed: NounSeed;
+  onComplete?: (traitTypeId: number) => void;
 };
 
 const MatchItem = (props: MatchItemProps) => {
-  const { updateState } = useAppContext();
+  const { lazyUpdateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [transactionData, setTransactionData] = useState<string>();
   const [isTransactionLoading, setIsTransactionLoading] =
@@ -84,7 +86,8 @@ const MatchItem = (props: MatchItemProps) => {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
       setErrorMessage(undefined);
-      // updateState();
+      lazyUpdateState();
+      props.onComplete && props.onComplete(props.traitTypeId);
     },
     onError(error) {
       setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
@@ -99,15 +102,38 @@ const MatchItem = (props: MatchItemProps) => {
     return trait;
   }, [props.traitTypeId, props.traitId]);
 
+  const salutations = [
+    ["A-maze-ing", 123],
+    ["Out of this world", 16],
+    ["You're on a roll", 82],
+    ["Fan-tastic", 80],
+    ["Su-purr-b", 36],
+    ["Egg-cellent", 77],
+  ];
+  const saluation = useMemo(
+    () => salutations[Math.floor(Math.random() * salutations.length)],
+    []
+  );
+
   return (
     <>
       {isTransactionComplete ? (
-        <div className="text-center bg-slate-200 p-10 rounded-lg w-full flex flex-col justify-center">
-          <p className="text-lg font-bold">Settled!</p>
-          <p>
-            Donations were sent to non-profits and you were rewarded for
-            helping!
-          </p>
+        <div className="text-center bg-slate-200 p-10 rounded-lg flex flex-col justify-center relative">
+          <span className="py-1 px-2 bg-green-600 text-white font-bold text-sm block rounded-md absolute -top-2 -left-2 z-10">
+            Settled!
+          </span>
+
+          <NounChatBubble
+            info="true"
+            size="large"
+            className="text-left"
+            head={saluation[1]}
+          >
+            {saluation[0]}! Donations were sent to non-profits
+            <br />
+            and you were rewarded {utils.formatEther(props.reimbursement)} ETH
+            for helping!
+          </NounChatBubble>
           <p className="underline">
             <a
               href={

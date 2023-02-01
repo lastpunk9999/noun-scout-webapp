@@ -8,6 +8,7 @@ type Props = {
   head?: number;
   glasses?: number;
   size?: string;
+  info?: boolean;
 };
 
 const getNoun = (partData = []) => {
@@ -22,36 +23,36 @@ const getNoun = (partData = []) => {
 };
 
 export const nounProfiles = Array.from(
-  { length: 20 },
+  { length: 30 },
   () => Math.random() * 1
 ).map(() => {
   return {
-    // bodies: Math.floor(Math.random() * 20),
-    head: Math.floor(Math.random() * 242),
-    glasses: Math.floor(Math.random() * 24),
+    body: 2,
+    head: Math.floor(Math.random() * 234),
+    glasses: Math.floor(Math.random() * 20),
   };
 });
 
 export default function NounChatBubble(props: Props) {
   {
     /* From https://layoutsfortailwind.lalokalabs.dev/ui/chat-box/ */
-    console.log({ props });
+
     return (
-      <div className="flex items-center">
+      <div className={cx("flex items-center", props.className)}>
         <div className="mr-4">
           <div
             className={cx(
               props.error && "bg-red-100 text-red font-bold",
               props.info ? "bg-slate-100" : "bg-slate-200",
               "rounded-full relative",
-              "w-12 h-12"
+              props.size === "large" ? "w-14 h-14" : "w-12 h-12"
             )}
           >
             <Image
               src={getNoun([
-                ["bodies", props.bodies ?? 2],
+                ["bodies", props.body ?? 2],
                 ["heads", props.head ?? Math.floor(Math.random() * 242)],
-                ["glasses", props.glasses ?? Math.floor(Math.random() * 20)],
+                ["glasses", props.glasses ?? Math.floor(Math.random() * 22)],
               ])}
               width="64"
               height="64"

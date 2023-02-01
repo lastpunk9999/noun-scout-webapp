@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useContractRead, useContractReads } from "wagmi";
 import { nounScoutContract, nounsAuctionHouseContract } from "../config";
+import { useRouter } from "next/router";
 
 const AppContext = createContext<readonly {}[]>({});
 const contractReadConfig = [
@@ -45,8 +46,24 @@ function UseGetData({ setData, fetch }) {
 }
 
 export function AppWrapper({ children, isMounted }) {
+  const router = useRouter();
   const [fetch, setFetch] = useState(false);
+  const [lazyFetch, setLazyFetch] = useState(false);
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const handleStart = (url) => {
+      if (!lazyFetch) return;
+      setLazyFetch(false);
+      setFetch(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+    };
+  }, [router, lazyFetch]);
 
   useEffect(() => {
     if (!fetch) setFetch(true);
@@ -60,6 +77,7 @@ export function AppWrapper({ children, isMounted }) {
       },
       {
         updateState: () => setFetch(false),
+        lazyUpdateState: () => setLazyFetch(true),
         isMounted,
       }
     );

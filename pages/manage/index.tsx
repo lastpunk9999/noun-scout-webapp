@@ -11,9 +11,11 @@ import Link from "next/link";
 import cx from "classnames";
 import ManageTrait from "./ManageTrait";
 import { useAppContext } from "../../context/state";
-import NounChatBubble from "../../components/NounChatBubble";
+import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
+import { traitNamesById } from "../../utils";
 const Summary = (props) => {
   /* code via https://play.tailwindcss.com/bvwqlf7mwO by Surjith S M (@surjithctly) */
+  const offset = props.offset ?? Math.floor(Math.random() * 15);
   return (
     <div className="py-5">
       <details className="group ">
@@ -36,16 +38,14 @@ const Summary = (props) => {
           </span>
         </summary>
         <p className="group-open:animate-fadeIn mt-3 text-neutral-600">
-          <NounChatBubble size="small">{props.children[1]}</NounChatBubble>
-          {props.children[2] && (
-            <NounChatBubble size="small">{props.children[2]}</NounChatBubble>
-          )}
-          {props.children[3] && (
-            <NounChatBubble size="small">{props.children[3]}</NounChatBubble>
-          )}
-          {props.children[4] && (
-            <NounChatBubble size="small">{props.children[4]}</NounChatBubble>
-          )}
+          {props.children?.map((child, i) => {
+            if (i == 0) return;
+            return (
+              <NounChatBubble size="small" {...nounProfiles[offset + i]}>
+                {child}
+              </NounChatBubble>
+            );
+          })}
         </p>
       </details>
     </div>
@@ -134,7 +134,7 @@ const Manage = () => {
             Open Requests
           </h1>
           <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200 border-b">
-            <Summary>
+            <Summary key={Math.random()}>
               {[
                 <>What's this?</>,
                 <>
@@ -145,7 +145,7 @@ const Manage = () => {
                 </>,
               ]}
             </Summary>
-            <Summary>
+            <Summary key={Math.random()}>
               {[
                 <>What does "Remove" do?</>,
                 <>
@@ -155,7 +155,7 @@ const Manage = () => {
                 </>,
               ]}
             </Summary>
-            <Summary>
+            <Summary key={Math.random()}>
               {[
                 <>Can I remove anytime?</>,
                 <>Almost!</>,
@@ -186,7 +186,7 @@ const Manage = () => {
             Locked Requests
           </h1>
           <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200  border-b">
-            <Summary>
+            <Summary key={Math.random()}>
               {[
                 <>Why are requests locked?</>,
                 <>
@@ -204,7 +204,7 @@ const Manage = () => {
                 </>,
               ]}
             </Summary>
-            <Summary>
+            <Summary key={Math.random()}>
               {[
                 <>The good news</>,
                 <>
@@ -227,7 +227,7 @@ const Manage = () => {
               Matched Requests
             </h1>
             <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200  border-b">
-              <Summary>
+              <Summary key={Math.random()}>
                 {[
                   <>What's this?</>,
                   <>
@@ -259,7 +259,7 @@ const Manage = () => {
                   </>,
                 ]}
               </Summary>
-              <Summary>
+              <Summary key={Math.random()}>
                 {[
                   <>Can matched requests ever be removed?</>,
                   <>
@@ -271,11 +271,13 @@ const Manage = () => {
                   </>,
                 ]}
               </Summary>
-              <Summary>
+              <Summary key={Math.random()} offset={10}>
                 {[
                   <>When can this happen?</>,
                   <>
-                    If your requests matches the previous Noun
+                    Only the previous Noun
+                    {hasPrevNonAuctionedID ? "s are" : " is"} "elgible to be
+                    settled." If your requests matches the previous Noun
                     {hasPrevNonAuctionedID && "s"}{" "}
                     {prevNonAuctionedNounId && (
                       <>
@@ -299,9 +301,22 @@ const Manage = () => {
                     But... if your request matches the current Noun on auction{" "}
                     {currentAuctionNounId && (
                       <>({nounsWTFLink(currentAuctionNounId)})</>
+                    )}{" "}
+                    you will have to wait a bit longer.
+                  </>,
+                  <>
+                    First the auction must end, the next Noun{" "}
+                    {currentAuctionNounId && (
+                      <>(#{currentAuctionNounId + 1}) </>
                     )}
-                    , the auction must end, the next Noun must be minted, and
-                    then Case 1 applies.
+                    must be minted, and then Noun
+                    {currentAuctionNounId && <> {currentAuctionNounId}</>}{" "}
+                    becomes the previous Noun and is "elgible to be settled"
+                    (see my{" "}
+                    <span className="capitalize">
+                      {traitNamesById(3, nounProfiles[11].head).split(" ")[0]}
+                    </span>{" "}
+                    friend above).
                   </>,
                 ]}
               </Summary>

@@ -58,7 +58,7 @@ const Explainer = (props: ExplainerProps) => {
   ];
 
   let recipients = useGetRecipientsDescription(false);
-  console.log(recipients);
+
   // If recipients haven't loaded yet, none will be active, make sure at least 1 is in the array
   if (recipients?.every((d) => !d.active)) {
     recipients = [recipients[0]];

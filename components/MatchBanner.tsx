@@ -7,7 +7,7 @@ type MatchBannerProps = {};
 
 const MatchBanner = (props: MatchBannerProps) => {
   const { pledgesForMatchableNoun: matchData } = useAppContext() ?? {};
-  console.log({ matchData });
+
   const auctionedTotalReimbursement = useMemo(() => {
     if (!matchData) return constants.Zero;
     return matchData.auctionNounTotalReimbursement.reduce(
@@ -19,6 +19,7 @@ const MatchBanner = (props: MatchBannerProps) => {
 
   const nonAuctionedTotalReimbursement = useMemo(() => {
     if (!matchData) return constants.Zero;
+
     return matchData.nonAuctionNounTotalReimbursement.reduce(
       (reimbursement: BigNumber, total: BigNumber, i: number) => {
         return total.add(reimbursement);
@@ -26,9 +27,22 @@ const MatchBanner = (props: MatchBannerProps) => {
     );
   }, [matchData]);
 
-  const hasAuctionedReimbursement = !auctionedTotalReimbursement.isZero();
-  const hasNoneAuctionedReimbursement =
-    !nonAuctionedTotalReimbursement.isZero();
+  const hasAuctionedReimbursement = useMemo(
+    () => !auctionedTotalReimbursement.isZero(),
+    [auctionedTotalReimbursement]
+  );
+  const hasNoneAuctionedReimbursement = useMemo(
+    () => !nonAuctionedTotalReimbursement.isZero(),
+    [nonAuctionedTotalReimbursement]
+  );
+
+  const totalReimbursement = useMemo(
+    () =>
+      utils.formatEther(
+        auctionedTotalReimbursement.add(nonAuctionedTotalReimbursement)
+      ),
+    [auctionedTotalReimbursement, nonAuctionedTotalReimbursement]
+  );
 
   if (!hasAuctionedReimbursement && !hasNoneAuctionedReimbursement) return;
 
@@ -46,7 +60,7 @@ const MatchBanner = (props: MatchBannerProps) => {
           have requested traits! */}
           Donations are waiting to be sent to non-profits. You can earn{" "}
           <span className="whitespace-nowrap font-bold">
-            {utils.formatEther(auctionedTotalReimbursement)} ETH
+            {totalReimbursement} ETH
           </span>{" "}
           by <span className="underline text-white">helping out</span>
         </p>

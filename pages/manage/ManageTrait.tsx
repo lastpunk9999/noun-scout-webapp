@@ -17,7 +17,7 @@ type ManageTraitProps = {
 };
 
 const ManageTrait = (props: ManageTraitProps) => {
-  const { updateState } = useAppContext();
+  const { lazyUpdateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [transactionData, setTransactionData] = useState<string>();
   const [isTransactionLoading, setIsTransactionLoading] =
@@ -67,7 +67,7 @@ const ManageTrait = (props: ManageTraitProps) => {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
       setErrorMessage(undefined);
-      updateState();
+      lazyUpdateState();
     },
     onError(error) {
       setErrorMessage(error?.message ?? error?.error?.message ?? "Error");

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import RequestCard from "../../components/RequestCard";
 import { Request } from "../../types";
 import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
@@ -17,6 +17,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import RequestInText from "../../components/RequestInText";
 
 import { useAppContext } from "../../context/state";
+import NounChatBubble from "../../components/NounChatBubble";
 
 type ConfirmProps = {
   requestSeed: Request;
@@ -77,6 +78,19 @@ const Confirm = (props: ConfirmProps) => {
       }));
     }
   }, [isIdFieldVisible]);
+
+  const salutations = [
+    ["A-maze-ing", 123],
+    ["Out of this world", 16],
+    ["You're on a roll", 82],
+    ["That's just fan-tastic", 80],
+    ["Su-purr-b", 36],
+    ["Egg-cellent", 77],
+  ];
+  const saluation = useMemo(
+    () => salutations[Math.floor(Math.random() * salutations.length)],
+    []
+  );
 
   const { config } = usePrepareContractWrite({
     address: nounScoutContract.address,
@@ -143,25 +157,53 @@ const Confirm = (props: ConfirmProps) => {
   return (
     <div className="flex flex-col gap-3 min-h-screen justify-center py-10 px-4">
       {isTransactionComplete ? (
-        <div className="text-center">
-          <h1 className="text-3xl font-bold font-serif mb-2 text-center">
+        <div className="text-left">
+          <h1 className="text-3xl font-bold text-center">
             Your request has been submitted!
           </h1>
-          <RequestInText requestSeed={props.requestSeed} />
-          <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
+          <RequestCard
+            id={props.requestSeed.id}
+            trait={props.requestSeed?.trait}
+            pledges={[props.requestSeed.pledge]}
+            cardStyle="detailed"
+          />
+
+          {/* <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
             <button
               className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400"
               onClick={() => {
                 handleResetWizard();
               }}
             >
-              Sponsor another Noun trait
+              Make another request
             </button>
             <Link href="/manage">
               <a className="no-underline inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-slate-400">
                 Manage your requests
               </a>
             </Link>
+          </div> */}
+          <div className="mx-auto mt-8 grid gap-1">
+            <NounChatBubble size={"large"} head={saluation[1]}>
+              {saluation[0]}!
+            </NounChatBubble>
+            <NounChatBubble size={"large"}>
+              lol. Want to{" "}
+              <a
+                className="underline text-left"
+                onClick={() => {
+                  handleResetWizard();
+                }}
+              >
+                make another request?
+              </a>
+            </NounChatBubble>
+            <NounChatBubble size={"large"}>
+              or maybe{" "}
+              <Link href="/manage">
+                <a className="underline">manage your requests?</a>
+              </Link>
+            </NounChatBubble>
           </div>
         </div>
       ) : (
@@ -241,16 +283,20 @@ const Confirm = (props: ConfirmProps) => {
           )}
         </>
       )}
-      <button
-        className={cx(
-          "underline text-slate-400",
-          props.currentStep < 1 && "opacity-0"
-        )}
-        onClick={() => props.setCurrentStep(props.currentStep - 1)}
-        disabled={props.currentStep < 1 && props.currentStep > 3 ? true : false}
-      >
-        Back
-      </button>
+      {!isTransactionComplete && !isLoading && !isTransactionLoading && (
+        <button
+          className={cx(
+            "underline text-slate-400",
+            props.currentStep < 1 && "opacity-0"
+          )}
+          onClick={() => props.setCurrentStep(props.currentStep - 1)}
+          disabled={
+            props.currentStep < 1 && props.currentStep > 3 ? true : false
+          }
+        >
+          Back
+        </button>
+      )}
     </div>
   );
 };

@@ -65,19 +65,18 @@ const AddAmount = (props: AddAmountProps) => {
   };
   const message = "";
   const nounProfile = nounProfiles[0];
+  const avergedPledgeRounded =
+    Math.round(utils.formatEther(averagePledge) * 100000) / 100000;
   if (amountInWei.eq(minValue))
     message = (
       <>
         You're pledging the minimum amount. <br />
-        FYI the average pledge is {utils.formatEther(averagePledge)} ETH
+        FYI the average pledge is {avergedPledgeRounded} ETH
       </>
     );
   if (amountInWei.gt(minValue) && amountInWei.lt(averagePledge))
     message = (
-      <>
-        Your pledge is below the average of {utils.formatEther(averagePledge)}{" "}
-        ETH
-      </>
+      <>Your pledge is below the average of {avergedPledgeRounded} ETH</>
     );
   if (amountInWei.gt(minValue) && amountInWei.eq(averagePledge))
     message = (
@@ -92,7 +91,7 @@ const AddAmount = (props: AddAmountProps) => {
 
   if (amountInWei.eq(topPledge)) message = "You're tied for top pledge!";
 
-  if (amountInWei.gt(topPledge)) message = "You're top pledge!";
+  if (amountInWei.gt(topPledge)) message = "You've got the top pledge!";
 
   if (belowMinValue)
     message = <>Minimum is {utils.formatEther(minValue)} ETH</>;
