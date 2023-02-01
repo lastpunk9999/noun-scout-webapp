@@ -1,30 +1,30 @@
 import React from "react";
 import Countdown, { CountdownRenderProps } from "react-countdown";
 
-type Props = {};
+type Props = {
+  endTime: number;
+};
 
-function CountdownClock({}: Props) {
-  // TODO: @9999 to add timestamp from contract here
-  const timestamp = new Date(Date.now() * 1000).toLocaleDateString("en-US");
-
+function CountdownClock(props: Props) {
   const countdownRenderer = (props: CountdownRenderProps) => {
     if (props.completed) {
       // Render a completed state
-      return <p>Auction has ended</p>;
+      return "now!";
     } else {
       // Render a countdown
       return (
-        <span>
-          {props.hours}h: {props.minutes}m: {props.seconds}s
-        </span>
+        <>
+          in {props.hours > 0 && <>{props.formatted.hours}h: </>}
+          {props.formatted.minutes}m: {props.formatted.seconds}s
+        </>
       );
     }
   };
   return (
     <Countdown
       renderer={countdownRenderer}
-      daysInHours={true}
-      date={timestamp}
+      date={props.endTime * 1000}
+      zeroPadTime={2}
     />
   );
 }

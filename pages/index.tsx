@@ -9,10 +9,11 @@ import cx from "classnames";
 import { utils } from "ethers";
 import Explainer from "../components/Explainer";
 import CountdownClock from "../components/CountdownClock";
+import { useAppContext } from "../context/state";
 
 const Hero = () => {
   return (
-    <div className="text-center mx-auto mb-20">
+    <div className="text-center mx-auto mb-16">
       <h1 className="text-xlg">Want a Noun Trait minted?</h1>
       <h3 className="text-lg">
         Influence players of{" "}
@@ -34,6 +35,7 @@ const Hero = () => {
 const TopRequests = () => {
   // Get pledges pertaining to next noun
   const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
+  const { auction } = useAppContext() ?? {};
 
   let topPledges = Object.values(nextAuctionPledges ?? {})
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
@@ -61,10 +63,23 @@ const TopRequests = () => {
   return (
     <>
       <div className="text-center mt-20 mb-10">
-        <h2 className="text-4xl font-bold">Top Open Requests</h2>
+        <h2 className="text-4xl font-bold">Highest Pledges</h2>
         {/* TODO: Add countdown clock */}
         <p className="mb-10">
-          Highest pledges for the next Noun (minting in <CountdownClock />)
+          Most popular traits for the next Noun{" "}
+          {auction?.endTime && (
+            <>
+              (
+              <a
+                href="https://nouns.wtf/"
+                target="_blank"
+                className="font-normal"
+              >
+                minting <CountdownClock endTime={auction.endTime.toNumber()} />
+              </a>
+              )
+            </>
+          )}
         </p>
       </div>
       <div className="mx-auto xl:mx-4 my-10 flex flex-col md:grid md:grids-cols-2 xl:grid-cols-3 xl:gap-2 md:max-w-[60%] xl:max-w-[100%]">
