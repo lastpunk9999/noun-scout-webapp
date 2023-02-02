@@ -92,7 +92,7 @@ const Add = (props) => {
     >
       <div
         className={cx(
-          "add-sidebar flex md:flex-col md:w-2/5 py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
+          "flex md:flex-col md:w-2/5 py-3 px-5 md:py-10 md:px-10 md:h-screen md:justify-center gap-10 items-center md:sticky md:top-0 transition-all duration-300",
           currentStep >= 3 && "!w-full !max-w-none"
         )}
       >
