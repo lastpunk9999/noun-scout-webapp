@@ -134,8 +134,9 @@ const Add: NextPage = () => {
                   {requestSeed.pledge?.to === undefined ||
                   !requestSeed.pledge?.amount ? (
                     <>
-                      Keep going to complete this card.
-                      <br />A card how others will see your request.
+                      Keep going to complete this card,
+                      <br />
+                      its how others will see your request.
                     </>
                   ) : (
                     <>Looks good!</>
