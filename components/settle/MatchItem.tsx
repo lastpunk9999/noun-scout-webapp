@@ -1,5 +1,5 @@
 import { Pledge, NounSeed, TraitNameAndImageData } from "../../types";
-import RequestCard from "../../components/RequestCard";
+import RequestCard from "../RequestCard";
 import { BigNumber, utils } from "ethers";
 import {
   usePrepareContractWrite,
@@ -12,7 +12,7 @@ import cx from "classnames";
 import Link from "next/link";
 import { getTraitTraitNameAndImageData } from "../../utils";
 import { useAppContext } from "../../context/state";
-import NounChatBubble from "../../components/NounChatBubble";
+import NounChatBubble from "../NounChatBubble";
 
 type MatchItemProps = {
   nounId: number;

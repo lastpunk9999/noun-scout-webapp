@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RequestCard from "../../components/RequestCard";
+import RequestCard from "../RequestCard";
 import { Request } from "../../types";
 import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
 import {
@@ -15,7 +15,7 @@ import Link from "next/link";
 
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import RequestInText from "../../components/RequestInText";
+import RequestInText from "../RequestInText";
 
 type ConfirmButtonProps = {
   requestSeed: Request;
@@ -100,7 +100,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 
@@ -111,7 +111,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     },
     onSettled(settledData) {
       if (settledData) {
-        setTransactionData(settledData?.hash.toString());
+        setTransactionData(settledData?.hash.toString() as `0x${string}`);
       }
     },
   });
@@ -126,7 +126,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
       props.setCurrentStep(props.currentStep + 1);
     },
     onError(error) {
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 

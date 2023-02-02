@@ -9,6 +9,7 @@ type RecipientProps = {
 };
 
 const Recipient = (props: RecipientProps) => {
+  if (!props.recipient) return;
   return (
     <button
       className={cx(

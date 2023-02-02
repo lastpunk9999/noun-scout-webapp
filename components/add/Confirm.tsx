@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import RequestCard from "../../components/RequestCard";
+import RequestCard from "../RequestCard";
 import { Request } from "../../types";
 import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
 import {
@@ -14,10 +14,10 @@ import Link from "next/link";
 
 import cx from "classnames";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import RequestInText from "../../components/RequestInText";
+import RequestInText from "../RequestInText";
 
 import { useAppContext } from "../../context/state";
-import NounChatBubble from "../../components/NounChatBubble";
+import NounChatBubble from "../NounChatBubble";
 
 type ConfirmProps = {
   requestSeed: Request;

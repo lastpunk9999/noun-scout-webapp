@@ -9,7 +9,7 @@ import { Request, RequestStatus } from "../../types";
 import useGetUserRequests from "../../hooks/useGetUserRequests";
 import Link from "next/link";
 import cx from "classnames";
-import ManageTrait from "./ManageTrait";
+import ManageTrait from "../../components/manage/ManageTrait";
 import { useAppContext } from "../../context/state";
 import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
 import { traitNamesById } from "../../utils";
@@ -51,7 +51,7 @@ const Summary = (props) => {
     </div>
   );
 };
-const Manage = () => {
+const Manage: NextPage = () => {
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
 

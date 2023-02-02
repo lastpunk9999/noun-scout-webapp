@@ -3,19 +3,19 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 import { Request } from "../../types";
-import NextButton from "./NextButton";
-import AddTrait from "./AddTrait";
-import AddOrg from "./AddOrg";
-import Confirm from "./Confirm";
+import NextButton from "../../components/add/NextButton";
+import AddTrait from "../../components/add/AddTrait";
+import AddOrg from "../../components/add/AddOrg";
+import Confirm from "../../components/add/Confirm";
 import cx from "classnames";
 import { utils } from "ethers";
 import RequestCard from "../../components/RequestCard";
 import RequestInText from "../../components/RequestInText";
-import AddAmount from "./AddAmount";
+import AddAmount from "../../components/add/AddAmount";
 import Link from "next/link";
 import NounChatBubble from "../../components/NounChatBubble";
 
-const Add: NextPage = () => {
+const Add = (props) => {
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -311,4 +311,9 @@ const Add: NextPage = () => {
   );
 };
 
-export default Add;
+const MountedPageGuard = (props) => {
+  if (!props.isMounted) return null;
+  return <Add />;
+};
+
+export default MountedPageGuard;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RequestCard from "../../components/RequestCard";
+import RequestCard from "../RequestCard";
 import { Request, RequestStatus } from "../../types";
 import { nounScoutContract } from "../../config";
 import {

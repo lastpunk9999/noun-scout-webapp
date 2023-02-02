@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import NounWithMatches from "./NounWithMatches";
+import NounWithMatches from "../../components/settle/NounWithMatches";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
 import { constants, utils } from "ethers";
 import { BigNumber } from "../../types";
 import { useMemo } from "react";
 
-const Match: NextPage = () => {
+const Settle: NextPage = () => {
   const { pledgesForMatchableNoun: matchData } = useAppContext() ?? {};
 
   const isNonAuctionedNoun =
@@ -78,4 +78,4 @@ const Match: NextPage = () => {
   );
 };
 
-export default Match;
+export default Settle;

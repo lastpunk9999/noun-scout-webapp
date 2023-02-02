@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Recipient from "./Recipient";
+import Recipient from "../../components/about/Recipient";
 import useGetRecipientsDescription from "../../hooks/useGetRecipientsDescription";
 import { useAppContext } from "../../context/state";
 const About: NextPage = () => {

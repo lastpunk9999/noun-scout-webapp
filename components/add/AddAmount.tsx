@@ -3,7 +3,7 @@ import { BigNumber, ethers, utils, constants } from "ethers";
 import { BigNumberType, Request } from "../../types";
 import { useAppContext } from "../../context/state";
 import cx from "classnames";
-import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
+import NounChatBubble, { nounProfiles } from "../NounChatBubble";
 
 type AddAmountProps = {
   setRequestSeed: Function;
