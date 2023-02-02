@@ -28,7 +28,19 @@ const Recipient = (props: RecipientProps) => {
         {props.recipient.name && (
           <h4 className="text-lg font-bold">{props.recipient.name}</h4>
         )}
-        {props.recipient.description && <p>{props.recipient.description}</p>}
+        {props.recipient.description && (
+          <p>
+            {props.recipient.description}
+            {props.recipient.website && (
+              <>
+                <br />
+                <a href={props.recipient.website} target="_blank">
+                  {props.recipient.website}
+                </a>
+              </>
+            )}
+          </p>
+        )}
       </div>
     </div>
   );
