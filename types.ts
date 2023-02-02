@@ -73,6 +73,7 @@ export interface TraitAndPledges {
   trait: TraitNameAndImageData;
   pledges: Pledge[];
   total: BigNumber;
+  nounId?: number;
 }
 
 export type PledgesByTrait = Record<number, TraitAndPledges>;

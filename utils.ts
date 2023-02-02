@@ -89,7 +89,11 @@ export function getTraitTraitNameAndImageData(
   };
 }
 
-export function extractPledges(pledges, recipients): PledgesByTraitType {
+export function extractPledges(
+  pledges,
+  recipients,
+  nounId
+): PledgesByTraitType {
   return pledges.reduce((obj, traitsArray, trait) => {
     const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
     const traitsObj = traitsArray.reduce(
@@ -106,6 +110,7 @@ export function extractPledges(pledges, recipients): PledgesByTraitType {
           .sort((a, b) => (a.amount.lt(b.amount) ? 1 : -1));
         if (pledges.length > 0) {
           traitsObj[traitId] = {
+            nounId,
             trait: getTraitTraitNameAndImageData(trait, traitId),
             pledges,
             total: pledges.reduce(

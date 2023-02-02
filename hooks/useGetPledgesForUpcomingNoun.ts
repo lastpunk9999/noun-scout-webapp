@@ -15,7 +15,7 @@ export default function useGetPledgesForUpcomingNoun(): PledgesForUpcomingNoun {
   return {
     nextAuctionPledges: useMemo(() => {
       if (!recipients || !pledges) return;
-      return extractPledges(pledges.nextAuctionPledges, recipients);
+      return extractPledges(pledges.nextAuctionPledges, recipients, 0);
     }, [pledges, recipients]),
     nextAuctionId: pledges && pledges.nextAuctionId,
   };
