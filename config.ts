@@ -17,6 +17,6 @@ export const nounsTokenContract = {
   abi: nounsTokenABI,
 };
 
-export const siteTitle = "Noun Seek";
-export const siteDescription = "Sponsor Nouns. Send money to charity.";
+export const siteTitle = "NounScout";
+export const siteDescription = `Mint your favorite Noun trait (and do some good at the same time)`;
 export const siteUrl = "";
