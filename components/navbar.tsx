@@ -11,7 +11,7 @@ export default function NavBar() {
   const [isMobileNavExpanded, setIsMobileNavExpanded] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const isTablet = useMediaQuery({ query: "(min-width: 768px)" }) && isMobile;
-  console.log({ isTablet });
+
   let buttons = [
     <li>
       <Link href="/add">

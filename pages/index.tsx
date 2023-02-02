@@ -37,8 +37,11 @@ const TopRequests = () => {
   const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
   const { auction } = useAppContext() ?? {};
 
+  // @ts-ignore
   let topPledges = Object.values(nextAuctionPledges ?? {})
+    // @ts-ignore
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
+    // @ts-ignore
     .sort((a, b) => (a.total.lt(b.total) ? 1 : -1));
 
   const pledgesLength = topPledges.length;
@@ -123,16 +126,18 @@ const TopRequests = () => {
   );
 };
 
-const Home: NextPage = ({ isMounted }) => {
+const Home = (props) => {
   return (
     <div className="container px-4 mx-auto pb-10">
       {/* Intro description */}
       <Hero />
 
       {/* Steps */}
-      {isMounted && <Explainer />}
-      {isMounted && <hr className="w-full h-1 bg-slate-200 border-0 rounded" />}
-      {isMounted && <TopRequests />}
+      {props.isMounted && <Explainer />}
+      {props.isMounted && (
+        <hr className="w-full h-1 bg-slate-200 border-0 rounded" />
+      )}
+      {props.isMounted && <TopRequests />}
     </div>
   );
 };

@@ -32,7 +32,7 @@ const ConfirmButton = (props: ConfirmButtonProps) => {
     undefined
   );
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [transactionData, setTransactionData] = useState<string>();
+  const [transactionData, setTransactionData] = useState<`0x${string}`>();
   const [isTransactionLoading, setIsTransactionLoading] =
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =

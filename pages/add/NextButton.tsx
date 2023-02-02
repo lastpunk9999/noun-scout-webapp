@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import cx from "classnames";
 type NextButtonProps = {
   isActive: boolean;
-  handleNextStep: Function;
+  handleNextStep: () => void;
+  text?: string;
 };
 
 const NextButton = (props: NextButtonProps) => {

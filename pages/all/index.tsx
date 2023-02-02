@@ -49,8 +49,11 @@ const getPart = (
 const OpenRequests = () => {
   // Get pledges pertaining to next noun
   const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
+  //@ts-ignore
   const requests = Object.values(nextAuctionPledges ?? {})
+    //@ts-ignore
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
+    //@ts-ignore
     .sort((a, b) => (a.total.lt(b.total) ? 1 : -1));
   const [filteredTraitType, setFilteredTraitType] =
     useState<SingularTraitName | null>();
@@ -295,10 +298,10 @@ const RequestRow = (props) => {
   );
 };
 
-const Home: NextPage = ({ isMounted }) => {
+const Home = (props) => {
   return (
     <div className="container px-4 mx-auto pb-10">
-      {isMounted && <OpenRequests />}
+      {props.isMounted && <OpenRequests />}
     </div>
   );
 };

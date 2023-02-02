@@ -19,7 +19,7 @@ type ManageTraitProps = {
 const ManageTrait = (props: ManageTraitProps) => {
   const { lazyUpdateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [transactionData, setTransactionData] = useState<string>();
+  const [transactionData, setTransactionData] = useState<`0x${string}`>();
   const [isTransactionLoading, setIsTransactionLoading] =
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
@@ -44,7 +44,7 @@ const ManageTrait = (props: ManageTraitProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 
@@ -55,7 +55,7 @@ const ManageTrait = (props: ManageTraitProps) => {
     },
     onSettled(settledData) {
       if (settledData) {
-        setTransactionData(settledData?.hash.toString());
+        setTransactionData(settledData?.hash.toString() as `0x${string}`);
       }
     },
   });
@@ -70,7 +70,7 @@ const ManageTrait = (props: ManageTraitProps) => {
       lazyUpdateState();
     },
     onError(error) {
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
   let buttonText = "Remove";

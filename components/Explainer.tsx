@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import { ImageData } from "@nouns/assets";
 
 import useGetRecipientsDescription from "../hooks/useGetRecipientsDescription";
-type ExplainerProps = {
-  nextAuctionPledges: PledgesByTraitType;
-};
+type ExplainerProps = {};
 
 function getRandomNum(min, max, decimalPlaces) {
   const rand = Math.random() * (max - min) + min;

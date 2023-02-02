@@ -12,7 +12,6 @@ import { buildSVG } from "@nouns/sdk";
 const { palette } = ImageData;
 
 type ExplainerNounProps = {
-  nextAuctionPledges: PledgesByTraitType;
   nounSeed: NounSeed;
   amount: number;
   recipient: Recipient;

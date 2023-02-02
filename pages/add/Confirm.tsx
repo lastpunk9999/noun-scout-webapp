@@ -35,7 +35,7 @@ const Confirm = (props: ConfirmProps) => {
     undefined
   );
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [transactionData, setTransactionData] = useState<string>();
+  const [transactionData, setTransactionData] = useState<`0x${string}`>();
   const [isTransactionLoading, setIsTransactionLoading] =
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
@@ -107,7 +107,7 @@ const Confirm = (props: ConfirmProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
     onSuccess() {
       setErrorMessage(undefined);
@@ -121,7 +121,7 @@ const Confirm = (props: ConfirmProps) => {
     },
     onSettled(settledData) {
       if (settledData) {
-        setTransactionData(settledData?.hash.toString());
+        setTransactionData(settledData?.hash.toString() as `0x${string}`);
       }
     },
   });
@@ -136,7 +136,7 @@ const Confirm = (props: ConfirmProps) => {
       updateState();
     },
     onError(error) {
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 
@@ -185,10 +185,8 @@ const Confirm = (props: ConfirmProps) => {
           </div> */}
           <div className="mx-auto mt-8 grid gap-1">
             <NounChatBubble size={"large"} head={saluation[1]}>
-              {saluation[0]}!
-            </NounChatBubble>
-            <NounChatBubble size={"large"}>
-              lol. Want to{" "}
+              {saluation[0]}! <br />
+              Want to{" "}
               <a
                 className="underline text-left"
                 onClick={() => {
@@ -197,9 +195,8 @@ const Confirm = (props: ConfirmProps) => {
               >
                 make another request?
               </a>
-            </NounChatBubble>
-            <NounChatBubble size={"large"}>
-              or maybe{" "}
+              <br />
+              Or maybe{" "}
               <Link href="/manage">
                 <a className="underline">manage your requests?</a>
               </Link>

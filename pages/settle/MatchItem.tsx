@@ -18,7 +18,7 @@ type MatchItemProps = {
   nounId: number;
   pledges: readonly BigNumber[];
   reimbursement: BigNumber;
-  traitTypeId: BigNumber;
+  traitTypeId: number;
   traitId: number;
   nounSeed: NounSeed;
   onComplete?: (traitTypeId: number) => void;
@@ -27,7 +27,7 @@ type MatchItemProps = {
 const MatchItem = (props: MatchItemProps) => {
   const { lazyUpdateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [transactionData, setTransactionData] = useState<string>();
+  const [transactionData, setTransactionData] = useState<`0x${string}`>();
   const [isTransactionLoading, setIsTransactionLoading] =
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
@@ -62,7 +62,7 @@ const MatchItem = (props: MatchItemProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 
@@ -74,14 +74,14 @@ const MatchItem = (props: MatchItemProps) => {
     },
     onSettled(settledData) {
       if (settledData) {
-        setTransactionData(settledData?.hash.toString());
+        setTransactionData(settledData?.hash.toString() as `0x${string}`);
       }
     },
   });
 
   // wait for transaction to complete and then update the UI
   useWaitForTransaction({
-    hash: transactionData ? transactionData : undefined,
+    hash: transactionData,
     onSuccess(data) {
       setIsTransactionComplete(true);
       setIsTransactionLoading(false);
@@ -90,7 +90,7 @@ const MatchItem = (props: MatchItemProps) => {
       props.onComplete && props.onComplete(props.traitTypeId);
     },
     onError(error) {
-      setErrorMessage(error?.message ?? error?.error?.message ?? "Error");
+      setErrorMessage(error?.message ?? "Error");
     },
   });
 

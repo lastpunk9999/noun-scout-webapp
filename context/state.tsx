@@ -2,8 +2,20 @@ import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useContractRead, useContractReads } from "wagmi";
 import { nounScoutContract, nounsAuctionHouseContract } from "../config";
 import { useRouter } from "next/router";
+type State = {
+  recipients?: any;
+  pledgesForMatchableNoun?: any;
+  pledgesForUpcomingNoun?: any;
+  baseReimbursementBPS?: any;
+  minValue?: any;
+  auction?: any;
+  updateState?: () => void;
+  lazyUpdateState?: () => void;
+  isMounted?: boolean;
+};
 
-const AppContext = createContext<readonly {}[]>({});
+// const AppContext = createContext<readonly {}[]>({});
+const AppContext = createContext<State>({} as State);
 const contractReadConfig = [
   {
     address: nounScoutContract.address,
@@ -43,6 +55,7 @@ function UseGetData({ setData, fetch }) {
     enabled: fetch,
     onSuccess: setData,
   });
+  return null;
 }
 
 export function AppWrapper({ children, isMounted }) {

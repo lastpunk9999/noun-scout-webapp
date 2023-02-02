@@ -7,6 +7,7 @@ import { nounsTokenContract } from "../../config";
 import MatchItem from "./MatchItem";
 import Image from "next/image";
 import cx from "classnames";
+import { BigNumberType } from "../../types";
 
 type NounWithMatchesProps = {
   nounId: number;
@@ -44,14 +45,18 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
   }, [nounSeed]);
 
   const traitsWithPledge = useMemo(() => {
-    return props.pledges.reduce((arr, amounts, traitTypeId) => {
-      // if any recipient amount is non-zero
-      if (amounts.find((amount) => !amount.isZero())) {
-        // add the ID to the traits array
-        arr.push(traitTypeId);
-      }
-      return arr;
-    }, []);
+    return props.pledges.reduce(
+      (arr: [], amounts: BigNumberType[], traitTypeId: number) => {
+        // if any recipient amount is non-zero
+        if (amounts.find((amount) => !amount.isZero())) {
+          // add the ID to the traits array
+          // @ts-ignore
+          arr.push(traitTypeId);
+        }
+        return arr;
+      },
+      [] as number[]
+    ) as number[];
   }, [props.pledges]);
 
   function onSettle(traitTypeId: number) {
@@ -99,6 +104,7 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
                 traitId={nounSeed[traitTypeId]}
                 pledges={props.pledges[traitTypeId]}
                 nounSeed={nounSeed}
+                // @ts-ignore
                 reimbursement={props.reimbursements[traitTypeId]}
                 onComplete={onSettle}
               />

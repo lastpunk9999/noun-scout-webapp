@@ -53,7 +53,7 @@ const AddAmount = (props: AddAmountProps) => {
     return [totalPledges[0], totalPledges.length, averagePledge];
   }, [pledgesForUpcomingNoun?.nextAuctionPledges]);
 
-  const handleAmountInput = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleAmountInput = (event) => {
     let input = event.target.value.replace(/\s*/, "");
     if (input === "") input = undefined;
     // disable more than 2 digits after decimal point
@@ -63,10 +63,10 @@ const AddAmount = (props: AddAmountProps) => {
 
     setAmount(input);
   };
-  const message = "";
+  let message = <></>;
   const nounProfile = nounProfiles[0];
   const avergedPledgeRounded =
-    Math.round(utils.formatEther(averagePledge) * 100000) / 100000;
+    Math.round(Number(utils.formatEther(averagePledge)) * 100000) / 100000;
   if (amountInWei.eq(minValue))
     message = (
       <>
@@ -89,9 +89,9 @@ const AddAmount = (props: AddAmountProps) => {
   if (amountInWei.gt(averagePledge) && amountInWei.lt(topPledge))
     message = <>FYI the top pledge is {utils.formatEther(topPledge)} ETH</>;
 
-  if (amountInWei.eq(topPledge)) message = "You're tied for top pledge!";
+  if (amountInWei.eq(topPledge)) message = <>You're tied for top pledge!</>;
 
-  if (amountInWei.gt(topPledge)) message = "You've got the top pledge!";
+  if (amountInWei.gt(topPledge)) message = <>You've got the top pledge!</>;
 
   if (belowMinValue)
     message = <>Minimum is {utils.formatEther(minValue)} ETH</>;

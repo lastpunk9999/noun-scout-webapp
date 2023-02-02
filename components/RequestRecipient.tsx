@@ -2,12 +2,15 @@ import { utils, BigNumber } from "ethers";
 import { Pledge, BigNumberType } from "../types";
 import useGetRecipientDescription from "../hooks/useGetRecipientDescription";
 import Image from "next/image";
-import cx from "classNames";
+import cx from "classnames";
+
 type RequestRecipientProps = {
-  cardStyle: "detailed" | "compact" | "matching" | undefined;
+  cardStyle: "detailed" | "compact" | "matching" | "row" | undefined;
   pledge: Pledge;
   reimbursementBPS?: BigNumberType;
   donationSent?: boolean;
+  calculateDonation?: boolean;
+  lineBreak?: boolean;
 };
 // .mul(BigNumber.from("10000").sub(effectiveBPS))
 //               .div("10000"), //(amount * (1_000_000 - effectiveBPS)) /1_000_000
@@ -19,14 +22,18 @@ const RequestRecipient = (props: RequestRecipientProps) => {
     props.pledge?.to !== undefined
       ? useGetRecipientDescription(props.pledge.to)
       : {};
-  let amount = props.pledge?.amount;
-  if (amount !== undefined) {
-    if (props.cardStyle === "matching" && props.reimbursementBPS) {
-      amount = amount
+  let amount = "0";
+  let amountBN = props.pledge?.amount;
+  if (amountBN !== undefined) {
+    if (
+      (props.cardStyle === "matching" || props.calculateDonation) &&
+      props.reimbursementBPS
+    ) {
+      amountBN = amountBN
         .mul(BigNumber.from("10000").sub(props.reimbursementBPS))
         .div("10000");
     }
-    amount = utils.formatEther(amount);
+    amount = utils.formatEther(amountBN);
   }
   return (
     <li

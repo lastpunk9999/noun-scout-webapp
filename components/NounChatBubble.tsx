@@ -3,13 +3,16 @@ import { buildSVG } from "@nouns/sdk";
 import Image from "next/image";
 import cx from "classnames";
 
-type Props = {
-  error?: boolean;
-  head?: number;
-  glasses?: number;
-  size?: string;
-  info?: boolean;
-};
+// type Props = {
+//   error?: boolean;
+//   head?: number | string;
+//   body?: number | string;
+//   glasses?: number | string;
+//   size?: string;
+//   info?: boolean;
+//   className?: string;
+//   children?: JSX.Element | string | string[];
+// };
 
 const getNoun = (partData = []) => {
   const parts = partData.map(([partType, partIndex]) => {
@@ -33,7 +36,7 @@ export const nounProfiles = Array.from(
   };
 });
 
-export default function NounChatBubble(props: Props) {
+export default function NounChatBubble(props) {
   {
     /* From https://layoutsfortailwind.lalokalabs.dev/ui/chat-box/ */
 

@@ -345,8 +345,8 @@ const Manage = () => {
   );
 };
 
-const MountedPageGuard: NextPage = ({ isMounted }) => {
-  if (!isMounted) return null;
+const MountedPageGuard = (props) => {
+  if (!props.isMounted) return null;
   return <Manage />;
 };
 
