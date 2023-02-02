@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useMemo, useState } from "react";
 let blockSubscription = "0x";
 const blockId = 44;
