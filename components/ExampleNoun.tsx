@@ -1,5 +1,3 @@
-import { getNounData, ImageData } from "@nouns/assets";
-
 import { BigNumber, utils } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
