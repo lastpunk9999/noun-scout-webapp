@@ -107,7 +107,10 @@ const Confirm = (props: ConfirmProps) => {
     },
     onError(error) {
       console.log("Error", error);
-      setErrorMessage(error?.message ?? "Error");
+      const message = error?.message
+        ? error.message.split(/\(|\[/)[0]
+        : "Something went wrong";
+      setErrorMessage(message);
     },
     onSuccess() {
       setErrorMessage(undefined);
@@ -136,7 +139,10 @@ const Confirm = (props: ConfirmProps) => {
       updateState();
     },
     onError(error) {
-      setErrorMessage(error?.message ?? "Error");
+      const message = error?.message
+        ? error.message.split(/\(|\[/)[0]
+        : "Something went wrong";
+      setErrorMessage(message);
     },
   });
 
@@ -266,8 +272,8 @@ const Confirm = (props: ConfirmProps) => {
                     className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
                     role="alert"
                   >
-                    <strong className="font-bold">⌐×-×</strong>{" "}
-                    <span className="block sm:inline">{errorMessage}</span>
+                    <strong className="font-bold">❗️</strong> Ooops...{" "}
+                    {errorMessage}
                   </div>
                 )}
               </div>
