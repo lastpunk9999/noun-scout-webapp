@@ -64,20 +64,31 @@ const RequestRecipient = (props: RequestRecipientProps) => {
 
       {isDetailed && (
         <p className="inline-block leading-5 grow">
-          {amount !== undefined && (
-            <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
-              {amount} ETH
+          <span
+            className={cx(
+              amount &&
+                amount !== "0" &&
+                "bg-slate-200 font-bold whitespace-nowrap px-2",
+              ""
+            )}
+          >
+            {amount && amount !== "0" ? amount : ""} ETH
+            {amount && amount !== "0" ? "" : " "}
+          </span>
+
+          <>
+            {!props.donationSent ? "will be" : "was"} sent to
+            {recipientDescription.name && props.lineBreak ? <br /> : " "}
+            <span
+              className={cx(
+                recipientDescription.name &&
+                  "bg-slate-200  px-2 whitespace-nowrap ",
+                " "
+              )}
+            >
+              {recipientDescription.name ?? "a non-profit"}
             </span>
-          )}
-          {recipientDescription.name && (
-            <>
-              {!props.donationSent ? "will be" : "was"} sent to
-              {recipientDescription.name && props.lineBreak ? <br /> : " "}
-              <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
-                {recipientDescription.name ?? "_______"}
-              </span>
-            </>
-          )}
+          </>
         </p>
       )}
       {!isDetailed && !isRow && props.donationSent && (

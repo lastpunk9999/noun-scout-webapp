@@ -113,13 +113,19 @@ const RequestCard = (props: RequestCardProps) => {
           <div className="w-3/4 pl-4">
             <p className="text-xl">
               {!props.donationSent ? "If a" : "A"} Noun with{" "}
-              {traitPreposition(props.trait)} <br />
+              {props.trait && traitPreposition(props.trait)} <br />
               <span className="whitespace-nowrap">
-                <span className="bg-slate-200 font-bold text-xl capitalize px-2">
-                  {props.trait?.name ?? "______"}
+                <span
+                  className={cx(
+                    props.trait?.name &&
+                      "text-xl capitalize bg-slate-200 font-bold px-2",
+                    ""
+                  )}
+                >
+                  {props.trait?.name ?? "your trait"}
                 </span>
               </span>
-              <span className=""> {props.trait?.type ?? " type"} </span>
+              <span className=""> {props.trait?.type} </span>
               {!props.donationSent ? "is" : "was"} minted
             </p>
           </div>
@@ -148,18 +154,20 @@ const RequestCard = (props: RequestCardProps) => {
               props.cardStyle === "compact" && "!flex-row"
             )}
           >
-            {props.pledges
-              ? props.pledges.map((pledge, i) => (
-                  <RequestRecipient
-                    cardStyle={props.cardStyle || "detailed"}
-                    key={i}
-                    pledge={pledge}
-                    reimbursementBPS={props.reimbursementBPS}
-                    lineBreak={props.pledges.length > 1}
-                    donationSent={props.donationSent}
-                  />
-                ))
-              : "Supporting the charity of your choice"}
+            {props.pledges ? (
+              props.pledges.map((pledge, i) => (
+                <RequestRecipient
+                  cardStyle={props.cardStyle || "detailed"}
+                  key={i}
+                  pledge={pledge}
+                  reimbursementBPS={props.reimbursementBPS}
+                  lineBreak={props.pledges.length > 1}
+                  donationSent={props.donationSent}
+                />
+              ))
+            ) : (
+              <RequestRecipient cardStyle={props.cardStyle || "detailed"} />
+            )}
           </ul>
         </div>
         {props.cardStyle === "compact" && !props.donationSent && (

@@ -13,7 +13,7 @@ import RequestCard from "../../components/RequestCard";
 import RequestInText from "../../components/RequestInText";
 import AddAmount from "../../components/add/AddAmount";
 import Link from "next/link";
-import NounChatBubble from "../../components/NounChatBubble";
+import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
 
 const Add = (props) => {
   const { isConnected, isConnecting } = useAccount();
@@ -120,7 +120,7 @@ const Add = (props) => {
               </div>
             </div>
           )}
-          {currentStep >= 0 && currentStep < 3 && requestSeed && (
+          {currentStep >= 0 && currentStep < 3 && (
             <div className="flex flex-col w-full mb-2 md:mb-0">
               <div className="hidden md:block my-8">
                 <RequestCard
@@ -129,23 +129,55 @@ const Add = (props) => {
                   pledges={requestSeed && [requestSeed.pledge]}
                 />
               </div>
-              <NounChatBubble className="hidden md:flex">
-                <span className="text-lg">
-                  {requestSeed.pledge?.to === undefined ||
-                  !requestSeed.pledge?.amount ? (
-                    <>
-                      Keep going to complete this card,
-                      <br />
-                      its how others will see your request.
-                    </>
-                  ) : (
-                    <>Looks good!</>
-                  )}
-                </span>
-              </NounChatBubble>
+              {currentStep < 3 && (
+                <NounChatBubble
+                  info="true"
+                  {...nounProfiles[0]}
+                  className="hidden md:flex"
+                >
+                  <span className="text-lg">
+                    Keep going to complete this card,
+                    <br />
+                    its how others will see your request.
+                  </span>
+                </NounChatBubble>
+              )}
+              {currentStep > 0 && (
+                <NounChatBubble
+                  info="true"
+                  {...nounProfiles[1]}
+                  className="hidden md:flex"
+                >
+                  <span className="text-lg">
+                    Your request will stay open until
+                    <br />
+                    you withrdaw your funds.
+                  </span>
+                </NounChatBubble>
+              )}
+              {currentStep > 1 && requestSeed.pledge?.amount !== undefined && (
+                <NounChatBubble
+                  info="true"
+                  {...nounProfiles[3]}
+                  className="hidden md:flex"
+                >
+                  <span className="text-lg">
+                    You can withdraw at (almost) any time.
+                  </span>
+                </NounChatBubble>
+              )}
+              {currentStep > 1 && requestSeed.pledge?.to !== undefined && (
+                <NounChatBubble
+                  info="true"
+                  {...nounProfiles[2]}
+                  className="hidden md:flex"
+                >
+                  <span className="text-lg">Time to submit!</span>
+                </NounChatBubble>
+              )}
             </div>
           )}
-          {currentStep === 0 && !requestSeed && (
+          {false && currentStep === 0 && !requestSeed && (
             <div className="hidden md:block">
               <h1 className="text-center md:text-left text-3xl lg:text-5xl font-bold font-serif mb-5">
                 Want a Noun Trait minted?

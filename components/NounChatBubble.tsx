@@ -46,7 +46,7 @@ export default function NounChatBubble(props) {
           <div
             className={cx(
               props.error && "bg-red-100 text-red font-bold",
-              props.info ? "bg-slate-100" : "bg-slate-200",
+              props.info ? "bg-warm" : "bg-slate-200",
               "rounded-full relative",
               props.size === "large" ? "w-14 h-14" : "w-12 h-12"
             )}
