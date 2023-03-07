@@ -72,7 +72,7 @@ const abi = [
       {
         indexed: false,
         internalType: "uint256[]",
-        name: "pledges",
+        name: "donations",
         type: "uint256[]",
       },
     ],
@@ -438,7 +438,20 @@ const abi = [
   },
   {
     inputs: [],
-    name: "ANY_ID",
+    name: "ANY_AUCTION_ID",
+    outputs: [
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ANY_NON_AUCTION_ID",
     outputs: [
       {
         internalType: "uint16",
@@ -865,6 +878,11 @@ const abi = [
         name: "nounId",
         type: "uint16",
       },
+      {
+        internalType: "bool",
+        name: "includeAnyId",
+        type: "bool",
+      },
     ],
     name: "pledgesForNounId",
     outputs: [
@@ -888,6 +906,11 @@ const abi = [
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
+      },
+      {
+        internalType: "bool",
+        name: "includeAnyId",
+        type: "bool",
       },
     ],
     name: "pledgesForNounIdByTrait",
@@ -917,6 +940,11 @@ const abi = [
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
+      },
+      {
+        internalType: "bool",
+        name: "includeAnyId",
+        type: "bool",
       },
     ],
     name: "pledgesForNounIdByTraitId",
@@ -964,6 +992,11 @@ const abi = [
         internalType: "uint16",
         name: "nounId",
         type: "uint16",
+      },
+      {
+        internalType: "bool",
+        name: "includeAnyId",
+        type: "bool",
       },
     ],
     name: "pledgesForOnChainNoun",
@@ -1371,9 +1404,9 @@ const abi = [
         type: "uint8",
       },
       {
-        internalType: "uint16",
-        name: "nounId",
-        type: "uint16",
+        internalType: "bool",
+        name: "matchAuctionedNoun",
+        type: "bool",
       },
       {
         internalType: "uint16[]",
