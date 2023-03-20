@@ -101,6 +101,7 @@ const ManageTrait = (props: ManageTraitProps) => {
         >
           <RequestCard
             id={props.request.nounId}
+            nounId={props.request.nounId}
             trait={props.request.trait}
             pledges={[props.request.pledge]}
             cardStyle={pledgeSent ? "compact" : "detailed"}
