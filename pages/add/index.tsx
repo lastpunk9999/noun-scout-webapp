@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
@@ -17,11 +17,37 @@ import { useAppContext } from "../../context/state";
 import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
 
 const Add = (props) => {
+  const { ANY_AUCTION_ID, ANY_NON_AUCTION_ID } = useAppContext() ?? {};
+  const urlParams = new URLSearchParams(window.location.search.toLowerCase());
+  const nounId =
+    urlParams.get("nonauction") || urlParams.get("non-auction")
+      ? ANY_NON_AUCTION_ID
+      : ANY_AUCTION_ID;
+
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [requestSeed, setRequestSeed] = useState<Request | undefined>();
-
+  const defaultSeed: Request = {
+    nounId,
+  } as Request;
+  const [requestSeed, _setRequestSeed] = useState<Request>(defaultSeed);
+  useEffect(() => {
+    setRequestSeed({
+      ...requestSeed,
+      nounId,
+    });
+  }, [nounId]);
+  const setRequestSeed = useCallback(
+    (newRequestSeed) => {
+      if (!newRequestSeed) return _setRequestSeed(defaultSeed);
+      _setRequestSeed((currentRequestSeed) => ({
+        ...currentRequestSeed,
+        ...newRequestSeed,
+      }));
+    },
+    [_setRequestSeed]
+  );
+  console.log({ requestSeed });
   const { baseReimbursementBPS: reimbursementBPS = 250 } =
     useAppContext() ?? {};
 
@@ -34,19 +60,15 @@ const Add = (props) => {
   const steps = [
     {
       title: "Choose a trait",
-      description: "Aenean eu leo quam. Pellentesque ornare sem lacinia quam.",
     },
     {
       title: "Pledge ETH",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
       title: "Choose a charity",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
       title: "Confirm",
-      description: "Donec sed odio dui.",
     },
   ];
 
@@ -129,6 +151,7 @@ const Add = (props) => {
               <div className="hidden md:block my-8">
                 <RequestCard
                   cardStyle="detailed"
+                  nounId={requestSeed.nounId}
                   trait={requestSeed && requestSeed.trait}
                   pledges={requestSeed && [requestSeed.pledge]}
                   reimbursementBPS={reimbursementBPS}

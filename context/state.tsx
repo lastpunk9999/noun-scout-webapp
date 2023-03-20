@@ -15,6 +15,8 @@ type State = {
   lazyUpdateState?: () => void;
   isMounted?: boolean;
   hasUpcomingNonAuctionedNounPledges?: boolean;
+  ANY_AUCTION_ID?: number;
+  ANY_NON_AUCTION_ID?: number;
 };
 
 // const AppContext = createContext<readonly {}[]>({});
@@ -54,6 +56,16 @@ const contractReadConfig = [
     address: nounScoutContract.address,
     abi: nounScoutContract.abi,
     functionName: "maxReimbursement",
+  },
+  {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "ANY_AUCTION_ID",
+  },
+  {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "ANY_NON_AUCTION_ID",
   },
   {
     address: nounsAuctionHouseContract.address,

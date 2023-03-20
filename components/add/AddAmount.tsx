@@ -31,13 +31,12 @@ const AddAmount = (props: AddAmountProps) => {
   );
 
   useEffect(() => {
-    props.setRequestSeed((request) => ({
-      trait: request.trait,
+    props.setRequestSeed({
       pledge: {
         to: props.requestSeed?.pledge?.to || undefined,
         amount: belowMinValue ? undefined : amountInWei,
       },
-    }));
+    });
   }, [amountInWei, belowMinValue]);
 
   const [topPledge, totalPledgeCount, averagePledge] = useMemo(() => {

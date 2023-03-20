@@ -28,8 +28,11 @@ type ConfirmProps = {
 
 const Confirm = (props: ConfirmProps) => {
   const { isConnected } = useAccount();
-  const { updateState, baseReimbursementBPS: reimbursementBPS = 250 } =
-    useAppContext() ?? {};
+  const {
+    updateState,
+    baseReimbursementBPS: reimbursementBPS = 250,
+    ANY_AUCTION_ID,
+  } = useAppContext() ?? {};
 
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(
@@ -51,34 +54,37 @@ const Confirm = (props: ConfirmProps) => {
     ? BigNumber.from(nextNounsAuction.nounId).toNumber() + 1
     : null;
 
-  useEffect(() => {
-    if (minNounId && futureNounId && futureNounId >= minNounId) {
-      props.setRequestSeed((request) => ({
-        trait: request.trait,
-        pledge: request.pledge,
-        id: futureNounId,
-      }));
-    }
-  }, [futureNounId]);
+  // useEffect(() => {
+  //   if (
+  //     isIdFieldVisible &&
+  //     minNounId &&
+  //     futureNounId &&
+  //     futureNounId >= minNounId
+  //   ) {
+  //     props.setRequestSeed({
+  //       id: futureNounId,
+  //     });
+  //   }
+  // }, [futureNounId, isIdFieldVisible]);
 
-  useEffect(() => {
-    if (!isIdFieldVisible) {
-      setFutureNounId(undefined);
-      props.setRequestSeed((request) => ({
-        trait: request.trait,
-        pledge: request.pledge,
-        id: undefined,
-      }));
-    }
-    if (isIdFieldVisible) {
-      setFutureNounId(minNounId);
-      props.setRequestSeed((request) => ({
-        trait: request.trait,
-        pledge: request.pledge,
-        id: minNounId,
-      }));
-    }
-  }, [isIdFieldVisible]);
+  // useEffect(() => {
+  //   if (!isIdFieldVisible) {
+  //     setFutureNounId(undefined);
+  //     props.setRequestSeed((request) => ({
+  //       trait: request.trait,
+  //       pledge: request.pledge,
+  //       id: undefined,
+  //     }));
+  //   }
+  //   if (isIdFieldVisible) {
+  //     setFutureNounId(minNounId);
+  //     props.setRequestSeed((request) => ({
+  //       trait: request.trait,
+  //       pledge: request.pledge,
+  //       id: minNounId,
+  //     }));
+  //   }
+  // }, [isIdFieldVisible]);
 
   const salutations = [
     ["A-maze-ing", 123],
@@ -100,7 +106,9 @@ const Confirm = (props: ConfirmProps) => {
     args: [
       props.requestSeed.trait.traitTypeId, // trait type ID - 0-4 (background, body, accessory, head, glasses)
       props.requestSeed.trait.traitId, // traitId - index of trait type array
-      0,
+      props.requestSeed.nounId === null
+        ? ANY_AUCTION_ID
+        : props.requestSeed.nounId,
       props.requestSeed.pledge.to, // recipientId - index of recipient array
     ],
     overrides: {
@@ -170,6 +178,7 @@ const Confirm = (props: ConfirmProps) => {
           </h1>
           <RequestCard
             id={props.requestSeed.id}
+            nounId={props.requestSeed.nounId}
             trait={props.requestSeed?.trait}
             pledges={[props.requestSeed.pledge]}
             cardStyle="detailed"
@@ -228,6 +237,7 @@ const Confirm = (props: ConfirmProps) => {
             <div className="max-w-md mx-auto my-4">
               <RequestCard
                 id={props.requestSeed.id}
+                nounId={props.requestSeed.nounId}
                 trait={props.requestSeed?.trait}
                 pledges={[props.requestSeed.pledge]}
                 cardStyle="detailed"

@@ -24,20 +24,18 @@ const Recipient = (props: RecipientProps) => {
       )}
       onClick={() =>
         props.requestSeed?.pledge?.to === props.recipient.id
-          ? props.setRequestSeed((request) => ({
-              trait: request.trait,
+          ? props.setRequestSeed({
               pledge: {
                 to: undefined,
                 amount: props.requestSeed?.pledge?.amount,
               },
-            }))
-          : props.setRequestSeed((request) => ({
-              trait: request.trait,
+            })
+          : props.setRequestSeed({
               pledge: {
                 to: props.recipient.id,
                 amount: props.requestSeed?.pledge?.amount,
               },
-            }))
+            })
       }
     >
       <div className="w-20 rounded">

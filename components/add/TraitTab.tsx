@@ -82,8 +82,13 @@ const TraitTab = (props: TraitTabProps) => {
                 )}
                 onClick={() =>
                   props.requestSeed?.trait?.imageData.filename === f.filename
-                    ? props.setRequestSeed()
+                    ? props.setRequestSeed({
+                        ...props.requestSeed,
+                        trait: undefined,
+                        pledge: undefined,
+                      })
                     : props.setRequestSeed({
+                        ...props.requestSeed,
                         trait: getTraitTraitNameAndImageData(
                           props.traitIndex,
                           f.id
