@@ -24,6 +24,7 @@ import {
   traitNamesById,
   traitPreposition,
 } from "../../utils";
+import { useAppContext } from "../../context/state";
 
 const getPart = (
   traitTypeId: number | undefined,
@@ -47,10 +48,15 @@ const getPart = (
 };
 
 const OpenRequests = () => {
+  const { hasUpcomingNonAuctionedNounPledges } = useAppContext() ?? {};
   // Get pledges pertaining to next noun
-  const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
+  const { nextAuctionPledges, nextNonAuctionPledges } =
+    useGetPledgesForUpcomingNoun();
   //@ts-ignore
-  const requests = Object.values(nextAuctionPledges ?? {})
+  const requests = [
+    ...Object.values(nextAuctionPledges ?? {}),
+    ...Object.values(nextNonAuctionPledges ?? {}),
+  ]
     //@ts-ignore
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
     //@ts-ignore
@@ -72,6 +78,8 @@ const OpenRequests = () => {
       <RequestCard
         trait={request.trait}
         pledges={request.pledges}
+        nounId={request.nounId}
+        reimbursementBPS={request.reimbursementBPS}
         key={`${request.pledges}${request.trait.name}}`}
         cardStyle="detailed"
       />
@@ -157,6 +165,8 @@ const OpenRequests = () => {
                   <RequestCard
                     trait={request.trait}
                     pledges={request.pledges}
+                    nounId={request.nounId}
+                    reimbursementBPS={request.reimbursementBPS}
                     cardStyle="compact"
                   />
                 </button>
@@ -168,6 +178,7 @@ const OpenRequests = () => {
       <div className="hidden lg:block relative overflow-x-auto">
         <RequestsTable
           requests={requests}
+          showNounId={hasUpcomingNonAuctionedNounPledges}
           filteredTraitType={filteredTraitType}
           onRowClick={handleModal}
         />
@@ -203,6 +214,8 @@ const RequestsTable = (props) => {
                 <RequestRow
                   trait={request.trait}
                   pledges={request.pledges}
+                  nounId={request.nounId}
+                  showNounId={props.showNounId}
                   index={i + 1}
                   key={i}
                 />
@@ -278,6 +291,7 @@ const RequestRow = (props) => {
           ))}
         </ul>
       </td>
+
       <td className="px-6 py-4">
         <p
           className={cx(
@@ -289,6 +303,19 @@ const RequestRow = (props) => {
           {utils.formatEther(total)} ETH
         </p>
       </td>
+      {props.showNounId && (
+        <td className="px-6 py-4">
+          <p
+            className={cx(
+              props.index < 20 && "md:text-lg",
+              props.index < 10 && "md:text-xl",
+              props.index < 5 && "font-bold"
+            )}
+          >
+            Noun {props.nounId}
+          </p>
+        </td>
+      )}
       <td className="px-6 py-4">
         <a href="#" onClick={(e) => e.preventDefault()}>
           details

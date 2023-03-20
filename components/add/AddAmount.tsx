@@ -15,7 +15,7 @@ const decimals = process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet" ? 3 : 5;
 const AddAmount = (props: AddAmountProps) => {
   const {
     baseReimbursementBPS,
-    minValue = BigNumber.from("1").div("10"),
+    minValue = utils.parseEther("0.01"),
     pledgesForUpcomingNoun,
   } = useAppContext() ?? {};
 
@@ -23,7 +23,7 @@ const AddAmount = (props: AddAmountProps) => {
     utils.formatEther(props.requestSeed?.pledge?.amount ?? minValue)
   );
 
-  const amountInWei = useMemo(() => utils.parseEther(amount || "0"), [amount]);
+  const amountInWei = useMemo(() => utils.parseEther(amount), [amount]);
 
   const belowMinValue = useMemo(
     () => amountInWei.lt(minValue),
@@ -41,15 +41,17 @@ const AddAmount = (props: AddAmountProps) => {
   }, [amountInWei, belowMinValue]);
 
   const [topPledge, totalPledgeCount, averagePledge] = useMemo(() => {
-    const totalPledges = (
-      pledgesForUpcomingNoun?.nextAuctionPledges ?? [constants.Zero]
-    )
+    if (!pledgesForUpcomingNoun?.nextAuctionPledges)
+      return [constants.Zero, 0, constants.Zero];
+    const totalPledges = pledgesForUpcomingNoun?.nextAuctionPledges
       .flat(Infinity)
       .filter((p) => !p.isZero())
       .sort((a, b) => (a.lt(b) ? 1 : -1));
+
     const averagePledge = totalPledges
       .reduce((sum, p) => sum.add(p))
       .div(totalPledges.length);
+
     return [totalPledges[0], totalPledges.length, averagePledge];
   }, [pledgesForUpcomingNoun?.nextAuctionPledges]);
 

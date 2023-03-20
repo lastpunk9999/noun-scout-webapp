@@ -24,6 +24,10 @@ type MatchItemProps = {
   onComplete?: (traitTypeId: number) => void;
 };
 
+function _isAuctionedNoun(nounId: number) {
+  return nounId % 10 > 0 || nounId > 1820;
+}
+
 const MatchItem = (props: MatchItemProps) => {
   const { lazyUpdateState } = useAppContext();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -56,7 +60,11 @@ const MatchItem = (props: MatchItemProps) => {
     address: nounScoutContract.address,
     abi: nounScoutContract.abi,
     functionName: "settle",
-    args: [props.traitTypeId, props.nounId, pledges.map((d) => d.to)], // trait type ID, Noun ID, Recipient IDs
+    args: [
+      props.traitTypeId,
+      _isAuctionedNoun(props.nounId),
+      pledges.map((d) => d.to),
+    ], // trait type ID, Noun ID, Recipient IDs
     onSuccess() {
       setErrorMessage(undefined);
     },

@@ -1,5 +1,5 @@
 import { ImageData } from "@nouns/assets";
-import { constants } from "ethers";
+import { BigNumber, constants } from "ethers";
 
 import {
   SingularTraitName,
@@ -9,6 +9,7 @@ import {
   TraitAndPledges,
   TraitNameAndImageData,
   RequestStatus,
+  BigNumberType,
 } from "./types";
 
 export const nounImages = {
@@ -89,10 +90,39 @@ export function getTraitTraitNameAndImageData(
   };
 }
 
+export function effectiveBPS(
+  baseReimbursementBPS: number,
+  minReimbursement: BigNumberType,
+  maxReimbursement: BigNumberType,
+  total: BigNumberType
+): number {
+  let effectiveBPS = 0;
+
+  const denominator = BigNumber.from("10000");
+  if (total.isZero()) {
+    return effectiveBPS;
+  }
+
+  effectiveBPS = baseReimbursementBPS;
+  let reimbursement = total
+    .mul(BigNumber.from(String(effectiveBPS)))
+    .div(denominator);
+
+  // // When the default reimbursement is above the maximum reimbursement amount
+  if (reimbursement.gt(maxReimbursement)) {
+    effectiveBPS = maxReimbursement.mul(denominator).div(total).toNumber();
+  } else if (reimbursement.lt(minReimbursement) && total.gt(minReimbursement)) {
+    effectiveBPS = minReimbursement.mul(denominator).div(total).toNumber();
+  }
+  return effectiveBPS;
+}
 export function extractPledges(
   pledges,
   recipients,
-  nounId
+  nounId,
+  baseReimbursementBPS,
+  minReimbursement,
+  maxReimbursement
 ): PledgesByTraitType {
   return pledges.reduce((obj, traitsArray, trait) => {
     const [singularTrait, pluralTrait] = traitTypeNamesById(trait);
@@ -109,14 +139,22 @@ export function extractPledges(
           .filter((n) => n)
           .sort((a, b) => (a.amount.lt(b.amount) ? 1 : -1));
         if (pledges.length > 0) {
+          let total = pledges.reduce(
+            (sum, d) => sum.add(d.amount),
+            constants.Zero
+          );
+          const reimbursementBPS = effectiveBPS(
+            baseReimbursementBPS,
+            minReimbursement,
+            maxReimbursement,
+            total
+          );
           traitsObj[traitId] = {
             nounId,
             trait: getTraitTraitNameAndImageData(trait, traitId),
             pledges,
-            total: pledges.reduce(
-              (sum, d) => sum.add(d.amount),
-              constants.Zero
-            ),
+            total,
+            reimbursementBPS,
           } as TraitAndPledges;
         }
         return traitsObj;
@@ -147,3 +185,9 @@ export function shuffle(array) {
 export const traitPreposition = (trait: TraitNameAndImageData) =>
   !/glasses/.test(trait.type) &&
   (/^[a,e,i,o,u]/i.test(trait.name) ? "an " : "a ");
+
+export function isNonAuctionedNounId(nounId: number | undefined) {
+  return (
+    nounId !== undefined && nounId !== 0 && nounId % 10 === 0 && nounId <= 1820
+  );
+}

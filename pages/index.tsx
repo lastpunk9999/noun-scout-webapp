@@ -34,11 +34,19 @@ const Hero = () => {
 
 const TopRequests = () => {
   // Get pledges pertaining to next noun
-  const { nextAuctionPledges, nextAuctionId } = useGetPledgesForUpcomingNoun();
+  const {
+    nextAuctionPledges,
+    nextAuctionId,
+    nextNonAuctionId,
+    nextNonAuctionPledges,
+  } = useGetPledgesForUpcomingNoun();
   const { auction } = useAppContext() ?? {};
 
   // @ts-ignore
-  let topPledges = Object.values(nextAuctionPledges ?? {})
+  let topPledges = [
+    ...Object.values(nextAuctionPledges ?? {}),
+    ...Object.values(nextNonAuctionPledges ?? {}),
+  ]
     // @ts-ignore
     .reduce((arr, i) => [...arr, ...Object.values(i)], [])
     // @ts-ignore
@@ -48,14 +56,19 @@ const TopRequests = () => {
 
   const topLength = 3;
 
+  console.log({ topPledges });
+
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
 
   const handleModal = (request: TraitAndPledges) => {
+    console.log({ request });
     setModalContent(
       <RequestCard
         trait={request.trait}
         pledges={request.pledges}
+        nounId={request.nounId}
+        reimbursementBPS={request.reimbursementBPS}
         key={`${request.pledges}${request.trait.name}}`}
         cardStyle="detailed"
       />
@@ -69,7 +82,8 @@ const TopRequests = () => {
         <h2 className="text-4xl font-bold">Highest Pledges</h2>
         {/* TODO: Add countdown clock */}
         <p className="mb-10">
-          Most popular traits for the next Noun{" "}
+          Most popular traits for the next Noun
+          {nextAuctionId > nextNonAuctionId && "s"}{" "}
           {auction?.endTime && (
             <>
               (
@@ -103,6 +117,8 @@ const TopRequests = () => {
                   <RequestCard
                     trait={request.trait}
                     pledges={request.pledges}
+                    nounId={request.nounId}
+                    reimbursementBPS={request.reimbursementBPS}
                     cardStyle="compact"
                   />
                 </button>

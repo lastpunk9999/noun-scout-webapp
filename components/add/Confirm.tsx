@@ -28,7 +28,8 @@ type ConfirmProps = {
 
 const Confirm = (props: ConfirmProps) => {
   const { isConnected } = useAccount();
-  const { updateState } = useAppContext();
+  const { updateState, baseReimbursementBPS: reimbursementBPS = 250 } =
+    useAppContext() ?? {};
 
   const [isIdFieldVisible, setIsIdFieldVisible] = useState<boolean>(false);
   const [futureNounId, setFutureNounId] = useState<number | undefined>(
@@ -172,6 +173,7 @@ const Confirm = (props: ConfirmProps) => {
             trait={props.requestSeed?.trait}
             pledges={[props.requestSeed.pledge]}
             cardStyle="detailed"
+            reimbursementBPS={reimbursementBPS}
           />
 
           {/* <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
@@ -229,6 +231,7 @@ const Confirm = (props: ConfirmProps) => {
                 trait={props.requestSeed?.trait}
                 pledges={[props.requestSeed.pledge]}
                 cardStyle="detailed"
+                reimbursementBPS={reimbursementBPS}
               />
             </div>
 

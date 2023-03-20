@@ -8,7 +8,12 @@ import {
 import Image from "next/image";
 import { ImageData, getPartData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
-import { traitTypeNamesById, traitNamesById, traitPreposition } from "../utils";
+import {
+  traitTypeNamesById,
+  traitNamesById,
+  traitPreposition,
+  isNonAuctionedNounId,
+} from "../utils";
 import RequestRecipient from "./RequestRecipient";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,7 +26,8 @@ type RequestCardProps = {
   pledges: Pledge[] | undefined;
   id?: number;
   nounSeed?: NounSeed;
-  reimbursementBPS?: BigNumberType;
+  nounId?: number;
+  reimbursementBPS?: BigNumberType | number;
   donationSent?: boolean;
 };
 
@@ -51,12 +57,79 @@ const RequestCard = (props: RequestCardProps) => {
 
   const total = useMemo(() => {
     if (!props.pledges) return constants.Zero;
-    return props.pledges.reduce(function (sum, pledge) {
+    let total = props.pledges.reduce(function (sum, pledge) {
       return sum.add(pledge?.amount ?? constants.Zero);
     }, constants.Zero);
+    return total;
   }, [props.pledges]);
+  let reimbursement = constants.Zero;
+  if (props.reimbursementBPS) {
+    reimbursement = total.mul(props.reimbursementBPS).div("10000");
+  }
+  let recipients;
+  if (props.pledges) {
+    recipients = props.pledges.map((pledge, i) => (
+      <RequestRecipient
+        cardStyle={props.cardStyle || "detailed"}
+        key={i}
+        pledge={pledge}
+        reimbursementBPS={props.reimbursementBPS}
+        lineBreak={props.pledges.length > 1}
+        donationSent={props.donationSent}
+      />
+    ));
+    if (
+      !reimbursement.isZero() &&
+      props.cardStyle === "detailed" &&
+      !props.donationSent
+    ) {
+      recipients.push(
+        <RequestRecipient
+          cardStyle={"detailed"}
+          pledge={{
+            amount: reimbursement,
+          }}
+          isSettler={true}
+          lineBreak={props.pledges.length > 1}
+          donationSent={props.donationSent}
+        />
+      );
+    }
+  } else {
+    recipients = <RequestRecipient cardStyle={props.cardStyle || "detailed"} />;
+  }
+  const NounIdentifier = (
+    <>
+      {!props.donationSent
+        ? `If ${props.nounId ? `Noun ${props.nounId}` : "a Noun"}`
+        : "A Noun"}{" "}
+    </>
+  );
+  const Tense = <>{!props.donationSent ? "is" : "was"} minted</>;
+  const TraitNameAndType = (
+    <>
+      <span className="whitespace-nowrap">
+        <span
+          className={cx(
+            props.trait?.name &&
+              "text-xl capitalize bg-slate-200 font-bold px-2",
+            ""
+          )}
+        >
+          {props.trait?.name ?? "your trait"}
+        </span>
+      </span>
+      <span className=""> {props.trait?.type} </span>
+    </>
+  );
+
   return (
-    <div className="bg-white w-full rounded-lg border border-slate-200 relative overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+    <div className="bg-white w-full rounded-lg border border-slate-200 relative shadow-sm hover:shadow-lg transition-shadow">
+      {props.cardStyle === "compact" && isNonAuctionedNounId(props.nounId) && (
+        <span className="py-1 px-2 bg-green-600 text-white font-bold text-sm block rounded-md absolute -top-2 -left-2 z-10">
+          Only Noun {props.nounId}
+        </span>
+      )}
       <div className="absolute top-3 right-3">
         {!total?.isZero() && props.cardStyle === "compact" ? (
           <p className="text-sm md:text-md leading-none p-1 md:p-2 font-bold bg-slate-200 text-blue-500 rounded-md">
@@ -112,21 +185,20 @@ const RequestCard = (props: RequestCardProps) => {
         {props.cardStyle === "detailed" && (
           <div className="w-3/4 pl-4">
             <p className="text-xl">
-              {!props.donationSent ? "If a" : "A"} Noun with{" "}
-              {props.trait && traitPreposition(props.trait)} <br />
-              <span className="whitespace-nowrap">
-                <span
-                  className={cx(
-                    props.trait?.name &&
-                      "text-xl capitalize bg-slate-200 font-bold px-2",
-                    ""
-                  )}
-                >
-                  {props.trait?.name ?? "your trait"}
-                </span>
-              </span>
-              <span className=""> {props.trait?.type} </span>
-              {!props.donationSent ? "is" : "was"} minted
+              {props.nounId ? (
+                <>
+                  {NounIdentifier}
+                  {Tense} with {props.trait && traitPreposition(props.trait)}
+                  {TraitNameAndType}
+                </>
+              ) : (
+                <>
+                  {NounIdentifier} with{" "}
+                  {props.trait && traitPreposition(props.trait)} <br />
+                  {TraitNameAndType}
+                  {Tense}
+                </>
+              )}
             </p>
           </div>
         )}
@@ -154,20 +226,7 @@ const RequestCard = (props: RequestCardProps) => {
               props.cardStyle === "compact" && "!flex-row"
             )}
           >
-            {props.pledges ? (
-              props.pledges.map((pledge, i) => (
-                <RequestRecipient
-                  cardStyle={props.cardStyle || "detailed"}
-                  key={i}
-                  pledge={pledge}
-                  reimbursementBPS={props.reimbursementBPS}
-                  lineBreak={props.pledges.length > 1}
-                  donationSent={props.donationSent}
-                />
-              ))
-            ) : (
-              <RequestRecipient cardStyle={props.cardStyle || "detailed"} />
-            )}
+            {recipients}
           </ul>
         </div>
         {props.cardStyle === "compact" && !props.donationSent && (

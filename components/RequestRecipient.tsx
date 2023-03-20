@@ -6,11 +6,11 @@ import cx from "classnames";
 
 type RequestRecipientProps = {
   cardStyle: "detailed" | "compact" | "matching" | "row" | undefined;
-  pledge: Pledge;
-  reimbursementBPS?: BigNumberType;
+  pledge?: Pledge;
+  reimbursementBPS?: BigNumberType | number;
   donationSent?: boolean;
-  calculateDonation?: boolean;
   lineBreak?: boolean;
+  isSettler?: boolean;
 };
 // .mul(BigNumber.from("10000").sub(effectiveBPS))
 //               .div("10000"), //(amount * (1_000_000 - effectiveBPS)) /1_000_000
@@ -25,10 +25,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
   let amount = "0";
   let amountBN = props.pledge?.amount;
   if (amountBN !== undefined) {
-    if (
-      (props.cardStyle === "matching" || props.calculateDonation) &&
-      props.reimbursementBPS
-    ) {
+    if (props.reimbursementBPS) {
       amountBN = amountBN
         .mul(BigNumber.from("10000").sub(props.reimbursementBPS))
         .div("10000");
@@ -45,9 +42,13 @@ const RequestRecipient = (props: RequestRecipientProps) => {
     >
       <div
         className={cx(
+          props.isSettler && "hidden",
           isDetailed ? "w-[40px]" : isRow ? "w-12" : "w-[30px]",
-          !recipientDescription?.image && "bg-slate-200 rounded-md",
           !recipientDescription?.image &&
+            !props.isSettler &&
+            "bg-slate-200 rounded-md",
+          !recipientDescription?.image &&
+            !props.isSettler &&
             (isDetailed ? "pb-[40px]" : "pb-[30px]")
         )}
       >
@@ -60,14 +61,29 @@ const RequestRecipient = (props: RequestRecipientProps) => {
             className="w-full aspect-square rounded-md inline-block"
           />
         )}
+        {/* {props.isSettler && (
+          <Image
+            src="/arrow.svg"
+            width={160}
+            height={160}
+            alt={`${recipientDescription.name} logo`}
+            className="w-full aspect-square rounded-md inline-block rotate-270"
+          />
+        )} */}
       </div>
 
       {isDetailed && (
-        <p className="inline-block leading-5 grow">
+        <p
+          className={cx(
+            props.isSettler && "text-sm  border-t-2 p-2 pb-0",
+            "inline-block leading-5 grow"
+          )}
+        >
           <span
             className={cx(
               amount &&
                 amount !== "0" &&
+                !props.isSettler &&
                 "bg-slate-200 font-bold whitespace-nowrap px-2",
               ""
             )}
@@ -77,7 +93,11 @@ const RequestRecipient = (props: RequestRecipientProps) => {
           </span>
 
           <>
-            {!props.donationSent ? "will be" : "was"} sent to
+            {props.isSettler
+              ? null
+              : !props.donationSent
+              ? "will be sent to"
+              : "was sent to"}
             {recipientDescription.name && props.lineBreak ? <br /> : " "}
             <span
               className={cx(
@@ -86,7 +106,13 @@ const RequestRecipient = (props: RequestRecipientProps) => {
                 " "
               )}
             >
-              {recipientDescription.name ?? "a non-profit"}
+              {recipientDescription.name ? (
+                recipientDescription.name
+              ) : props.isSettler ? (
+                <>will reimburse settlement gas fees</>
+              ) : (
+                "a non-profit"
+              )}
             </span>
           </>
         </p>

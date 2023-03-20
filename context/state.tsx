@@ -7,11 +7,14 @@ type State = {
   pledgesForMatchableNoun?: any;
   pledgesForUpcomingNoun?: any;
   baseReimbursementBPS?: any;
+  minReimbursement?: any;
+  maxReimbursement?: any;
   minValue?: any;
   auction?: any;
   updateState?: () => void;
   lazyUpdateState?: () => void;
   isMounted?: boolean;
+  hasUpcomingNonAuctionedNounPledges?: boolean;
 };
 
 // const AppContext = createContext<readonly {}[]>({});
@@ -43,6 +46,16 @@ const contractReadConfig = [
     functionName: "minValue",
   },
   {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "minReimbursement",
+  },
+  {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "maxReimbursement",
+  },
+  {
     address: nounsAuctionHouseContract.address,
     abi: nounsAuctionHouseContract.abi,
     functionName: "auction",
@@ -60,7 +73,7 @@ function UseGetData({ setData, fetch }) {
 
 export function AppWrapper({ children, isMounted }) {
   const router = useRouter();
-  const [fetch, setFetch] = useState(false);
+  const [fetch, setFetch] = useState(true);
   const [lazyFetch, setLazyFetch] = useState(false);
   const [data, setData] = useState([]);
 
@@ -82,8 +95,8 @@ export function AppWrapper({ children, isMounted }) {
     if (!fetch) setFetch(true);
   }, [fetch]);
 
-  const state = useMemo(() => {
-    return contractReadConfig.reduce(
+  const state: State = useMemo((): State => {
+    const state: State = contractReadConfig.reduce(
       (state, config, i) => {
         state[config.functionName] = data[i];
         return state;
@@ -92,8 +105,22 @@ export function AppWrapper({ children, isMounted }) {
         updateState: () => setFetch(false),
         lazyUpdateState: () => setLazyFetch(true),
         isMounted,
+        hasUpcomingNonAuctionedNounPledges: false,
       }
     );
+    // Test if there are any pledges for upcoming non-auctioned Noun
+    if (state.pledgesForUpcomingNoun !== undefined) {
+      if (
+        state.pledgesForUpcomingNoun.nextNonAuctionId <
+        state.pledgesForUpcomingNoun.nextAuctionId
+      ) {
+        state.hasUpcomingNonAuctionedNounPledges =
+          state.pledgesForUpcomingNoun.nextNonAuctionPledges
+            .flat(Infinity)
+            .some((pledge) => !pledge.isZero());
+      }
+    }
+    return state;
   }, [data, isMounted]);
 
   return (

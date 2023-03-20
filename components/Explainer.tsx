@@ -1,7 +1,6 @@
 import ExplainerNoun from "../components/ExplainerNoun";
 import ExplainerLogos from "../components/ExplainerLogos";
 import ExplainerTrait from "../components/ExplainerTrait";
-import useGetPledgesForUpcomingNoun from "../hooks/useGetPledgesForUpcomingNoun";
 import { PledgesByTraitType, NounSeed } from "../types";
 import { useEffect, useState } from "react";
 import { ImageData } from "@nouns/assets";

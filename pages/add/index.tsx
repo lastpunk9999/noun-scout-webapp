@@ -13,6 +13,7 @@ import RequestCard from "../../components/RequestCard";
 import RequestInText from "../../components/RequestInText";
 import AddAmount from "../../components/add/AddAmount";
 import Link from "next/link";
+import { useAppContext } from "../../context/state";
 import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
 
 const Add = (props) => {
@@ -20,6 +21,9 @@ const Add = (props) => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [requestSeed, setRequestSeed] = useState<Request | undefined>();
+
+  const { baseReimbursementBPS: reimbursementBPS = 250 } =
+    useAppContext() ?? {};
 
   useEffect(() => {
     if (isConnecting || !router) return;
@@ -127,6 +131,7 @@ const Add = (props) => {
                   cardStyle="detailed"
                   trait={requestSeed && requestSeed.trait}
                   pledges={requestSeed && [requestSeed.pledge]}
+                  reimbursementBPS={reimbursementBPS}
                 />
               </div>
               {currentStep < 3 && (
@@ -136,13 +141,12 @@ const Add = (props) => {
                   className="hidden md:flex"
                 >
                   <span className="text-lg">
-                    Keep going to complete this card,
-                    <br />
-                    its how others will see your request.
+                    Keep going to complete this card, its how others will see
+                    your request.
                   </span>
                 </NounChatBubble>
               )}
-              {currentStep > 0 && (
+              {/* {currentStep > 0 && (
                 <NounChatBubble
                   info="true"
                   {...nounProfiles[1]}
@@ -165,7 +169,7 @@ const Add = (props) => {
                     You can withdraw at (almost) any time.
                   </span>
                 </NounChatBubble>
-              )}
+              )} */}
               {currentStep > 1 && requestSeed.pledge?.to !== undefined && (
                 <NounChatBubble
                   info="true"

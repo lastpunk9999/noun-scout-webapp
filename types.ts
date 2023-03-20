@@ -65,7 +65,7 @@ export interface NounSeedAndImageData {
 }
 
 export interface Pledge {
-  to: number;
+  to?: number;
   amount: BigNumber;
 }
 
@@ -74,6 +74,7 @@ export interface TraitAndPledges {
   pledges: Pledge[];
   total: BigNumber;
   nounId?: number;
+  reimbursementBPS?: number;
 }
 
 export type PledgesByTrait = Record<number, TraitAndPledges>;
