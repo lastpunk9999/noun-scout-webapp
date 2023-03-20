@@ -101,8 +101,12 @@ const RequestCard = (props: RequestCardProps) => {
   const NounIdentifier = (
     <>
       {!props.donationSent
-        ? `If ${props.nounId ? `Noun ${props.nounId}` : "a Noun"}`
-        : "A Noun"}{" "}
+        ? `If ${
+            props.nounId && props.nounId !== 0 && props.nounId !== 1
+              ? `Noun ${props.nounId}`
+              : `a ${props.nounId === 1 ? "non-auctioned" : ""} Noun`
+          }`
+        : `A ${props.nounId === 1 ? "non-auctioned" : ""} Noun`}{" "}
     </>
   );
   const Tense = <>{!props.donationSent ? "is" : "was"} minted</>;
