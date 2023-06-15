@@ -27,7 +27,7 @@ const recipientDescriptions = {
     id: 3,
     name: "Tor Project",
     description:
-      "We believe everyone should be able to explore the internet with privacy. We are the Tor Project, a 501(c)(3) US nonprofit. We advance human rights and defend your privacy online through free software and open networks.",
+      "The Tor Project, a 501(c)(3) US nonprofit, believes everyone should be able to explore the internet with privacy. We advance human rights and defend your privacy online through free software and open networks.",
     image: "/recipients/recipient-logo-tor.jpeg",
     website: "https://www.torproject.org/",
   },
