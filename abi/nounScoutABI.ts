@@ -883,6 +883,38 @@ const abi = [
         name: "includeAnyId",
         type: "bool",
       },
+      {
+        components: [
+          {
+            internalType: "uint48",
+            name: "background",
+            type: "uint48",
+          },
+          {
+            internalType: "uint48",
+            name: "body",
+            type: "uint48",
+          },
+          {
+            internalType: "uint48",
+            name: "accessory",
+            type: "uint48",
+          },
+          {
+            internalType: "uint48",
+            name: "head",
+            type: "uint48",
+          },
+          {
+            internalType: "uint48",
+            name: "glasses",
+            type: "uint48",
+          },
+        ],
+        internalType: "struct INounsSeederLike.Seed[]",
+        name: "excludeSeeds",
+        type: "tuple[]",
+      },
     ],
     name: "pledgesForNounId",
     outputs: [
@@ -911,6 +943,11 @@ const abi = [
         internalType: "bool",
         name: "includeAnyId",
         type: "bool",
+      },
+      {
+        internalType: "uint16[]",
+        name: "excludeTraitIds",
+        type: "uint16[]",
       },
     ],
     name: "pledgesForNounIdByTrait",
@@ -1311,6 +1348,24 @@ const abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "ensReverseResolver",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
+    name: "setENSReverseName",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
