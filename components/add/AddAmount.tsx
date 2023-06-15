@@ -47,6 +47,7 @@ const AddAmount = (props: AddAmountProps) => {
       .filter((p) => !p.isZero())
       .sort((a, b) => (a.lt(b) ? 1 : -1));
 
+    if (totalPledges.length === 0) return [constants.Zero, 0, constants.Zero];
     const averagePledge = totalPledges
       .reduce((sum, p) => sum.add(p))
       .div(totalPledges.length);
