@@ -23,7 +23,8 @@ export default function Layout({ children, isMounted }) {
     <>
       <Head>
         <title>{siteTitle}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
       </Head>
       <NextSeo
         title={siteTitle}
