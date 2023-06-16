@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 type State = {
   recipients?: any;
   pledgesForMatchableNoun?: any;
+  pledgesForNounOnAuction?: any;
   pledgesForUpcomingNoun?: any;
   baseReimbursementBPS?: any;
   minReimbursement?: any;
@@ -36,6 +37,16 @@ const contractReadConfig = [
     address: nounScoutContract.address,
     abi: nounScoutContract.abi,
     functionName: "pledgesForUpcomingNoun",
+  },
+  {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "pledgesForNounOnAuction",
+  },
+  {
+    address: nounScoutContract.address,
+    abi: nounScoutContract.abi,
+    functionName: "pledgesForNounOnAuction",
   },
   {
     address: nounScoutContract.address,

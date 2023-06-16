@@ -1,6 +1,6 @@
 import { Pledge, NounSeed, TraitNameAndImageData } from "../../types";
 import RequestCard from "../RequestCard";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -16,8 +16,10 @@ import NounChatBubble from "../NounChatBubble";
 
 type MatchItemProps = {
   nounId: number;
+  hideSettle?: boolean;
   pledges: readonly BigNumber[];
-  reimbursement: BigNumber;
+  reimbursement?: BigNumber;
+  reimbursementBPS?: BigNumber;
   traitTypeId: number;
   traitId: number;
   nounSeed: NounSeed;
@@ -38,9 +40,11 @@ const MatchItem = (props: MatchItemProps) => {
     useState<boolean>(false);
 
   const reimbursementBPS = useMemo(() => {
+    if (props.reimbursementBPS) return props.reimbursementBPS;
+    if (!props.reimbursement) return constants.Zero;
     const total = props.pledges.reduce((sum, pledge) => sum.add(pledge));
     return props.reimbursement.mul("10000").div(total);
-  }, [props.pledges, props.reimbursement]);
+  }, [props.pledges, props.reimbursement, props.reimbursementBPS]);
 
   // turn list of BigNumbers into Pledge records, filter out pledges with zero amount
   const pledges = useMemo(
@@ -162,7 +166,12 @@ const MatchItem = (props: MatchItemProps) => {
           </p>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row gap-5 md:gap-10 items-center mt-0 md:mt-[35px] w-full">
+        <div
+          className={cx(
+            "flex flex-col md:flex-row gap-5 md:gap-10 items-center mt-0 md:mt-[35px]",
+            props.reimbursement && !props.reimbursement.isZero() && "w-full"
+          )}
+        >
           <div
             className={cx(
               "w-full relative max-w-sm",
@@ -176,35 +185,37 @@ const MatchItem = (props: MatchItemProps) => {
               trait={trait}
               pledges={pledges}
               nounSeed={props.nounSeed}
-              cardStyle="matching"
+              cardStyle={props.hideSettle ? "matching" : "settling"}
               reimbursementBPS={reimbursementBPS}
             />
           </div>
-          <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">
-            <p className="inline-block leading-5 grow">
-              <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
-                {utils.formatEther(props.reimbursement)} ETH
-              </span>{" "}
-              will be sent to you
-            </p>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
-              disabled={!write || isLoading || isTransactionLoading}
-              onClick={() => write?.()}
-            >
-              {isLoading || isTransactionLoading ? "Settling..." : "Settle"}
-            </button>
-            {errorMessage && (
-              <div
-                className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
-                role="alert"
+          {!props.hideSettle && props.reimbursement && (
+            <div className="md:w-[25%] flex flex-col justify-center mb-5 md:mb-0">
+              <p className="inline-block leading-5 grow">
+                <span className="bg-slate-200 font-bold whitespace-nowrap px-2">
+                  {utils.formatEther(props.reimbursement)} ETH
+                </span>{" "}
+                will be sent to you
+              </p>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
+                disabled={!write || isLoading || isTransactionLoading}
+                onClick={() => write?.()}
               >
-                <strong className="font-bold">❗️</strong> Ooops...{" "}
-                {errorMessage}
-              </div>
-            )}
-            {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
-          </div>
+                {isLoading || isTransactionLoading ? "Settling..." : "Settle"}
+              </button>
+              {errorMessage && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 text-sm px-4 py-3 rounded relative text-center"
+                  role="alert"
+                >
+                  <strong className="font-bold">❗️</strong> Ooops...{" "}
+                  {errorMessage}
+                </div>
+              )}
+              {/* <p className="text-xs text-center">Reward: Ξ {utils.formatEther(traitReimbursmentTotal())}</p> */}
+            </div>
+          )}
         </div>
       )}
     </>

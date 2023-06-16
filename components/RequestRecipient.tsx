@@ -5,7 +5,13 @@ import Image from "next/image";
 import cx from "classnames";
 
 type RequestRecipientProps = {
-  cardStyle: "detailed" | "compact" | "matching" | "row" | undefined;
+  cardStyle:
+    | "detailed"
+    | "compact"
+    | "settling"
+    | "row"
+    | "matching"
+    | undefined;
   pledge?: Pledge;
   reimbursementBPS?: BigNumberType | number;
   donationSent?: boolean;
@@ -16,7 +22,9 @@ type RequestRecipientProps = {
 //               .div("10000"), //(amount * (1_000_000 - effectiveBPS)) /1_000_000
 const RequestRecipient = (props: RequestRecipientProps) => {
   const isDetailed =
-    props.cardStyle === "detailed" || props.cardStyle === "matching";
+    props.cardStyle === "detailed" ||
+    props.cardStyle === "matching" ||
+    props.cardStyle === "settling";
   const isRow = props.cardStyle === "row";
   const recipientDescription =
     props.pledge?.to !== undefined
@@ -37,7 +45,10 @@ const RequestRecipient = (props: RequestRecipientProps) => {
       className={cx(
         "flex justify-start items-center gap-3 leading-none",
         props.cardStyle === "detailed" ||
-          (props.cardStyle === "matching" && "!justify-start")
+          props.cardStyle === "settling" ||
+          props.cardStyle === "matching"
+          ? "!justify-start"
+          : ""
       )}
     >
       <div

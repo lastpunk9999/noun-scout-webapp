@@ -1,6 +1,6 @@
 import { getNounData, ImageData } from "@nouns/assets";
 import { buildSVG } from "@nouns/sdk";
-import { BigNumber, utils } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import { useMemo, useState } from "react";
 import { useContractRead } from "wagmi";
 import { nounsTokenContract } from "../../config";
@@ -11,6 +11,7 @@ import { BigNumberType } from "../../types";
 
 type NounWithMatchesProps = {
   nounId: number;
+  hideSettle?: boolean;
   pledges: readonly [
     readonly BigNumber[],
     readonly BigNumber[],
@@ -18,7 +19,14 @@ type NounWithMatchesProps = {
     readonly BigNumber[],
     readonly BigNumber[]
   ];
-  reimbursements: readonly [
+  reimbursements?: readonly [
+    readonly BigNumber[],
+    readonly BigNumber[],
+    readonly BigNumber[],
+    readonly BigNumber[],
+    readonly BigNumber[]
+  ];
+  reimbursementsBPS?: readonly [
     readonly BigNumber[],
     readonly BigNumber[],
     readonly BigNumber[],
@@ -77,7 +85,8 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
             <div
               key={traitTypeId}
               className={cx(
-                "p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row gap-10 items-center md:items-start justify-center w-full"
+                "p-5 border rounded-lg border-slate-200 pb-4 bg-white h-fit flex flex-col md:flex-row items-center md:items-start justify-center w-full",
+                props.hideSettle ? "gap-14" : "gap-10"
               )}
             >
               <div
@@ -104,8 +113,16 @@ const NounWithMatches = (props: NounWithMatchesProps) => {
                 traitId={nounSeed[traitTypeId]}
                 pledges={props.pledges[traitTypeId]}
                 nounSeed={nounSeed}
+                hideSettle={props.hideSettle}
                 // @ts-ignore
-                reimbursement={props.reimbursements[traitTypeId]}
+                reimbursement={
+                  props.reimbursements && props.reimbursements[traitTypeId]
+                }
+                // @ts-ignore
+                reimbursementBPS={
+                  props.reimbursementsBPS &&
+                  props.reimbursementsBPS[traitTypeId]
+                }
                 onComplete={onSettle}
               />
             </div>

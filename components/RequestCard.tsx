@@ -21,7 +21,7 @@ import { useMemo } from "react";
 import cx from "classnames";
 
 type RequestCardProps = {
-  cardStyle: "detailed" | "compact" | "matching" | undefined;
+  cardStyle: "detailed" | "compact" | "matching" | "settling" | undefined;
   trait: TraitNameAndImageData | undefined;
   pledges: Pledge[] | undefined;
   id?: number;
@@ -80,7 +80,7 @@ const RequestCard = (props: RequestCardProps) => {
     ));
     if (
       !reimbursement.isZero() &&
-      props.cardStyle === "detailed" &&
+      (props.cardStyle === "detailed" || props.cardStyle === "matching") &&
       !props.donationSent
     ) {
       recipients.push(
@@ -207,11 +207,7 @@ const RequestCard = (props: RequestCardProps) => {
           </div>
         )}
       </div>
-      {/* {props.cardStyle === "matching" && total && (
-        <p className="bg-blue-500 text-sm text-white font-bold p-2 pl-4">
-          {total} Ξ will be sent to
-        </p>
-      )} */}
+
       <footer
         className={cx(
           "bg-slate-100 border-t border-t-slate-200 p-3",

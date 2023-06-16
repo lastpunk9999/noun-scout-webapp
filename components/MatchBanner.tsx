@@ -11,7 +11,7 @@ const MatchBanner = (props: MatchBannerProps) => {
   const auctionedTotalReimbursement = useMemo(() => {
     if (!matchData) return constants.Zero;
     return matchData.auctionNounTotalReimbursement.reduce(
-      (reimbursement: BigNumber, total: BigNumber, i: number) => {
+      (total: BigNumber, reimbursement: BigNumber) => {
         return total.add(reimbursement);
       }
     );
@@ -21,7 +21,7 @@ const MatchBanner = (props: MatchBannerProps) => {
     if (!matchData) return constants.Zero;
 
     return matchData.nonAuctionNounTotalReimbursement.reduce(
-      (reimbursement: BigNumber, total: BigNumber, i: number) => {
+      (total: BigNumber, reimbursement: BigNumber) => {
         return total.add(reimbursement);
       }
     );
