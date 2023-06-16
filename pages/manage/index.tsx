@@ -165,8 +165,8 @@ const Manage: NextPage = () => {
                   <a href="https://fomonouns.wtf/" target="_blank">
                     FOMO Nouns
                   </a>{" "}
-                  to see a consistent list of requests during the minting time
-                  window.
+                  and other Noun-o-clock watchers to see a consistent list of
+                  requests during the minting time window.
                 </>,
                 <>
                   Removal is also locked if a Noun with your requested trait is
@@ -199,8 +199,8 @@ const Manage: NextPage = () => {
                   <a href="https://fomonouns.wtf/" target="_blank">
                     FOMO Nouns
                   </a>{" "}
-                  to see a consistent list of requests during the minting time
-                  window.
+                  and other Noun-o-clock watchers to see a consistent list of
+                  requests during the minting time window.
                 </>,
               ]}
             </Summary>

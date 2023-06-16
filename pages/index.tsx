@@ -16,11 +16,7 @@ const Hero = () => {
     <div className="text-center mx-auto mb-16">
       <h1 className="text-xlg">Want a Noun Trait minted?</h1>
       <h3 className="text-lg">
-        Influence players of{" "}
-        <a href="https://fomonouns.wtf/" target="_blank">
-          FOMO Nouns
-        </a>{" "}
-        to mint your favorite trait <br />
+        Influence minting your favorite trait <br />
         (and do some good at the same time)
       </h3>
       <Link href="/add">
