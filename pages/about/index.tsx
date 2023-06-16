@@ -45,7 +45,7 @@ const About: NextPage = () => {
             }
             target="_blank"
           >
-            {process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}
+            nounscout.eth
           </a>
           .
         </p>
@@ -75,15 +75,21 @@ const About: NextPage = () => {
           </a>
         </NounChatBubble>
         <NounChatBubble size="large" className="mb-2" info={true}>
-          🤯 Site designed and developed by{" "}
+          🤯 Site designed and developed with{" "}
           <a href="https://twitter.com/ripe0x" target="_blank">
             ripe
           </a>
         </NounChatBubble>
         <NounChatBubble size="large" className="mb-2" info={true}>
-          App named by 🐸{" "}
+          🐸 App named by{" "}
           <a href="https://twitter.com/toady_hawk" target="_blank">
             Toady Hawk
+          </a>
+        </NounChatBubble>
+        <NounChatBubble size="large" className="mb-2" info={true}>
+          🖥 Logo by{" "}
+          <a href="https://twitter.com/mrbriandesign" target="_blank">
+            mrbriandesign
           </a>
         </NounChatBubble>
       </div>
