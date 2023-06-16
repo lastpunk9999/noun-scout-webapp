@@ -128,3 +128,4 @@ dist
 
 # ignore tailwind auto-generated styles
 styles/globals.css
+.vercel
