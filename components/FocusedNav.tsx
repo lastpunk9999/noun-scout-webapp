@@ -9,7 +9,7 @@ export default function FocusedNav() {
           <div className="self-center text-xl font-semibold whitespace-nowrap max-w-[150px] md:absolute md:top-4 md:left-10">
             <Link href="/" className="flex items-center">
               <a>
-                {/* Noun Seek ⌐◨-◨ */}
+                {/* Noun Scout ⌐◨-◨ */}
                 <img
                   src="/noun-scout-logo.svg"
                   alt="Noun Scout logo"

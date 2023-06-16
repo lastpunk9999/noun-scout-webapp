@@ -40,7 +40,7 @@ const Explainer = (props: ExplainerProps) => {
     {
       title: "1. Pick any trait",
       description:
-        "Your request will be listed on NounScout so others can see it.",
+        "Your request will be listed on Noun Scout so others can see it.",
     },
     {
       title: <span>2. Lock ETH for charity</span>,

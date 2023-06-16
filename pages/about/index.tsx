@@ -8,10 +8,10 @@ const About: NextPage = () => {
   const baseReimbursementBPS = useAppContext()?.baseReimbursementBPS;
   return (
     <div className="px-4 mx-auto max-w-lg mb-3">
-      <h1 className="mb-3 font-serif">About Noun Seek</h1>
+      <h1 className="mb-3 font-serif">About Noun Scout</h1>
       <div className="text-lg mb-8">
         <p className="mb-2">
-          NounScout allows anyone to put up a reward for minting a Noun with a
+          Noun Scout allows anyone to put up a reward for minting a Noun with a
           specific trait and donates the funds to a non-profit.
         </p>
         <p className="mb-2">
@@ -25,7 +25,7 @@ const About: NextPage = () => {
         </p>
         <p className="mb-2">
           When the auction is over and the next Noun is minted, the reward can
-          be sent to the non-profit via a 'settle' transaction to the NounScout
+          be sent to the non-profit via a 'settle' transaction to the Noun Scout
           contract. The user that initiates this settlement will receive up to{" "}
           {baseReimbursementBPS
             ? `${baseReimbursementBPS / 100}%`
@@ -36,12 +36,12 @@ const About: NextPage = () => {
       <div className="text-lg mb-8">
         <h2 className="mt-5 mb-3">Contract</h2>
         <p>
-          The NounScout contract is deployed at{" "}
+          The Noun Scout contract is deployed at{" "}
           <a
             href={
               process.env.NEXT_PUBLIC_CHAIN_NAME === "mainnet"
-                ? `https://etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}`
-                : `https://goerli.etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS}`
+                ? `https://etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSCOUT_ADDRESS}`
+                : `https://goerli.etherscan.io/address/${process.env.NEXT_PUBLIC_NOUNSCOUT_ADDRESS}`
             }
             target="_blank"
           >

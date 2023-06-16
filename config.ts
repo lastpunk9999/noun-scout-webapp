@@ -3,7 +3,7 @@ import nounsAuctionHouseABI from "./abi/nounsAuctionHouseABI";
 import nounsTokenABI from "./abi/nounsTokenABI";
 
 export const nounScoutContract = {
-  address: process.env.NEXT_PUBLIC_NOUNSEEK_ADDRESS,
+  address: process.env.NEXT_PUBLIC_NOUNSCOUT_ADDRESS,
   abi: nounScoutABI,
 };
 
@@ -17,6 +17,6 @@ export const nounsTokenContract = {
   abi: nounsTokenABI,
 };
 
-export const siteTitle = "NounScout";
+export const siteTitle = "Noun Scout";
 export const siteDescription = `Mint your favorite Noun trait (and do some good at the same time)`;
 export const siteUrl = "";
