@@ -173,9 +173,7 @@ const Confirm = (props: ConfirmProps) => {
     <div className="flex flex-col gap-3 min-h-screen justify-center py-10 px-4">
       {isTransactionComplete ? (
         <div className="text-left">
-          <h1 className="text-3xl font-bold text-center">
-            Your request has been submitted!
-          </h1>
+          <h1 className="text-3xl font-bold text-center mb-10">Done!</h1>
           <RequestCard
             id={props.requestSeed.id}
             nounId={props.requestSeed.nounId}

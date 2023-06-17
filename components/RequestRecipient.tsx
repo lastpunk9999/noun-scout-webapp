@@ -11,6 +11,7 @@ type RequestRecipientProps = {
     | "settling"
     | "row"
     | "matching"
+    | "tweet"
     | undefined;
   pledge?: Pledge;
   reimbursementBPS?: BigNumberType | number;
@@ -26,6 +27,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
     props.cardStyle === "matching" ||
     props.cardStyle === "settling";
   const isRow = props.cardStyle === "row";
+  const isTweet = props.cardStyle === "tweet";
   const recipientDescription =
     props.pledge?.to !== undefined
       ? useGetRecipientDescription(props.pledge.to)
@@ -54,7 +56,13 @@ const RequestRecipient = (props: RequestRecipientProps) => {
       <div
         className={cx(
           props.isSettler && "hidden",
-          isDetailed ? "w-[40px]" : isRow ? "w-12" : "w-[30px]",
+          isDetailed
+            ? "w-[40px]"
+            : isRow
+            ? "w-12"
+            : isTweet
+            ? "w-[50px]"
+            : "w-[30px]",
           !recipientDescription?.image &&
             !props.isSettler &&
             "bg-slate-200 rounded-md",
@@ -72,15 +80,6 @@ const RequestRecipient = (props: RequestRecipientProps) => {
             className="w-full aspect-square rounded-md inline-block"
           />
         )}
-        {/* {props.isSettler && (
-          <Image
-            src="/arrow.svg"
-            width={160}
-            height={160}
-            alt={`${recipientDescription.name} logo`}
-            className="w-full aspect-square rounded-md inline-block rotate-270"
-          />
-        )} */}
       </div>
 
       {isDetailed && (
@@ -136,6 +135,29 @@ const RequestRecipient = (props: RequestRecipientProps) => {
       {isRow && (
         <p className="inline-block leading-5 grow">
           <span className="whitespace-nowrap">{recipientDescription.name}</span>
+        </p>
+      )}
+      {isTweet && (
+        <p className={cx("inline-block leading-5 grow")}>
+          I'm sending
+          <span
+            className={cx("ml-1 bg-slate-200 font-bold whitespace-nowrap px-2")}
+          >
+            {amount} ETH
+          </span>
+          <>
+            {recipientDescription.name && props.lineBreak ? <br /> : " "}
+            to
+            <span
+              className={cx(
+                recipientDescription.name &&
+                  "bg-slate-200 ml-1 px-2 font-bold whitespace-nowrap ",
+                " "
+              )}
+            >
+              {recipientDescription.name}
+            </span>
+          </>
         </p>
       )}
     </li>
