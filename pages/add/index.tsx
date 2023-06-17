@@ -18,6 +18,7 @@ import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
 
 const Add = (props) => {
   const { ANY_AUCTION_ID, ANY_NON_AUCTION_ID } = useAppContext() ?? {};
+
   const urlParams = new URLSearchParams(window.location.search.toLowerCase());
   const nounId =
     urlParams.get("nonauction") || urlParams.get("non-auction")
@@ -47,7 +48,6 @@ const Add = (props) => {
     },
     [_setRequestSeed]
   );
-  console.log({ requestSeed });
   const { baseReimbursementBPS: reimbursementBPS = 250 } =
     useAppContext() ?? {};
 
@@ -157,7 +157,7 @@ const Add = (props) => {
                   reimbursementBPS={reimbursementBPS}
                 />
               </div>
-              {currentStep < 3 && (
+              {currentStep < 3 && currentStep > 0 && (
                 <NounChatBubble
                   info="true"
                   {...nounProfiles[0]}
@@ -168,6 +168,35 @@ const Add = (props) => {
                     your request.
                   </span>
                 </NounChatBubble>
+              )}
+              {currentStep === 0 && (
+                <>
+                  <NounChatBubble
+                    info="true"
+                    {...nounProfiles[8]}
+                    className="hidden md:flex"
+                  >
+                    <span className="text-lg">
+                      Traits that appear on recent Nouns can't be selected
+                    </span>
+                  </NounChatBubble>
+                  <NounChatBubble
+                    info="true"
+                    {...nounProfiles[9]}
+                    className="hidden md:flex"
+                  >
+                    <span className="text-lg">Because reasons</span>
+                  </NounChatBubble>
+                  <NounChatBubble
+                    info="true"
+                    {...nounProfiles[10]}
+                    className="hidden md:flex"
+                  >
+                    <span className="text-lg">
+                      If you wanted one of them, come back in a day or so
+                    </span>
+                  </NounChatBubble>
+                </>
               )}
               {/* {currentStep > 0 && (
                 <NounChatBubble

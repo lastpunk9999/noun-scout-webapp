@@ -5,6 +5,9 @@ import cx from "classnames";
 import { ImageData } from "@nouns/assets";
 import NextButton from "./NextButton";
 import { Request } from "../../types";
+import useGetInellgibleNounSeeds, {
+  SeedsByTrait,
+} from "../../hooks/useGetInellgibleNounSeeds";
 
 type AddTraitProps = {
   setRequestSeed: Function;
@@ -12,6 +15,7 @@ type AddTraitProps = {
 };
 
 const AddTrait = (props: AddTraitProps) => {
+  const inellgibleNounSeedsByTrait: SeedsByTrait = useGetInellgibleNounSeeds();
   const [currentTraitType, setCurrentTraitType] = useState<number>(3);
   const orderedTraitTitles = [3, 4, 2, 1, 0]; // not showing backgrounds in tabs
   const traitTypes = [
@@ -64,6 +68,10 @@ const AddTrait = (props: AddTraitProps) => {
         setRequestSeed={props.setRequestSeed}
         requestSeed={props.requestSeed}
         filter={filter}
+        disabledTraitIds={
+          inellgibleNounSeedsByTrait &&
+          inellgibleNounSeedsByTrait[currentTraitType]
+        }
       />
     </div>
   );

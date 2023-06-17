@@ -15,6 +15,7 @@ type TraitTabProps = {
   setRequestSeed: Function;
   requestSeed: Request | undefined;
   filter: string;
+  disabledTraitIds?: readonly number[];
 };
 
 const TraitTab = (props: TraitTabProps) => {
@@ -68,18 +69,25 @@ const TraitTab = (props: TraitTabProps) => {
               props.filter === ""
           )
           .map((f) => {
+            const disabled = (props.disabledTraitIds || []).includes(f.id);
+
             return (
               <button
                 key={f.filename}
                 className={cx(
                   "group bg-white shadow-md text-left border border-transparent rounded-lg hover:shadow-lg transition-shadow relative",
                   props.requestSeed?.trait?.imageData.filename === f.filename &&
+                    !disabled &&
                     "bg-white !shadow-lg !border-1 !border-blue-500 opacity-100",
                   props.requestSeed?.trait?.imageData.filename &&
-                    props.requestSeed?.trait?.imageData.filename !== f.filename
-                    ? "opacity-50 hover:opacity-80 transition-opacity"
-                    : ""
+                    props.requestSeed?.trait?.imageData.filename !==
+                      f.filename &&
+                    !disabled
+                    ? "opacity-50 transition-opacity hover:opacity-80"
+                    : "",
+                  disabled && "opacity-25"
                 )}
+                disabled={disabled}
                 onClick={() =>
                   props.requestSeed?.trait?.imageData.filename === f.filename
                     ? props.setRequestSeed({
@@ -102,7 +110,8 @@ const TraitTab = (props: TraitTabProps) => {
               >
                 <div
                   className={cx(
-                    "absolute top-0 right-1 hidden group-hover:block",
+                    "absolute top-0 right-1 hidden",
+                    !disabled && "group-hover:block",
                     props.requestSeed?.trait?.imageData.filename ===
                       f.filename && "!block"
                   )}
@@ -110,6 +119,7 @@ const TraitTab = (props: TraitTabProps) => {
                   <input
                     type="checkbox"
                     readOnly
+                    disabled={disabled}
                     checked={
                       props.requestSeed?.trait?.imageData.filename ===
                       f.filename
