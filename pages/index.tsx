@@ -10,6 +10,8 @@ import { utils } from "ethers";
 import Explainer from "../components/Explainer";
 import CountdownClock from "../components/CountdownClock";
 import { useAppContext } from "../context/state";
+import Today from "./today";
+import Settle from "./settle";
 
 const Hero = () => {
   return (
@@ -52,13 +54,10 @@ const TopRequests = () => {
 
   const topLength = 3;
 
-  console.log({ topPledges });
-
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
 
   const handleModal = (request: TraitAndPledges) => {
-    console.log({ request });
     setModalContent(
       <RequestCard
         trait={request.trait}
@@ -71,7 +70,7 @@ const TopRequests = () => {
     );
     setShowModal(!showModal);
   };
-
+  if (topPledges.length === 0) return;
   return (
     <>
       <div className="text-center mt-20 mb-10">
@@ -134,6 +133,7 @@ const TopRequests = () => {
       {showModal && (
         <Modal setShowModal={setShowModal} modalContent={modalContent}></Modal>
       )}
+      <hr className="mt-10 w-full h-1 bg-slate-200 border-0 rounded" />
     </>
   );
 };
@@ -145,11 +145,17 @@ const Home = (props) => {
       <Hero />
 
       {/* Steps */}
-      {props.isMounted && <Explainer />}
       {props.isMounted && (
-        <hr className="w-full h-1 bg-slate-200 border-0 rounded" />
+        <>
+          <Explainer />
+          <hr className="w-full h-1 bg-slate-200 border-0 rounded" />
+          <TopRequests />
+
+          <div className="mt-20 mb-10">
+            <Today asComponent={true} />
+          </div>
+        </>
       )}
-      {props.isMounted && <TopRequests />}
     </div>
   );
 };

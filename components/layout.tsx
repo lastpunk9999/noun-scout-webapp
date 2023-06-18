@@ -1,7 +1,7 @@
 import Navbar from "./navbar";
 import Footer from "./footer";
 import MatchBanner from "./MatchBanner";
-import TodayBanner from "./TodayBanner";
+// import TodayBanner from "./TodayBanner";
 import { useRouter } from "next/router";
 import FocusedNav from "./FocusedNav";
 import Head from "next/head";
@@ -15,7 +15,7 @@ export default function Layout({ children, isMounted }) {
       <FocusedNav />
     ) : !isMounted ? null : (
       <>
-        <TodayBanner />
+        {/* <TodayBanner /> */}
         <MatchBanner />
 
         <Navbar />

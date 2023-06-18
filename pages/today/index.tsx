@@ -7,7 +7,11 @@ import { BigNumber } from "../../types";
 import { useMemo } from "react";
 import { effectiveBPS } from "../../utils";
 
-const Today: NextPage = () => {
+type TodayPageProps = {
+  asComponent?: boolean;
+};
+
+const Today = (props: TodayPageProps) => {
   const {
     pledgesForNounOnAuction: matchData,
     baseReimbursementBPS,
@@ -61,11 +65,17 @@ const Today: NextPage = () => {
 
   if (!matchData) return null;
 
+  const title = `Today's Noun${isNonAuctionedNoun && "s"}`;
   return (
     <div className="px-4">
-      <h1 className="text-5xl font-bold font-serif mb-2 text-center">
-        Today's Noun{isNonAuctionedNoun && "s"}
-      </h1>
+      {props.asComponent ? (
+        <h2 className="text-4xl font-bold text-center">{title}</h2>
+      ) : (
+        <h1 className="text-5xl font-bold font-serif mb-2 text-center">
+          {title}
+        </h1>
+      )}
+
       <div className={cx("mx-auto max-w-xl flex flex-col gap-5 my-10")}>
         <NounWithMatches
           nounId={matchData.currentAuctionId}
