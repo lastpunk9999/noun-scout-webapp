@@ -65,6 +65,12 @@ const Today = (props: TodayPageProps) => {
 
   if (!matchData) return null;
 
+  // if any BPS is above zero then there are matches
+  const hasMatches = [
+    ...currentAuctionReimbursementsBPS,
+    ...prevNonAuctionReimbursementsBPS,
+  ].some((bps) => bps > 0);
+
   const title = `Today's Noun${isNonAuctionedNoun ? "s" : ""}`;
   return (
     <div className="px-4">
@@ -75,7 +81,12 @@ const Today = (props: TodayPageProps) => {
           {title}
         </h1>
       )}
-
+      {hasMatches && (
+        <p className={cx("text-center", !props.asComponent && "text-xl")}>
+          Some pledges matched! Donations are queued and can be sent when the
+          auction ends.
+        </p>
+      )}
       <div className={cx("mx-auto max-w-xl flex flex-col gap-5 my-10")}>
         <NounWithMatches
           nounId={matchData.currentAuctionId}
