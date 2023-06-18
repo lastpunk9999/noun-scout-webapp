@@ -65,7 +65,7 @@ const Today = (props: TodayPageProps) => {
 
   if (!matchData) return null;
 
-  const title = `Today's Noun${isNonAuctionedNoun && "s"}`;
+  const title = `Today's Noun${isNonAuctionedNoun ? "s" : ""}`;
   return (
     <div className="px-4">
       {props.asComponent ? (
