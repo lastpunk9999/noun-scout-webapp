@@ -13,6 +13,7 @@ import Link from "next/link";
 import { getTraitTraitNameAndImageData } from "../../utils";
 import { useAppContext } from "../../context/state";
 import NounChatBubble from "../NounChatBubble";
+import Modal from "../Modal";
 
 type MatchItemProps = {
   nounId: number;
@@ -38,6 +39,39 @@ const MatchItem = (props: MatchItemProps) => {
     useState<boolean>(false);
   const [isTransactionComplete, setIsTransactionComplete] =
     useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
+
+  const handleModal = () => {
+    setModalContent(
+      <div className="bg-white w-full rounded-lg border border-slate-200 relative shadow-sm hover:shadow-lg transition-shadow text-center">
+        <div className="p-10">
+          <h2>Don't get frontrun</h2>
+          <p>
+            It is highly recommended that you use{" "}
+            <a
+              href="https://docs.flashbots.net/flashbots-protect/rpc/quick-start#how-to-use-flashbots-protect-rpc-in-metamask"
+              target="_blank"
+            >
+              Flashbots Protect RPC
+            </a>{" "}
+            with your wallet so you don't get frontrun by MEV bots.
+          </p>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-5 py-2 px-4 rounded disabled:bg-slate-400"
+            onClick={() => {
+              setShowModal(false);
+              write?.();
+            }}
+          >
+            I'm ready, let's settle
+          </button>
+        </div>
+      </div>
+    );
+    setShowModal(!showModal);
+  };
 
   const reimbursementBPS = useMemo(() => {
     if (props.reimbursementBPS) return props.reimbursementBPS;
@@ -200,7 +234,8 @@ const MatchItem = (props: MatchItemProps) => {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded disabled:bg-slate-400"
                 disabled={!write || isLoading || isTransactionLoading}
-                onClick={() => write?.()}
+                // onClick={() => write?.()}
+                onClick={handleModal}
               >
                 {isLoading || isTransactionLoading ? "Settling..." : "Settle"}
               </button>
@@ -217,6 +252,9 @@ const MatchItem = (props: MatchItemProps) => {
             </div>
           )}
         </div>
+      )}
+      {showModal && (
+        <Modal setShowModal={setShowModal} modalContent={modalContent}></Modal>
       )}
     </>
   );
