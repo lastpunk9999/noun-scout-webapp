@@ -170,16 +170,22 @@ const Confirm = (props: ConfirmProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 min-h-screen justify-center py-10 px-4">
+    <div className="flex flex-col gap-3 sm:min-h-screen justify-center py-10 px-4">
       {isTransactionComplete ? (
         <div className="text-left">
-          <h1 className="text-3xl font-bold text-center mb-10">Done!</h1>
+          <h1 className="text-3xl font-bold text-center">{saluation[0]}!</h1>
+          <div className="mx-auto my-10 grid gap-1">
+            <NounChatBubble size={"large"} head={saluation[1]}>
+              Now take a screenshot and tweet your card!
+            </NounChatBubble>
+            <NounChatBubble size={"large"}>👇👇👇</NounChatBubble>
+          </div>
           <RequestCard
             id={props.requestSeed.id}
             nounId={props.requestSeed.nounId}
             trait={props.requestSeed?.trait}
             pledges={[props.requestSeed.pledge]}
-            cardStyle="detailed"
+            cardStyle="tweet"
             reimbursementBPS={reimbursementBPS}
           />
 
@@ -198,7 +204,7 @@ const Confirm = (props: ConfirmProps) => {
               </a>
             </Link>
           </div> */}
-          <div className="mx-auto mt-8 grid gap-1">
+          {/* <div className="mx-auto mt-8 grid gap-1">
             <NounChatBubble size={"large"} head={saluation[1]}>
               {saluation[0]}! <br />
               Want to{" "}
@@ -216,7 +222,7 @@ const Confirm = (props: ConfirmProps) => {
                 <a className="underline">manage your requests?</a>
               </Link>
             </NounChatBubble>
-          </div>
+          </div> */}
         </div>
       ) : (
         <>
@@ -224,7 +230,7 @@ const Confirm = (props: ConfirmProps) => {
             <span className="text-sm uppercase color-blue-500 opacity-70">
               step {props.currentStep + 1}
             </span>
-            <h1 className="text-5xl font-bold">Confirm Request</h1>
+            <h1 className="text-3xl font-bold">Confirm Request</h1>
           </div>
           <div
             className={cx(
@@ -290,17 +296,16 @@ const Confirm = (props: ConfirmProps) => {
               </div>
             </>
           ) : (
-            <>
-              <p>Connect your wallet to submit</p>
+            <div className="mt-5 sm:md-10">
               <ConnectButton showBalance={false} />
-            </>
+            </div>
           )}
         </>
       )}
       {!isTransactionComplete && !isLoading && !isTransactionLoading && (
-        <button
+        <a
           className={cx(
-            "underline text-slate-400",
+            "underline text-slate-400 mt-5",
             props.currentStep < 1 && "opacity-0"
           )}
           onClick={() => props.setCurrentStep(props.currentStep - 1)}
@@ -308,8 +313,13 @@ const Confirm = (props: ConfirmProps) => {
             props.currentStep < 1 && props.currentStep > 3 ? true : false
           }
         >
-          Back
-        </button>
+          👈 Go Back
+        </a>
+      )}
+      {isTransactionComplete && (
+        <Link href="/all">
+          <a className="mt-10 text-center underline text-slate-400">Done</a>
+        </Link>
       )}
     </div>
   );

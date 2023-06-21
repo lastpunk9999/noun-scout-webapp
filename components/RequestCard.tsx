@@ -135,32 +135,6 @@ const RequestCard = (props: RequestCardProps) => {
 
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative shadow-sm hover:shadow-lg transition-shadow">
-      <footer
-        className={cx(
-          "bg-slate-100 border-t border-t-slate-200 p-3",
-
-          props.cardStyle !== "tweet" && "hidden"
-        )}
-      >
-        <div className="flex flex-row gap-3 items-center">
-          {props.cardStyle === "compact" && (
-            <p className="whitespace-nowrap text-slate-400 text-xs">
-              {!props.donationSent ? "Pledged" : "Sent"} to
-            </p>
-          )}
-          <ul
-            className={cx(
-              "flex flex-col gap-4 w-full align-start",
-              props.cardStyle === "compact" && "!flex-row"
-            )}
-          >
-            {recipients}
-          </ul>
-        </div>
-        {props.cardStyle === "compact" && !props.donationSent && (
-          <p className="text-sm underline opacity-70 self-center">details</p>
-        )}
-      </footer>
       {props.cardStyle === "compact" && isNonAuctionedNounId(props.nounId) && (
         <span className="py-1 px-2 bg-green-600 text-white font-bold text-sm block rounded-md absolute -top-2 -left-2 z-10">
           Only Noun {props.nounId}
@@ -243,9 +217,7 @@ const RequestCard = (props: RequestCardProps) => {
       <footer
         className={cx(
           "bg-slate-100 border-t border-t-slate-200 p-3",
-          props.cardStyle === "compact" &&
-            "flex flex-row justify-between gap-4",
-          props.cardStyle === "tweet" && "hidden"
+          props.cardStyle === "compact" && "flex flex-row justify-between gap-4"
         )}
       >
         <div className="flex flex-row gap-3 items-center">
