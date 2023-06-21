@@ -58,7 +58,7 @@ const MatchBanner = (props: MatchBannerProps) => {
             <>Noun {matchData.nonAuctionedNounId} </>
           )}
           have requested traits! */}
-          Donations are waiting to be sent to non-profits. You can earn{" "}
+          ✨ Donations are waiting to be sent to non-profits. You can earn{" "}
           <span className="whitespace-nowrap font-bold">
             {totalReimbursement} ETH
           </span>{" "}
