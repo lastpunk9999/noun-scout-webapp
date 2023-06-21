@@ -113,7 +113,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
             <span
               className={cx(
                 recipientDescription.name &&
-                  "bg-slate-200  px-2 whitespace-nowrap ",
+                  "bg-slate-200  px-2 sm:whitespace-nowrap ",
                 " "
               )}
             >

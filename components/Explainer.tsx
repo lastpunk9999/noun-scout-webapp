@@ -74,7 +74,7 @@ const Explainer = (props: ExplainerProps) => {
   }, [recipients]);
 
   return (
-    <div className="mx-4 mb-20 flex flex-col md:grid md:grid-cols-3 sm:gap-10">
+    <div className="mx-4 mb-5 md:mb-10 flex flex-col md:grid md:grid-cols-3 sm:gap-10">
       {/* <div className="sm:mx-[5%] md:mx-[10%] xlg:mx-[20%] my-10 flex flex-col md:grid md:grid-cols-3 gap-24 justify-center"> */}
       {explainerContent.map((step, i) => {
         return (

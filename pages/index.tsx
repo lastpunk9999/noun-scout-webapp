@@ -21,11 +21,11 @@ const Hero = () => {
         Influence minting your favorite trait <br />
         (and do some good at the same time)
       </h3>
-      <Link href="/add">
+      {/* <Link href="/add">
         <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
           Show me how
         </button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
@@ -94,7 +94,7 @@ const TopRequests = () => {
           )}
         </p>
       </div>
-      <div className="mx-auto xl:mx-4 my-10 flex flex-col md:grid md:grids-cols-2 xl:grid-cols-3 xl:gap-2 md:max-w-[60%] xl:max-w-[100%]">
+      <div className="mx-auto xl:mx-4 mt-10 md:mb-10 flex flex-col md:grid md:grids-cols-2 xl:grid-cols-3 xl:gap-2 md:max-w-[60%] xl:max-w-[100%]">
         {/* Grid of requests */}
         {nextAuctionPledges &&
           topPledges.slice(0, topLength).map((request, i) => {
@@ -148,6 +148,13 @@ const Home = (props) => {
       {props.isMounted && (
         <>
           <Explainer />
+          <div className="text-center mx-auto mb-5">
+            <Link href="/add">
+              <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
+                Pick your trait
+              </button>
+            </Link>
+          </div>
           <hr className="w-full h-1 bg-slate-200 border-0 rounded" />
           <TopRequests />
 
