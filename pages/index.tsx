@@ -121,15 +121,15 @@ const TopRequests = () => {
             );
           })}
       </div>
-      {pledgesLength > topLength && (
-        <div className="text-center">
-          <Link href="/all">
-            <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
-              More...
-            </button>
-          </Link>
-        </div>
-      )}
+
+      <div className="text-center">
+        <Link href="/all">
+          <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
+            {pledgesLength > topLength ? `More...` : "All requests"}
+          </button>
+        </Link>
+      </div>
+
       {showModal && (
         <Modal setShowModal={setShowModal} modalContent={modalContent}></Modal>
       )}
