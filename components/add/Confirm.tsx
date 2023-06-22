@@ -303,7 +303,7 @@ const Confirm = (props: ConfirmProps) => {
         </>
       )}
       {!isTransactionComplete && !isLoading && !isTransactionLoading && (
-        <a
+        <button
           className={cx(
             "underline text-slate-400 mt-5",
             props.currentStep < 1 && "opacity-0"
@@ -314,7 +314,7 @@ const Confirm = (props: ConfirmProps) => {
           }
         >
           👈 Go Back
-        </a>
+        </button>
       )}
       {isTransactionComplete && (
         <Link href="/all">
