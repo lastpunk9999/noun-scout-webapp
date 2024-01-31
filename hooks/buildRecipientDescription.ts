@@ -11,7 +11,7 @@ export default function buildRecipientDescription(
     name:
       recipientDescriptions[recipientId]?.name ??
       onChainData?.name ??
-      "Unknown non-profit",
+      "Unknown cause",
     image:
       recipientDescriptions[recipientId]?.image ??
       "/recipients/placeholder.svg",

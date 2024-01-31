@@ -121,7 +121,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
               ) : props.isSettler ? (
                 <>will reimburse settlement gas fees</>
               ) : (
-                "a non-profit"
+                "a good cause"
               )}
             </span>
           </>

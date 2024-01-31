@@ -137,7 +137,7 @@ const AddAmount = (props: AddAmountProps) => {
           {baseReimbursementBPS
             ? `${100 - baseReimbursementBPS / 100}%`
             : "Most"}{" "}
-          will be sent to your non-profit.{" "}
+          will be sent to your cause.{" "}
           {baseReimbursementBPS
             ? `${baseReimbursementBPS / 100}%`
             : "a percentage"}{" "}

@@ -65,7 +65,7 @@ const Add = (props) => {
       title: "Pledge ETH",
     },
     {
-      title: "Choose a charity",
+      title: "Choose a cause",
     },
     {
       title: "Confirm",
@@ -241,13 +241,13 @@ const Add = (props) => {
 
               <ol className="bg-white flex flex-col list-decimal mb-5 rounded-lg border border-slate-200">
                 <li className="lg:text-lg p-5 leading-snug ml-10 pl-3">
-                  Create a request and pledge ETH to a non-profit of your
+                  Create a request and pledge ETH to a good cause of your
                   choice.
                 </li>
                 <hr />
                 <li className="lg:text-lg p-5 leading-snug ml-10 pl-3">
                   When a Noun with your trait is minted, the ETH will be sent to
-                  your non-profit.
+                  your cause.
                 </li>
                 <hr />
                 <li className="lg:text-lg p-5 leading-snug ml-10 pl-3">

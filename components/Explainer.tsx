@@ -43,8 +43,8 @@ const Explainer = (props: ExplainerProps) => {
         "Your request will be listed on Noun Scout so others can see it.",
     },
     {
-      title: <span>2. Lock ETH for charity</span>,
-      description: "Pledge any amount to a non-profit of your choice.",
+      title: <span>2. Lock ETH for a good cause</span>,
+      description: "Pledge any amount to a good cause of your choice.",
     },
     {
       title: <span>3. Your trait is minted</span>,

@@ -171,7 +171,7 @@ const Manage: NextPage = () => {
                 <>
                   Removal is also locked if a Noun with your requested trait is
                   minted. This allows your pledged funds to be donated to your
-                  chosen non-profit.
+                  chosen cause.
                 </>,
               ]}
             </Summary>
@@ -267,7 +267,7 @@ const Manage: NextPage = () => {
                     Yes, but remember these are requests you made for a specific
                     Noun trait. Now that a Noun with that trait is minted, we
                     have to allow time for someone to settle the request (it can
-                    be you) and send those funds to your chosen non-profit.
+                    be you) and send those funds to your chosen cause.
                   </>,
                 ]}
               </Summary>

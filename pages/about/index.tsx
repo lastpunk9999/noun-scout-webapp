@@ -12,7 +12,7 @@ const About: NextPage = () => {
       <div className="text-lg mb-8">
         <p className="mb-2">
           Noun Scout allows anyone to put up a reward for minting a Noun with a
-          specific trait and donates the funds to a non-profit.
+          specific trait and donates the funds to a good cause.
         </p>
         <p className="mb-2">
           If a Noun with a requested trait is minted, the pledged amount is
@@ -20,12 +20,12 @@ const About: NextPage = () => {
         </p>
         <p className="mb-2">
           For the duration of Noun auction, others can pledge additional amounts
-          to the same or different non-profits. This can be used as opportunity
+          to the same or different causes. This can be used as opportunity
           to raise awareness for a cause or celebrate the mint.
         </p>
         <p className="mb-2">
           When the auction is over and the next Noun is minted, the reward can
-          be sent to the non-profit via a 'settle' transaction to the Noun Scout
+          be sent to the cause via a 'settle' transaction to the Noun Scout
           contract. The user that initiates this settlement will receive up to{" "}
           {baseReimbursementBPS
             ? `${baseReimbursementBPS / 100}%`
@@ -93,7 +93,7 @@ const About: NextPage = () => {
           </a>
         </NounChatBubble>
       </div>
-      <h2 className="mt-5 mb-3">Supported Non-profits</h2>
+      <h2 className="mt-5 mb-3">Supported Causes</h2>
       {recipients.map((recipient, i) => {
         return <Recipient recipient={recipient} key={i} />;
       })}

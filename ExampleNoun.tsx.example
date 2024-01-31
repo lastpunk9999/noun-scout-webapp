@@ -101,10 +101,10 @@ const ExampleNoun = (props: ExampleNounProps) => {
         <p>
           If this Noun were minted,{" "}
           {!totalPledgesForFOMOHead
-            ? "no funds would be sent to non-profits."
+            ? "no funds would be sent to causes."
             : `${utils.formatEther(
                 totalPledgesForFOMOHead
-              )} ETH would be sent to non-profits.`}
+              )} ETH would be sent to causes.`}
         </p>
       </div>
       <div className="mb-5">

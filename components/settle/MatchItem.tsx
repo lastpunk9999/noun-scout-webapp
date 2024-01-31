@@ -181,7 +181,7 @@ const MatchItem = (props: MatchItemProps) => {
             className="text-left"
             head={saluation[1]}
           >
-            {saluation[0]}! Donations were sent to non-profits
+            {saluation[0]}! Donations were sent to causes
             <br />
             and you were rewarded {utils.formatEther(props.reimbursement)} ETH
             for helping!

@@ -73,7 +73,7 @@ const TodayBanner = (props: TodayBannerProps) => {
         <p className="slate-200">
           Today's Noun{plural && "s"} ha{plural ? "ve" : "s"} matches!{" "}
           <span className="underline slate-200">
-            {totalDonations} ETH is queued for non-profits
+            {totalDonations} ETH is queued for causes
           </span>
         </p>
       </a>

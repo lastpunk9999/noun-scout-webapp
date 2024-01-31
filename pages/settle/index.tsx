@@ -44,7 +44,7 @@ const Settle: NextPage = () => {
         !nonAuctionedTotalReimbursement.isZero() && (
           <>
             <p className="text-xl text-center">
-              ETH has been pledged to non-profits and you can help it get to
+              ETH has been pledged to causes and you can help it get to
               them.
               <br />
               Settle these requests and get reimbursed{" "}
