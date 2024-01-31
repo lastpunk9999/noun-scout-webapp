@@ -41,6 +41,7 @@ const RequestRecipient = (props: RequestRecipientProps) => {
         .div("10000");
     }
     amount = utils.formatEther(amountBN);
+    amount = (Math.round(parseFloat(amount) * 10**5) / 10**5).toString();
   }
   return (
     <li
