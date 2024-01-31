@@ -31,6 +31,13 @@ const recipientDescriptions = {
     image: "/recipients/recipient-logo-tor.jpeg",
     website: "https://www.torproject.org/",
   },
+  4: {
+    id: 4,
+    name: "The Noun Square",
+    description: `The Noun Square (TNS for short) is a collective that produces daily Twitter content about topics like Ethereum, DAOs, & CC0, for the Nouns community. They are often responsible for settling the daily auction and minting the best Nouns.`,
+    image: "/recipients/recipient-logo-tns.png",
+    website: "https://tns.wtf/",
+  },
   5: {
     id: 5,
     name: "Inactive Recipient",
