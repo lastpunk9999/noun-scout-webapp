@@ -13,14 +13,14 @@ export default function NavBar() {
   const isTablet = useMediaQuery({ query: "(min-width: 768px)" }) && isMobile;
 
   let buttons = [
-    <li>
+    <li key="1">
       <Link href="/add">
         <button className="text-white font-bold py-2 px-4 rounded bg-blue-500 hover:opacity-70 no-underline inline-block my-4">
           Make a Request
         </button>
       </Link>
     </li>,
-    <li className={cx("mt-3 md:mt-0", isConnected ? "md:ml-4" : "md:mr-4")}>
+    <li className={cx("mt-3 md:mt-0", isConnected ? "md:ml-4" : "md:mr-4")} key="2">
       <ConnectButton showBalance={false} />
     </li>,
   ];

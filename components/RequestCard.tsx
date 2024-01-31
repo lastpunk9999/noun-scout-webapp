@@ -92,6 +92,7 @@ const RequestCard = (props: RequestCardProps) => {
       recipients.push(
         <RequestRecipient
           cardStyle={"detailed"}
+          key="9999"
           pledge={{
             amount: reimbursement,
           }}
@@ -102,7 +103,7 @@ const RequestCard = (props: RequestCardProps) => {
       );
     }
   } else {
-    recipients = <RequestRecipient cardStyle={props.cardStyle || "detailed"} />;
+    recipients = <RequestRecipient cardStyle={props.cardStyle || "detailed"} key="10000" />;
   }
   const NounIdentifier = (
     <>
