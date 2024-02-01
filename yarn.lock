@@ -640,27 +640,27 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@nouns/assets@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@nouns/assets/-/assets-0.4.2.tgz#bec72becebee256b97cf1b5bfcfc03d3ab336259"
-  integrity sha512-pPiPU6Ifbldjx2WpIZOEet/h2hV32rpZd6GCBlCHmuJfW4p7qqCsD2glwQ8YRqVEr+JQ0Z3WIFKa5iumQxtM3Q==
+"@nouns/assets@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@nouns/assets/-/assets-0.5.0.tgz#03eb49626cd5dc61e883fc726ccc056f23d4bb26"
+  integrity sha512-WWap8jldLvoUPBjfi9r5Ulj4Q7D7NW4XIPJhmlDqR4QpAidy3h13dIKOvW0ZDtzTyOPJ+/hGQTJGc7cZckTx0g==
   dependencies:
     "@ethersproject/bignumber" "^5.5.0"
     "@ethersproject/solidity" "^5.5.0"
 
-"@nouns/contracts@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@nouns/contracts/-/contracts-0.2.0.tgz#cc4b85d90199a10fd978001ed702494fddc041b6"
-  integrity sha512-TwTQttirjItEHuNwj29HyoFn7wSlYRVdT8cwxLzUBVnuq+exfat55Yb61/QZXXHUP0Gnh5BVyXSZT1P94RDdRQ==
+"@nouns/contracts@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@nouns/contracts/-/contracts-0.3.0.tgz#d5c29ab6e9d07065d51faadab18e6b7730efd94c"
+  integrity sha512-l619EP77QqX0gPGw3gPfh9tgBlz5lFwK8EzB+orLJx3JrfHSUqfjjYCfZih+I++bhJuK78ro2FgFx6U0kZnXEw==
   dependencies:
     ethers "^5.6.8"
 
-"@nouns/sdk@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@nouns/sdk/-/sdk-0.3.2.tgz#9953c830c16e0da51057559e4b1672bb39458b5b"
-  integrity sha512-dYuUddsn+PPdR/c3bP7ZBu/q1AGh1r8pfDEx8bZ9zpcw6i9m4rI0qfEPJ9kXrU50fKT5UdQpSd2MiUyZuBVJ8w==
+"@nouns/sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nouns/sdk/-/sdk-0.4.0.tgz#0c98721e819339c6812e3b8e604510bdadace37c"
+  integrity sha512-PLRDUad/TXCsGmP2ITXkYBrwlzQfO9DaoB0xwikvNPF/Vul+rAVnsXgMf8gm5KQ8CKVlxImoEnxsL8Dcx5elAw==
   dependencies:
-    "@nouns/contracts" "^0.2.0"
+    "@nouns/contracts" "^0.3.0"
     ethers "^5.6.8"
 
 "@pedrouid/environment@^1.0.1":
