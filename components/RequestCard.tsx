@@ -136,7 +136,7 @@ const RequestCard = (props: RequestCardProps) => {
 
   return (
     <div className="bg-white w-full rounded-lg border border-slate-200 relative shadow-sm hover:shadow-lg transition-shadow">
-      {props.cardStyle === "compact" && isNonAuctionedNounId(props.nounId) && (
+      {isNonAuctionedNounId(props.nounId) && (
         <span className="py-1 px-2 bg-green-600 text-white font-bold text-sm block rounded-md absolute -top-2 -left-2 z-10">
           Only Noun {props.nounId}
         </span>
