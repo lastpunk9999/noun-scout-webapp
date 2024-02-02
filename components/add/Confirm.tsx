@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import RequestCard from "../RequestCard";
-import { Request } from "../../types";
+import { Request, NounSeed } from "../../types";
 import { nounScoutContract, nounsAuctionHouseContract } from "../../config";
 import {
   usePrepareContractWrite,
@@ -24,6 +24,7 @@ type ConfirmProps = {
   setRequestSeed: Function;
   setCurrentStep: Function;
   currentStep: number;
+  nounIdSeed?: NounSeed
 };
 
 const Confirm = (props: ConfirmProps) => {
@@ -187,6 +188,7 @@ const Confirm = (props: ConfirmProps) => {
             pledges={[props.requestSeed.pledge]}
             cardStyle="tweet"
             reimbursementBPS={reimbursementBPS}
+            nounIdSeed={props.nounIdSeed}
           />
 
           {/* <div className="flex flex-col my-5 md:flex-row gap-5 md:justify-center">
@@ -246,6 +248,7 @@ const Confirm = (props: ConfirmProps) => {
                 pledges={[props.requestSeed.pledge]}
                 cardStyle="detailed"
                 reimbursementBPS={reimbursementBPS}
+                nounIdSeed={props.nounIdSeed}
               />
             </div>
 

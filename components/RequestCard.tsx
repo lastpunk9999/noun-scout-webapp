@@ -35,6 +35,7 @@ type RequestCardProps = {
   nounId?: number;
   reimbursementBPS?: BigNumberType | number;
   donationSent?: boolean;
+  nounIdSeed?: NounSeed;
 };
 
 const getPart = (
@@ -59,6 +60,15 @@ const getPart = (
 };
 
 const RequestCard = (props: RequestCardProps) => {
+  let nounTraitIsMinted = false;
+  if (
+    props.nounIdSeed &&
+    props.trait &&
+    props.nounIdSeed[props.trait.traitTypeId] === props.trait.traitId
+  ) {
+    nounTraitIsMinted = true;
+  }
+
   const part = getPart(props.trait?.traitTypeId, props.trait?.traitId);
 
   const total = useMemo(() => {
@@ -103,7 +113,9 @@ const RequestCard = (props: RequestCardProps) => {
       );
     }
   } else {
-    recipients = <RequestRecipient cardStyle={props.cardStyle || "detailed"} key="10000" />;
+    recipients = (
+      <RequestRecipient cardStyle={props.cardStyle || "detailed"} key="10000" />
+    );
   }
   const NounIdentifier = (
     <>
@@ -130,7 +142,12 @@ const RequestCard = (props: RequestCardProps) => {
           {props.trait?.name ?? "your trait"}
         </span>
       </span>
-      <span className=""> {props.trait?.type} </span>
+      <span className="">
+        {" "}
+        {props.trait?.type}
+        {/* space after trait name or not */}
+        {nounTraitIsMinted ? "" : " "}
+      </span>
     </>
   );
 
@@ -197,11 +214,20 @@ const RequestCard = (props: RequestCardProps) => {
           <div className="w-3/4 pl-4">
             <p className="text-xl">
               {props.nounId ? (
-                <>
-                  {NounIdentifier}
-                  {Tense} with {props.trait && traitPreposition(props.trait)}
-                  {TraitNameAndType}
-                </>
+                nounTraitIsMinted ? (
+                  <>
+                    Noun {props.nounId} minted with{" "}
+                    {props.trait && traitPreposition(props.trait)}
+                    {TraitNameAndType}!<br />
+                    When the next auction settles
+                  </>
+                ) : (
+                  <>
+                    {NounIdentifier}
+                    {Tense} with {props.trait && traitPreposition(props.trait)}
+                    {TraitNameAndType}
+                  </>
+                )
               ) : (
                 <>
                   {NounIdentifier} with{" "}

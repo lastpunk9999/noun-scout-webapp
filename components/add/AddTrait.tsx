@@ -15,7 +15,7 @@ type AddTraitProps = {
 };
 
 const AddTrait = (props: AddTraitProps) => {
-  const inellgibleNounSeedsByTrait: SeedsByTrait = useGetInellgibleNounSeeds();
+  const inellgibleNounSeedsByTrait: SeedsByTrait = useGetInellgibleNounSeeds({skipNounId: props.requestSeed.nounId});
   const [currentTraitType, setCurrentTraitType] = useState<number>(3);
   const orderedTraitTitles = [3, 4, 2, 1, 0]; // not showing backgrounds in tabs
   const traitTypes = [

@@ -16,7 +16,13 @@ export type SeedsByTrait = readonly [
   readonly number[]
 ];
 
-export default function useGetInellgibleNounSeeds(): SeedsByTrait {
+type useGetInellgibleNounSeedsProps = {
+  skipNounId?: number;
+};
+
+export default function useGetInellgibleNounSeeds(
+  props?: useGetInellgibleNounSeedsProps
+): SeedsByTrait {
   const { pledgesForNounOnAuction, pledgesForMatchableNoun } =
     useAppContext() ?? {};
   const nounIds = [
@@ -31,6 +37,7 @@ export default function useGetInellgibleNounSeeds(): SeedsByTrait {
         .filter(
           (x) => x <= (pledgesForNounOnAuction ? pledgesForNounOnAuction[0] : 0)
         )
+        .filter((x) => x != props?.skipNounId)
     ),
   ];
 

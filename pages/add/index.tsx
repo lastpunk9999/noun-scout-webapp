@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
-import { Request } from "../../types";
+import { NounSeed, Request } from "../../types";
 import NextButton from "../../components/add/NextButton";
 import AddTrait from "../../components/add/AddTrait";
 import AddOrg from "../../components/add/AddOrg";
@@ -15,6 +15,8 @@ import AddAmount from "../../components/add/AddAmount";
 import Link from "next/link";
 import { useAppContext } from "../../context/state";
 import NounChatBubble, { nounProfiles } from "../../components/NounChatBubble";
+import { getTraitTraitNameAndImageData } from "../../utils";
+import useGetNounSeed from "../../hooks/useGetNounSeed";
 
 const Add = (props) => {
   const { ANY_AUCTION_ID, ANY_NON_AUCTION_ID } = useAppContext() ?? {};
@@ -23,13 +25,26 @@ const Add = (props) => {
   const nounId =
     urlParams.get("nonauction") || urlParams.get("non-auction")
       ? ANY_NON_AUCTION_ID
+      : urlParams.get("nounid") != null
+      ? Number(urlParams.get("nounid"))
       : ANY_AUCTION_ID;
+
+  const trait =
+    urlParams.get("traittypeid") != null && urlParams.get("traitid") != null
+      ? getTraitTraitNameAndImageData(
+          Number(urlParams.get("traittypeid")),
+          Number(urlParams.get("traitid"))
+        )
+      : null;
+
+  const seed = nounId && nounId > 1 ? useGetNounSeed({nounId}) : {} as NounSeed
 
   const { isConnected, isConnecting } = useAccount();
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(trait === null ? 0 : 1);
   const defaultSeed: Request = {
     nounId,
+    trait
   } as Request;
   const [requestSeed, _setRequestSeed] = useState<Request>(defaultSeed);
   useEffect(() => {
@@ -152,6 +167,7 @@ const Add = (props) => {
                 <RequestCard
                   cardStyle="detailed"
                   nounId={requestSeed.nounId}
+                  nounIdSeed={seed}
                   trait={requestSeed && requestSeed.trait}
                   pledges={requestSeed && [requestSeed.pledge]}
                   reimbursementBPS={reimbursementBPS}
@@ -271,6 +287,7 @@ const Add = (props) => {
           {currentStep === 3 && (
             <Confirm
               requestSeed={requestSeed}
+              nounIdSeed={seed}
               setRequestSeed={setRequestSeed}
               setCurrentStep={setCurrentStep}
               currentStep={currentStep}
