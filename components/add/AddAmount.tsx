@@ -63,7 +63,7 @@ const AddAmount = (props: AddAmountProps) => {
       return;
     }
 
-    setAmount(input);
+    setAmount(input ?? "0");
   };
   let message = <></>;
   const nounProfile = nounProfiles[0];
